@@ -1,0 +1,154 @@
+/* Font */
+
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+/* Main Stuff */
+
+* {
+    padding: 0;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+}
+
+
+/* Layout Related Things */
+
+body {
+    display: flex;
+    /* I fukken love flexbox */
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    width: 100%;
+    height: auto;
+    padding-bottom: 50px;
+    flex: 1;
+}
+
+footer {
+    width: 100%;
+    height: 30px;
+    background-color: #eff5ff;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.footerContent {
+    display: block;
+    width: 112px;
+    height: 20px;
+    margin-top: 7px;
+    font-size: 15px;
+}
+
+
+/* Header Display */
+
+header {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    width: 100%;
+    float: right;
+}
+
+.moneyContainer {}
+
+.moneyButton {
+    display: flex;
+    align-items: center;
+    width: 200px;
+    height: 200px;
+    background-color: gold;
+    border-radius: 50%;
+    /* 50% makes circle = magic */
+    margin: 0 auto;
+    /* Put in middle */
+    border: 6px solid darkgoldenrod;
+    cursor: pointer;
+}
+
+#currentMoney {
+    margin: 0 auto;
+}
+
+
+/* Navigation Stuff */
+
+.nav {
+    width: 300px;
+    margin: 0 auto;
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+}
+
+.nav li {
+    display: inline-block;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.tabButton:hover {
+    background-color: #eff5ff;
+}
+
+.display1 {
+    width: 800px;
+    height: 800px;
+    background-color: #eff5ff;
+    border: 3px solid black;
+    border-radius: 5px;
+    margin: 0 auto;
+    margin-top: 40px;
+    display: none;
+}
+
+.maind {
+    display: block;
+}
+
+.content1 {
+    padding: 20px 15px;
+}
+
+.actv {
+    background-color: #eff5ff;
+}
+
+.mainButton {
+    display: block;
+    width: 200px;
+    text-align: center;
+    padding: 5px 5px;
+    background-color: skyblue;
+    border-radius: 5px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.mainButton:hover {
+    background-color: cadetblue;
+}
+
+.mainButton:active {
+    background-color: darkblue;
+}
+
+.copperSection {
+    display: flex;
+}
+.copperMineAmount, .copperMineProduction {
+    font-size: 18px;
+    margin-left: 5px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+.copperMineAmount span, .copperMineProduction span {
+    font-size: inherit; 
+}
+}

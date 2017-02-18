@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Mining Incremental</title>
+    <link rel="stylesheet" href="style.css"> </head>
+
+<body>
+    <!-- I sexually identify as a html -->
+    <header>
+        <!-- Will contain money button thingy -->
+        <div class="moneyContainer">
+            <div class="moneyButton" id="moneyButton"> <span id="currentMoney"></span> </div>
+        </div>
+    </header>
+    <main>
+        <!-- Will contain tabbed navigation -->
+        <div class="contentContainer">
+            <div class="contentNav">
+                <ul class="nav" id="tests">
+                    <li class="tabButton actv" onclick="Tabs(this)" id="1">Tab 1</li>
+                    <li class="tabButton" onclick="Tabs(this)" id="2">Tab 2</li>
+                    <li class="tabButton" onclick="Tabs(this)" id="3">Tab 3</li>
+                </ul>
+            </div>
+            <div class="display1 1 maind">
+                <div class="content1">
+                    <div class="copperSection">
+                        <div class="copperMine mainButton" id="copperMine">Buy a Copper Mine
+                            <br><span id="copperMinePrice"> 0</span></div>
+                        <div class="copperInformation">
+                            <div class="copperMineAmount">You have: <span id="copperMineAmount">0</span> copper mines </div>
+                            <div class="copperMineProduction"> Your copper mines produce: <span id="copperMineProduction">0 </span> copper per second </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="display1 2">
+                <div class="content1">Two</div>
+            </div>
+            <div class="display1 3">
+                <div class="content1">Three</div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <!-- Much footer -->
+        <div class="footerContent"> By Aron Bettison </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+
+</html>
