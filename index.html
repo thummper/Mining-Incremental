@@ -4,6 +4,7 @@
 <head>
     <title>Mining Incremental</title>
     <link rel="stylesheet" href="style.css"> </head>
+    <meta charset="utf-8">
 
 <body>
     <!-- I sexually identify as a html -->
@@ -25,13 +26,29 @@
             </div>
             <div class="display1 1 maind">
                 <div class="content1">
+                    <div class="copperButtons">
+                      <div class="copperMine mainButton" id="copperMine">Buy a Copper Mine<br><span id="copperMinePrice"> 0</span></div>
+                      <div class="mainButton" id="upgradeCopperStorage">Increase Storage <br> <span id="copperStorageCost">0</span></div>
+                        
+                        
+                    </div>
                     <div class="copperSection">
-                        <div class="copperMine mainButton" id="copperMine">Buy a Copper Mine
-                            <br><span id="copperMinePrice"> 0</span></div>
+                       
                         <div class="copperInformation">
                             <div class="copperMineAmount">You have: <span id="copperMineAmount">0</span> copper mines </div>
                             <div class="copperMineProduction"> Your copper mines produce: <span id="copperMineProduction">0 </span> copper per second </div>
                         </div>
+
+                        
+                    </div>
+                    <div class="copperStorage">
+                        
+                        <progress id="copperStorageProgress"></progress>
+                        <div class="copperStorageSection"><span id="copperOre">0</span>/<span id="maxCopperOre">0</span></div>
+                       
+                    </div>
+                   
+                    <div>
                     </div>
                 </div>
             </div>
