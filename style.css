@@ -59,6 +59,7 @@ header {
 .moneyButton {
     display: flex;
     align-items: center;
+    
     width: 200px;
     height: 200px;
     background-color: gold;
@@ -72,6 +73,7 @@ header {
 
 #currentMoney {
     margin: 0 auto;
+  
 }
 
 
@@ -106,6 +108,7 @@ header {
     margin: 0 auto;
     margin-top: 40px;
     display: none;
+    text-align: center;
 }
 
 .maind {
@@ -151,4 +154,22 @@ header {
 .copperMineAmount span, .copperMineProduction span {
     font-size: inherit; 
 }
+.copperStorage{
+    margin-top: 10px;
+    text-align: center;
+}
+#copperStorageProgress {
+    width: 600px;
+    
+}
+.copperButtons {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+}
+.copperInformation {
+    margin: 0 auto;
+    margin-top: 5px;
 }
