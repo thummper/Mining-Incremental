@@ -13,6 +13,12 @@ var mine = {
     copperPerMine: 0, 
     copperStoragePrice: 10000, 
 };
+var refinary = {
+    idleslots: 0, 
+    activeslots: 0,
+    slotPrice: 10000,
+    
+}
 //Event Listners when window has loaded.
 window.addEventListener("load", function () {
     document.getElementById("moneyButton").addEventListener("mousemove", function () {
@@ -41,6 +47,17 @@ window.addEventListener("load", function () {
             
         }
         Buy("CopperStorage");
+        
+    });
+    document.getElementById("refSlotButton").addEventListener("click", function(e){
+          if(e.altKey) {
+            for(i=0; i < 10; i++) {
+                Buy("RefinarySlot");
+            }
+            
+        }
+        Buy("RefinarySlot");
+        
         
     });
     Update(); 
@@ -88,6 +105,16 @@ function Buy(item) {
             Update(); 
         }
     }
+    if(item == "RefinarySlot") {
+        console.log("doing buy ref");
+        if(main.money >= refinary.slotPrice) {
+            //Buy slot
+            main.money -= refinary.slotPrice;
+            refinary.idleslots++;
+            refinary.slotPrice += 2;
+            Update();
+        }
+    }
 };
 
 //Formats whatever is input
@@ -112,6 +139,9 @@ function Update() {
     document.getElementById("copperOre").innerHTML = Format(mine.copperOreAmount);
     document.getElementById("maxCopperOre").innerHTML = Format(mine.maxCopperOre);
     document.getElementById("copperStorageCost").innerHTML = "£" + Format(mine.copperStoragePrice);
+    document.getElementById("refinarySlotPrice").innerHTML = "£" + Format(refinary.slotPrice);
+    document.getElementById("refinaryIdleSlots").innerHTML = refinary.idleslots;
+    document.getElementById("refinaryActiveSlots").innerHTML = refinary.activeslots;
     
 };
 
