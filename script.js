@@ -14,11 +14,14 @@ var mine = {
     copperStoragePrice: 10000, 
 };
 var refinary = {
-    idleslots: 0, 
+    idleslots: 100, 
     activeslots: 0,
     slotPrice: 10000,
     
 }
+var available = refinary.idleslots;
+var max = 0; 
+var old = 0; 
 //Event Listners when window has loaded.
 window.addEventListener("load", function () {
     document.getElementById("moneyButton").addEventListener("mousemove", function () {
@@ -60,6 +63,28 @@ window.addEventListener("load", function () {
         
         
     });
+    //Set up sliders 
+     var sliders = document.getElementsByTagName("input");
+            var numSliders = sliders.length;
+                for (i = 0; i < numSliders; i++) {
+               
+                
+                //Define all sliders?
+                sliders.item(i).max = available;
+                document.getElementById(sliders.item(i).id + "val").innerHTML = sliders.item(i).value;
+                document.getElementById(sliders.item(i).id + "max").innerHTML = sliders.item(i).max;
+                
+                sliders.item(i).addEventListener("input", function(){
+                    
+                    Slider(this); 
+                    updateSliders(); 
+                })
+                
+
+            }
+
+    
+    
     Update(); 
 });
 setInterval(function() {
@@ -69,6 +94,52 @@ setInterval(function() {
     
 }, 1000);
 //Functions 
+      function updateSliders() {
+            var sliders = document.getElementsByTagName("input");
+            var numSliders = sliders.length;
+            for (i = 0; i < numSliders; i++)
+                {
+                    document.getElementById(sliders.item(i).id + "val").innerHTML = sliders.item(i).value;
+                    document.getElementById(sliders.item(i).id + "max").innerHTML = sliders.item(i).max;
+                    
+                    
+                   
+                }
+            
+        };
+        function Slider(active) {
+            //Get weird set thingy of all sliders
+            var sliderObject = document.getElementsByTagName("input");
+            var numberSliders = sliderObject.length; 
+            var total = 0; 
+            //Work out what is being displayed
+            for(i=0;i<numberSliders;i++)
+                {
+                    var value = sliderObject.item(i).value;
+                    total += parseInt(value); 
+                    
+                }
+            for(i=0;i<numberSliders;i++)
+                {
+                    var value = sliderObject.item(i).value;
+                    max = available - value;
+                    if(sliderObject.item(i) != active)
+                        {
+                            console.log("total = " + total);
+                            console.log("old = " + old);
+                            var difference = total - old; 
+                            console.log("Difference = " + difference);
+                            sliderObject.item(i).max = sliderObject.item(i).max - (total - old);
+                            
+                            
+                            
+                        }
+                    
+                    
+                }
+            old = total;
+           
+        }
 function doMine() {
     if((mine.copperOreAmount + mine.copperPerMine) >= mine.maxCopperOre) {
         mine.copperOreAmount = mine.maxCopperOre; 
@@ -141,7 +212,8 @@ function Update() {
     document.getElementById("copperStorageCost").innerHTML = "£" + Format(mine.copperStoragePrice);
     document.getElementById("refinarySlotPrice").innerHTML = "£" + Format(refinary.slotPrice);
     document.getElementById("refinaryIdleSlots").innerHTML = refinary.idleslots;
-    document.getElementById("refinaryActiveSlots").innerHTML = refinary.activeslots;
+  
+    
     
 };
 
