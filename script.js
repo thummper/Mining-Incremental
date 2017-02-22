@@ -18,11 +18,16 @@ var refinary = {
     activeslots: 0,
     slotPrice: 10000,
     
-}
-
+};
 var available = refinary.idleslots;
-var max = 0; 
-var old = 0; 
+var slider = {
+    max: 0, 
+    old: 0, 
+    totalactive: 0, 
+};
+
+
+
 //Event Listners when window has loaded.
 window.addEventListener("load", function () {
     document.getElementById("moneyButton").addEventListener("mousemove", function () {
@@ -65,10 +70,12 @@ window.addEventListener("load", function () {
         var sliders = document.getElementsByTagName("input");
         var numSliders = sliders.length;
          for (j = 0; j < numSliders; j++) {
-             console.log("Updating sliders");
+             
              available = refinary.idleslots;
              sliders.item(j).max = available;
-             console.log("Updating: " + sliders.item(j));
+             sliders.item(j).value = 0;
+             slider.old = 0;
+             
              updateSliders(); 
          }
         
@@ -76,7 +83,7 @@ window.addEventListener("load", function () {
     });
     //Set up sliders 
      var sliders = document.getElementsByTagName("input");
-            var numSliders = sliders.length;
+     var numSliders = sliders.length;
                 for (i = 0; i < numSliders; i++) {
                
                 
@@ -130,17 +137,17 @@ setInterval(function() {
                     total += parseInt(value); 
                     
                 }
+            slider.totalactive = total;
+            Update();
             for(i=0;i<numberSliders;i++)
                 {
                     var value = sliderObject.item(i).value;
-                    max = available - value;
+                    slider.max = available - value;
                     if(sliderObject.item(i) != active)
                         {
-                            console.log("total = " + total);
-                            console.log("old = " + old);
-                            var difference = total - old; 
-                            console.log("Difference = " + difference);
-                            sliderObject.item(i).max = sliderObject.item(i).max - (total - old);
+                           
+                            var difference = total - slider.old; 
+                            sliderObject.item(i).max = sliderObject.item(i).max - difference;
                             
                             
                             
@@ -148,7 +155,7 @@ setInterval(function() {
                     
                     
                 }
-            old = total;
+            slider.old = total;
            
         }
 function doMine() {
@@ -223,6 +230,7 @@ function Update() {
     document.getElementById("copperStorageCost").innerHTML = "£" + Format(mine.copperStoragePrice);
     document.getElementById("refinarySlotPrice").innerHTML = "£" + Format(refinary.slotPrice);
     document.getElementById("refinaryIdleSlots").innerHTML = refinary.idleslots;
+    document.getElementById("refinaryActiveSlots").innerHTML = slider.totalactive;
   
     
     
