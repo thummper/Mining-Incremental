@@ -1,5 +1,5 @@
 //Main Object with juicy variable 
-var main = {
+var game = {
     //Stuff here :^)
     money: 1000000,
     moneyIncrement: 5
@@ -19,6 +19,7 @@ var refinary = {
     slotPrice: 10000,
     
 }
+
 var available = refinary.idleslots;
 var max = 0; 
 var old = 0; 
@@ -26,8 +27,8 @@ var old = 0;
 window.addEventListener("load", function () {
     document.getElementById("moneyButton").addEventListener("mousemove", function () {
         //Mouse is moving over money button
-        main.money += main.moneyIncrement;
-        main.money = Math.floor(main.money);
+        game.money += game.moneyIncrement;
+        game.money = Math.floor(game.money);
         Update();
     });
     document.getElementById("copperMine").addEventListener("click", function (e) {
@@ -60,6 +61,16 @@ window.addEventListener("load", function () {
             
         }
         Buy("RefinarySlot");
+        //After a slot has been brought, the sliders need to be updated.
+        var sliders = document.getElementsByTagName("input");
+        var numSliders = sliders.length;
+         for (j = 0; j < numSliders; j++) {
+             console.log("Updating sliders");
+             available = refinary.idleslots;
+             sliders.item(j).max = available;
+             console.log("Updating: " + sliders.item(j));
+             updateSliders(); 
+         }
         
         
     });
@@ -157,9 +168,9 @@ function Buy(item) {
     if (item == "CopperMine") {
         console.log("going to buy");
         //Going to buy a copper mine
-        if (main.money >= mine.copperMinePrice) {
+        if (game.money >= mine.copperMinePrice) {
             //Can afford mine
-            main.money -= mine.copperMinePrice;
+            game.money -= mine.copperMinePrice;
             mine.copperMineAmount++;
             mine.copperMinePrice += 550;
             mine.copperPerMine = mine.copperMineAmount * mine.copperMineProduction;
@@ -169,8 +180,8 @@ function Buy(item) {
     }
     if(item == "CopperStorage") {
         console.log("doing buy storage");
-        if(main.money >= mine.copperStoragePrice) {
-            main.money -= mine.copperStoragePrice;
+        if(game.money >= mine.copperStoragePrice) {
+            game.money -= mine.copperStoragePrice;
             mine.maxCopperOre = 2 * mine.maxCopperOre;
             mine.copperStoragePrice = 3 * mine.copperStoragePrice;
             Update(); 
@@ -178,9 +189,9 @@ function Buy(item) {
     }
     if(item == "RefinarySlot") {
         console.log("doing buy ref");
-        if(main.money >= refinary.slotPrice) {
+        if(game.money >= refinary.slotPrice) {
             //Buy slot
-            main.money -= refinary.slotPrice;
+            game.money -= refinary.slotPrice;
             refinary.idleslots++;
             refinary.slotPrice += 2;
             Update();
@@ -203,7 +214,7 @@ function Format(input) {
 
 //Updates the screen.
 function Update() {
-    document.getElementById("currentMoney").innerHTML = "£" + Format(main.money);
+    document.getElementById("currentMoney").innerHTML = "£" + Format(game.money);
     document.getElementById("copperMinePrice").innerHTML = "£" + Format(mine.copperMinePrice);
     document.getElementById("copperMineAmount").innerHTML = Format(mine.copperMineAmount);
     document.getElementById("copperMineProduction").innerHTML = Format(mine.copperPerMine);
