@@ -1,2 +1,4 @@
 # Mining-Incremental
-Test mining incremental
+Simple JS Mining incremental game - in-progress. 
+
+Live here: http://thummper.net/Incremental/index.php
