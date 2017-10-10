@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 
@@ -11,69 +10,97 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <body>
-   
     <header>
         <div class="moneyContainer">
             <div class="bonusBar">
-            <progress max="5"  value="0" id="bonusBarz"></progress>
+                <progress max="5" value="0" id="bonusBarz"></progress>
             </div>
             <div class="moneyButton" id="moneyButton"> <span id="currentMoney"></span> </div>
         </div>
     </header>
     <main>
-       
         <div class="contentContainer">
             <div class="contentNav">
                 <ul class="nav" id="tests">
                     <li class="tabButton actv" onclick="Tabs(this)" id="1">Mines</li>
                     <li class="tabButton" onclick="Tabs(this)" id="2">Refinery</li>
-                    <li class="tabButton" onclick="Tabs(this)" id="3">Tab 3</li>
+                    <li class="tabButton" onclick="Tabs(this)" id="3">TO DO</li>
                 </ul>
             </div>
             <div class="display1 1 maind">
                 <div class="content1">
-                    <div class="copperButtons">
-                        <div class="copperMine mainButton" id="copperMine">Buy a Copper Mine
-                            <br><span id="copperMinePrice"> 0</span></div>
-                        <div class="mainButton" id="upgradeCopperStorage">Increase Storage
-                            <br> <span id="copperStorageCost">0</span></div>
-                    </div>
                     <div class="copperSection">
+                        <div class="copperButtons">
+                            <div class="copperMine mainButton" id="copperMine">
+                                Buy a Copper Mine <br><span id="copperMinePrice"> 0</span>
+                            </div>
+                            <div class="mainButton" id="upgradeCopperStorage">
+                                Increase Storage <br> <span id="copperStorageCost">0</span>
+                            </div>
+                        </div>
                         <div class="copperInformation">
-                            <div class="copperMineAmount">You have: <span id="copperMineAmount">0</span> copper mines </div>
-                            <div class="copperMineProduction"> Your copper mines produce: <span id="copperMineProduction">0 </span> copper per second </div>
+                            <div class="copperMineAmount">
+                                You have: <span id="copperMineAmount">0</span> copper mines
+                            </div>
+                            <div class="copperMineProduction">
+                                Your copper mines produce: <span id="copperMineProduction">0 </span> copper per second
+                            </div>
+                        </div>
+                        <div class="copperStorage">
+                            <progress class="copperProgress"></progress>
+                            <div class="copperStorageSection">
+                                <span id="copperOre" class="copperOre" data-value="0">0</span>/<span id="maxCopperOre">0</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="copperStorage">
-                        <progress id="copperStorageProgress"></progress>
-                        <div class="copperStorageSection"><span id="copperOre" class="copperOre" data-value="0">0</span>/<span id="maxCopperOre">0</span></div>
-                    </div>
-                    <div> </div>
                 </div>
             </div>
             <div class="display1 2">
                 <div class="content1">
-                    <div class="refinaryButtons">
-                        <div class="mainButton" id="refSlotButton">Buy Refinary Slot
-                            <br><span id="refinarySlotPrice">0</span></div>
+                    <div class="refButtons">
+                        <div class="mainButton" id="refSlotButton">
+                            Buy Refinary Slot<br><span id="refinarySlotPrice">0</span>
+                        </div>
+                        <div id="refinarySlots">
+                            <span id="refinaryActiveSlots">0</span> / <span id="refinaryTotalSlots">0</span>
+                        </div>
                     </div>
-                    <div id="refinarySlots"> <span id="refinaryActiveSlots">0</span> / <span id="refinaryTotalSlots">0</span> </div>
-                    <br><br>
                     <div class="refinarySelection" id="refinarySelections">
                         <div class="sliderContainer">
-                            <div class="slider1">
-                                <input id="slider1" type="range" oninput="sliderUsed()" />
-                                <div id="slider1Info">
-                                    <span id="slider1value">0</span>/<span id="slider1max">0</span>
+                            <div class="slider">
+                                <div class="copperStorage">
+                                    <progress class="copperProgress"></progress>
+                                    <div class="copperStorageSection">
+                                        <span id="copperOre" class="copperOre" data-value="0">0</span>/<span id="maxCopperOre" class="copperOreMax">0</span>
+                                    </div>
+                                </div>
+                                <div class="copperSlider">
+                                    Copper Refineries
+                                    <input id="slider1" type="range" oninput="sliderUsed()" />
+                                    <div id="slider1Info">
+                                        <span id="slider1value">0</span>/<span id="slider1max">0</span>
+                                    </div>
+                                </div>
+                                <div class="copperIngots">
+                                    <progress class="copperIngotStorage"></progress>
+                                    <div class="ingotsStats">
+                                        <span class="copperIngotsAmount">0</span>/<span class="copperIngotsMax">0</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="slider2">
+                            <div class="slider">
+                                <div class="ironSlider">
+                                    Iron Refineries
+                                </div>
                                 <input id="slider2" type="range" oninput="sliderUsed()" />
                                 <div id="slider2Info">
                                     <span id="slider2value">0</span>/<span id="slider2max">0</span>
                                 </div>
                             </div>
-                            <div class="slider3">
+                            <div class="slider">
+                                <div class="goldSlider">
+                                    Gold Refineries
+                                </div>
                                 <input id="slider3" type="range" oninput="sliderUsed()" />
                                 <div id="slider3Info">
                                     <span id="slider3value">0</span>/<span id="slider3max">0</span>
@@ -84,101 +111,24 @@
                 </div>
             </div>
             <div class="display1 3">
-                <div class="content1">Three</div>
+                <div class="content1">
+                    TODO:
+                </div>
+                <div>
+                    Either rewrite update function or live with 1 second increments.
+                    <br> Get refinary tab styled and working.
+                    <br> (Look at cool graphs.)
+                    <br> Think about balance.
+                    <br> Rewrite bonus bit to be less aids (Function runs about 700 times a second == bad).
+                </div>
             </div>
         </div>
     </main>
     <footer>
-        
-        <div class="footerContent">  <?php echo "Last Modified (GMT): ".date("F d Y H:i:s.", (getlastmod() + 18000));?> </div>
+        <div class="footerContent">
+        <?php echo "Last Modified (GMT): ".date("F d Y H:i:s.", (getlastmod() + 18000));?> 
+        </div>
     </footer>
     <script src="script.js"></script>
 </body>
-
 </html>
-=======
-<!DOCTYPE html>
-<html>
-
-<head>
-    <title>Mining Incremental</title>
-    <link rel="stylesheet" href="style.css"> </head>
-<meta charset="utf-8">
-
-<body>
-    <!-- I sexually identify as a html -->
-    <header>
-        <!-- Will contain money button thingy -->
-        <div class="moneyContainer">
-            <div class="moneyButton" id="moneyButton"> <span id="currentMoney"></span> </div>
-        </div>
-    </header>
-    <main>
-        <!-- Will contain tabbed navigation -->
-        <div class="contentContainer">
-            <div class="contentNav">
-                <ul class="nav" id="tests">
-                    <li class="tabButton actv" onclick="Tabs(this)" id="1">Mines</li>
-                    <li class="tabButton" onclick="Tabs(this)" id="2">Refinery</li>
-                    <li class="tabButton" onclick="Tabs(this)" id="3">Tab 3</li>
-                </ul>
-            </div>
-            <div class="display1 1 maind">
-                <div class="content1">
-                    <div class="copperButtons">
-                        <div class="copperMine mainButton" id="copperMine">Buy a Copper Mine
-                            <br><span id="copperMinePrice"> 0</span></div>
-                        <div class="mainButton" id="upgradeCopperStorage">Increase Storage
-                            <br> <span id="copperStorageCost">0</span></div>
-                    </div>
-                    <div class="copperSection">
-                        <div class="copperInformation">
-                            <div class="copperMineAmount">You have: <span id="copperMineAmount">0</span> copper mines </div>
-                            <div class="copperMineProduction"> Your copper mines produce: <span id="copperMineProduction">0 </span> copper per second </div>
-                        </div>
-                    </div>
-                    <div class="copperStorage">
-                        <progress id="copperStorageProgress"></progress>
-                        <div class="copperStorageSection"><span id="copperOre">0</span>/<span id="maxCopperOre">0</span></div>
-                    </div>
-                    <div> </div>
-                </div>
-            </div>
-            <div class="display1 2">
-                <div class="content1">
-                    <div class="refinaryButtons">
-                        <div class="mainButton" id="refSlotButton">Buy Refinary Slot
-                            <br><span id="refinarySlotPrice">0</span></div>
-                    </div>
-                    <div id="refinarySlots"> <span id="refinaryActiveSlots">0</span> / <span id="refinaryIdleSlots">0</span> </div>
-                    <div class="refinarySelection" id="refinarySelections">
-                        <div class="sliderContainer">
-                            <p>Copper</p>
-                            <input id="slider1" type="range" value=0>
-                            <div class="sliderInfo"><span id="slider1val">0</span>/<span id="slider1max">0</span></div>
-                            <br>
-                            <p>Iron</p>
-                            <input id="slider2" type="range" value=0>
-                            <div class="sliderInfo"> <span id="slider2val">0</span>/<span id="slider2max">0</span></div>
-                            <br>
-                            <p>Coal</p>
-                            <input id="slider3" type="range" value=0>
-                            <div class="sliderInfo"> <span id="slider3val">0</span>/<span id="slider3max">0</span></div>
-                            <br> </div>
-                    </div>
-                </div>
-            </div>
-            <div class="display1 3">
-                <div class="content1">Three</div>
-            </div>
-        </div>
-    </main>
-    <footer>
-        <!-- Much footer -->
-        <div class="footerContent"> By Aron Bettison </div>
-    </footer>
-    <script src="script.js"></script>
-</body>
-
-</html>
-
