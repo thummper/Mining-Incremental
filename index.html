@@ -1,134 +1,156 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <?php include("../webAnalytics.php"); ?>
-    <title>Mining Incremental</title>
-    <link rel="stylesheet" href="style.css"> </head>
-<meta charset="utf-8">
-<meta name="description" content="Basic mining incremental game." />
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Copse" rel="stylesheet">
+	<link rel="stylesheet" href="css/main.css" />
+	<script src='Upgrade.js'></script>
+	<script src="Point.js"></script>
+	<script src="Canvas.js"></script>
+	<script src="ProspectCanvas.js"></script>
+	<script src="MoneyCanvas.js"></script>
+	<script src="Updater.js"></script>
+	<script src="main.js"></script>
+	<title>
+		Hello World
+	</title>
+</head>
 
 <body>
-    <header>
-        <div class="moneyContainer">
-            <div class="bonusBar">
-                <progress max="5" value="0" id="bonusBarz"></progress>
-            </div>
-            <div class="moneyButton" id="moneyButton"> <span id="currentMoney"></span> </div>
-        </div>
-    </header>
-    <main>
-        <div class="contentContainer">
-            <div class="contentNav">
-                <ul class="nav" id="tests">
-                    <li class="tabButton actv" onclick="Tabs(this)" id="1">Mines</li>
-                    <li class="tabButton" onclick="Tabs(this)" id="2">Refinery</li>
-                    <li class="tabButton" onclick="Tabs(this)" id="3">TO DO</li>
-                </ul>
-            </div>
-            <div class="display1 1 maind">
-                <div class="content1">
-                    <div class="copperSection">
-                        <div class="copperButtons">
-                            <div class="copperMine mainButton" id="copperMine">
-                                Buy a Copper Mine <br><span id="copperMinePrice"> 0</span>
-                            </div>
-                            <div class="mainButton" id="upgradeCopperStorage">
-                                Increase Storage <br> <span id="copperStorageCost">0</span>
-                            </div>
-                        </div>
-                        <div class="copperInformation">
-                            <div class="copperMineAmount">
-                                You have: <span id="copperMineAmount">0</span> copper mines
-                            </div>
-                            <div class="copperMineProduction">
-                                Your copper mines produce: <span id="copperMineProduction">0 </span> copper per second
-                            </div>
-                        </div>
-                        <div class="copperStorage">
-                            <progress class="copperProgress"></progress>
-                            <div class="copperStorageSection">
-                                <span id="copperOre" class="copperOre" data-value="0">0</span>/<span id="maxCopperOre">0</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="display1 2">
-                <div class="content1">
-                    <div class="refButtons">
-                        <div class="mainButton" id="refSlotButton">
-                            Buy Refinary Slot<br><span id="refinarySlotPrice">0</span>
-                        </div>
-                        <div id="refinarySlots">
-                            <span id="refinaryActiveSlots">0</span> / <span id="refinaryTotalSlots">0</span>
-                        </div>
-                    </div>
-                    <div class="refinarySelection" id="refinarySelections">
-                        <div class="sliderContainer">
-                            <div class="slider">
-                                <div class="copperStorage">
-                                    <progress class="copperProgress"></progress>
-                                    <div class="copperStorageSection">
-                                        <span id="copperOre" class="copperOre" data-value="0">0</span>/<span id="maxCopperOre" class="copperOreMax">0</span>
-                                    </div>
-                                </div>
-                                <div class="copperSlider">
-                                    Copper Refineries
-                                    <input id="slider1" type="range" oninput="sliderUsed()" />
-                                    <div id="slider1Info">
-                                        <span id="slider1value">0</span>/<span id="slider1max">0</span>
-                                    </div>
-                                </div>
-                                <div class="copperIngots">
-                                    <progress class="copperIngotStorage"></progress>
-                                    <div class="ingotsStats">
-                                        <span class="copperIngotsAmount">0</span>/<span class="copperIngotsMax">0</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="slider">
-                                <div class="ironSlider">
-                                    Iron Refineries
-                                </div>
-                                <input id="slider2" type="range" oninput="sliderUsed()" />
-                                <div id="slider2Info">
-                                    <span id="slider2value">0</span>/<span id="slider2max">0</span>
-                                </div>
-                            </div>
-                            <div class="slider">
-                                <div class="goldSlider">
-                                    Gold Refineries
-                                </div>
-                                <input id="slider3" type="range" oninput="sliderUsed()" />
-                                <div id="slider3Info">
-                                    <span id="slider3value">0</span>/<span id="slider3max">0</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="display1 3">
-                <div class="content1">
-                    TODO:
-                </div>
-                <div>
-                    Either rewrite update function or live with 1 second increments.
-                    <br> Get refinary tab styled and working.
-                    <br> (Look at cool graphs.)
-                    <br> Think about balance.
-                    <br> Rewrite bonus bit to be less aids (Function runs about 700 times a second == bad).
-                </div>
-            </div>
-        </div>
-    </main>
-    <footer>
-        <div class="footerContent">
-        <?php echo "Last Modified (GMT): ".date("F d Y H:i:s.", (getlastmod() + 18000));?> 
-        </div>
-    </footer>
-    <script src="script.js"></script>
+	<div class="mainContainer">
+		<div class="top">
+			<canvas id="money-canvas"></canvas>
+			<div id='money' class="money-display">£ 0</div>
+
+			<table class="oreDisplay">
+				<tr>
+					<th></th>
+					<th>Iron</th>
+					<th>Copper</th>
+					<th>Gold</th>
+					<th>REM</th>
+				</tr>
+				<tr id="prospectOre">
+					<td class="title">Prospected</td>
+					<td class="item ironP">0t</td>
+					<td class="item copperP">0t</td>
+					<td class="item goldP">0t</td>
+					<td class="item remP">0t</td>
+				</tr>
+				<tr id="unrefinedOre">
+					<td class="title">Raw</td>
+					<td class="item ironP">0t</td>
+					<td class="item copperP">0t</td>
+					<td class="item goldP">0t</td>
+					<td class="item remP">0t</td>
+				</tr>
+				<tr id="refinedOre">
+					<td class="title">Ingots</td>
+					<td class="item ironP">0t</td>
+					<td class="item copperP">0t</td>
+					<td class="item goldP">0t</td>
+					<td class="item remP">0t</td>
+				</tr>
+			</table>
+		</div>
+		<div class="bottom">
+			<!-- Tabs Here -->
+			<div class="tabs">
+				<button class="tButton" onclick="openTab(this)">Prospecting</button>
+				<button class="tButton" onclick="openTab(this)">Mining</button>
+				<button class="tButton" onclick="openTab(this)">Processing</button>
+				<button class="tButton" onclick="openTab(this)">Logistics</button>
+				<button class="tButton" onclick="openTab(this)">Research</button>
+				<button class="tButton" onclick="openTab(this)">Statistics</button>
+			</div>
+			<!-- Tab Content -->
+			<div class="tab-content">
+
+				<div class="tab prospecting">
+					<h2 class="tab-title">
+						Prospecting <span id="prospectAmount">0</span>/S
+					</h2>
+					<canvas id="prospecting_canvas"></canvas>
+					<div class="tab-section">
+						<div class="tab-section-title">
+							Prospectors
+						</div>
+						<div class="items">
+							<div class="item-prospector">
+								<div class="item-title">
+									Human Prospector
+								</div>
+								<div class="item-button prospector">
+									£ 5000
+								</div>
+							</div>
+							<div class="item-prospector">
+								<div class="item-title">
+									Robot Prospector
+								</div>
+								<div class="item-button prospector">
+									£ 50000
+								</div>
+							</div>
+							<div class="item-prospector">
+								<div class="item-title">
+									Scientist Prospector
+								</div>
+								<div class="item-button prospector">
+									£ 1000000
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="tab-section">
+						<div class="tab-section-title">
+							Upgrades
+						</div>
+						<div class="items prosp-upgrades">
+
+						</div>
+					</div>
+
+
+				</div>
+
+				<div class="tab mining tab-hidden">
+					<h2 class="tab-title">
+						Mining
+					</h2>
+				</div>
+
+				<div class="tab processing tab-hidden">
+					<h2 class="tab-title">
+						Processing
+					</h2>
+				</div>
+
+				<div class="tab logistics tab-hidden">
+					<h2 class="tab-title">
+						Logistics
+					</h2>
+				</div>
+
+				<div class="tab research tab-hidden">
+					<h2 class="tab-title">
+						Research
+					</h2>
+				</div>
+
+				<div class="tab statistics tab-hidden">
+					<h2 class="tab-title">
+						Statistics
+					</h2>
+				</div>
+
+			</div>
+
+
+
+		</div>
+	</div>
 </body>
+
 </html>

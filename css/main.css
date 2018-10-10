@@ -1,0 +1,222 @@
+.ironP {
+  background-color: #3a3c40;
+  color: white; }
+
+.copperP {
+  background-color: #b4745e;
+  color: white; }
+
+.goldP {
+  background-color: #e7bd42;
+  color: white; }
+
+.remP {
+  background-color: #4b4169;
+  color: white; }
+
+* {
+  border: 0;
+  margin: 0;
+  font-family: 'Copse', serif; }
+
+body {
+  background-image: url("../assets/bg-tile.png");
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; }
+
+.mainContainer {
+  width: 94%;
+  min-height: 100%;
+  margin: 40px auto;
+  background: rgba(234, 246, 248, 0.7);
+  display: flex;
+  flex-direction: column; }
+
+.top {
+  min-height: 400px;
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: column; }
+
+.bottom {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1; }
+
+#money-canvas {
+  flex: 1;
+  width: 100%;
+  min-height: 300px;
+  border-radius: 4px;
+  background: white;
+  display: block; }
+
+#prospecting_canvas {
+  width: 90%;
+  height: 250px;
+  border-radius: 4px;
+  background: white;
+  border: solid 2px #73C2FB; }
+
+.oreDisplay {
+  width: 100%;
+  min-height: 140px;
+  margin: 16px auto; }
+  .oreDisplay tr {
+    display: flex;
+    margin: 4px auto; }
+  .oreDisplay td, .oreDisplay th {
+    flex-basis: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px; }
+  .oreDisplay .title {
+    align-self: center; }
+  .oreDisplay .item {
+    margin-left: 2px;
+    text-align: center;
+    border-radius: 4px; }
+
+.money-display {
+  padding: 6px 0px;
+  background-color: rgba(115, 194, 251, 0.5);
+  color: black;
+  text-align: center;
+  font-size: 18px; }
+
+.tab-content {
+  flex: 1;
+  display: flex;
+  width: 100%;
+  height: 100%; }
+
+.tab {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 1000px;
+  align-items: center;
+  margin-top: 28px; }
+
+.tab-title {
+  margin: 8px auto; }
+
+.tab-section {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  border: solid 2px #d6edfe;
+  border-radius: 4px;
+  margin: 40px auto; }
+  .tab-section .tab-section-title {
+    font-weight: bold;
+    font-size: 18px;
+    text-align: center;
+    margin-top: -16px;
+    margin-bottom: 32px;
+    letter-spacing: 0.07em;
+    padding: 6px;
+    border-radius: 4px;
+    background: #0E4D92;
+    align-self: center;
+    color: white; }
+
+.tabs {
+  display: flex;
+  margin: 20px 0;
+  width: 100%;
+  justify-content: space-around; }
+
+.tButton {
+  flex-basis: 100%;
+  margin: 0 2px;
+  display: block;
+  background-color: #B0DFE5;
+  transition: 0.3s;
+  font-size: 16px;
+  padding: 6px;
+  border-radius: 4px;
+  cursor: pointer; }
+
+.tButton:hover {
+  background: #73C2FB; }
+
+.tab-hidden {
+  display: none; }
+
+.items {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  width: 100%;
+  padding: 24px 4px; }
+
+.item-prospector {
+  align-self: center; }
+
+.item-button {
+  text-align: center;
+  padding: 8px;
+  border-radius: 4px;
+  margin: 4px auto;
+  border: solid 2px #63a6f0;
+  background: #73C2FB;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  user-select: none; }
+  .item-button:hover {
+    background: #348cec;
+    border: solid 2px #0E4D92; }
+  .item-button:active {
+    background: #348cec; }
+
+.upgItem {
+  position: relative;
+  border: solid 2px #63a6f0;
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  margin: 24px auto;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  background-color: #B0DFE5;
+  transition: 0.3s all;
+  padding: 8px;
+  max-width: 800px;
+  cursor: pointer;
+  user-select: none; }
+  .upgItem:hover {
+    background: #d6eff2; }
+  .upgItem:active {
+    background: #9dd7df; }
+
+.upgClose {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  position: absolute;
+  top: 6px;
+  right: 12px;
+  transition: 0.3s; }
+  .upgClose:hover {
+    background: #9dd7df; }
+
+.upgTitle {
+  font-weight: bold;
+  font-size: 18px;
+  padding: 4px; }
+
+.upgDesc {
+  line-height: 1.5em; }
+
+.upgCost {
+  padding: 8px; }
