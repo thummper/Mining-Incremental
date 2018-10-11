@@ -41,7 +41,7 @@ class Incremental {
 		this.prospect_canvas = new ProspectCanvas();
 		//Game stuff 
 		this.loop;
-		this.money = 10000;
+		this.money = 50000;
 		//Prospectors
 		this.prospectButtons = [];
 		this.prospectorsCount = [0, 0, 0];
@@ -50,18 +50,76 @@ class Incremental {
 		this.prospectorsCoeff = [300, 490, 800];
 		this.prospectAmount = 0;
 		this.prospectUpgrades = [];
+
+		//Mining Equipment
+		this.miningButton; 
+		this.miningCount = 0;
+		this.miningCost = 500;
+		this.miningEff = 1;
+		this.miningCoeff = 100;
+		
 		//Ore 
 		this.oreReserves = [0, 0, 0, 0];
 		this.unrefOre = [0, 0, 0, 0];
 		this.refOre = [0, 0, 0, 0];
 		//Start by updating
 		this.updater = new Updater(this);
+		
+		//Sliders
+		this.miningVals = [0, 0, 0, 0];
+		this.sliderContainer = document.getElementById('mining-sliders');
+		this.sliderLabels = this.sliderContainer.getElementsByTagName('label');
+		this.sliders = this.sliderContainer.getElementsByTagName('input');
+		this.setupSliders();
+		
 	}
+	
+	setupSliders(){
+		for(let i = 0, j = this.sliders.length; i < j; i++){
+			let slider = this.sliders[i];
+			slider.oninput = function(e){
+				this.updateSliders();
+			}.bind(this);
+		}
+	}
+	updateSliders(){
+		//Set max of all sliders.
+		console.log("Max slider: ", this.miningCount);
+		let maxsliders = this.miningCount;
+		let currentUsed = 0; 
+		
+		//Work out the current used slots of input.
+		for(let i = 0, j = this.sliders.length; i < j; i++){
+			let slider = this.sliders[i];
+			let val = parseInt(slider.value);
+			currentUsed += val;
+		}
+		
+		let slidersLeft = maxsliders - currentUsed;
+		console.log("Current Sliders: ", currentUsed);
+		console.log("Sliders left: ", slidersLeft);
+		//Set slider max
+		for(let i = 0, j = this.sliders.length; i < j; i++){
+			let slider = this.sliders[i];
+			slider.max = slidersLeft + parseInt(slider.value);
+			let lbls = this.sliderLabels[i].getElementsByTagName('span');
+			console.log(lbls)
+			lbls[0].innerHTML = slider.value;
+			this.miningVals[i] = parseInt(slider.value);
+			lbls[1].innerHTML = slider.max;
+			//Also set tooltip in label?
+		}
+		
+		console.log(this.miningVals);
+		
+	}
+	
 
 	start() {
 		//Start
 		//Set up event listeners 
-		this.prospectButtons = document.getElementsByClassName('prospector');
+		this.miningButton = document.getElementById('mineButton');
+		this.prospectButtons = document.getElementsByClassName('prospect-buttons')[0].children;
 		this.makeUpgrades();
 		this.addEvents();
 		this.updater.update();
@@ -127,53 +185,85 @@ class Incremental {
 		//Get elements in start, make the events here.
 		for (let i = 0, j = this.prospectButtons.length; i < j; i++) {
 			let button = this.prospectButtons[i];
-			button.addEventListener('click', this.prospectClick.bind(this));
+			button.addEventListener('click', function(e){
+				this.buttonClick(e, 'prospect');
+			}.bind(this));
 		}
-
+		this.miningButton.addEventListener('click', function(e){
+			this.buttonClick(e, 'mining');
+		}.bind(this));
 	}
-
-	prospectClick(event) {
-		//Figure out which button was clicked and buy one.
+	
+	buttonClick(event, type){
 		let button = event.currentTarget;
-		for (let i = 0; i < this.prospectButtons.length; i++) {
-			let testButton = this.prospectButtons[i];
-			if (button == testButton) {
-				this.prospectBuy(i);
-				return;
+		let buttonParent = button.parentElement;
+		let allButtons = buttonParent.children;
+		for(let i = 0, j = allButtons.length; i < j; i++){
+			let btn = allButtons[i];
+			if(button == btn){
+				console.log("Button ", i, " clicked");	
+				this.handleBuy(i, type);
+			}
+		}	
+	}
+	handleBuy(index, type){
+		
+		console.log("Buying: ", type);
+		if(type == 'prospect'){
+			let cost = this.prospectorsCost[index];
+			if(this.money >= cost){
+				this.money -= cost; 
+				this.prospectorsCount[index]++;
+				let costInc = Math.log(this.prospectorsCount[index] + 1) * this.prospectorsCoeff[index];
+				this.prospectorsCost[index] += costInc;
+			}	
+		}
+		if(type == 'mining'){
+			let cost = this.miningCost;
+			if(this.money >= cost){
+				this.money -= cost;
+				this.miningCount++;
+				let costInc = Math.log(this.miningCount + 1) * this.miningCoeff;
+				this.miningCost += costInc;
+				this.updateSliders();
 			}
 		}
-	}
-
-	prospectBuy(number) {
-		let cost = this.prospectorsCost[number];
-		if (this.money >= cost) {
-			this.money -= cost;
-			this.prospectorsCount[number]++;
-			let costAdd = Math.log(this.prospectorsCount[number] + 1) * this.prospectorsCoeff[number];
-			this.prospectorsCost[number] += costAdd;
-		}
 		this.updater.update();
+		
 	}
-
 	incLoop() {
 		this.money += this.money_canvas.moneyGen;
-		this.prospect();
 		this.money_canvas.moneyGen = 0;
+		this.prospect();
+		this.mine();
 		this.updater.update();
+	}
+	mine(){
+		for(let i = 0; i < this.miningVals.length; i++){
+			let toMine = this.miningVals[i];
+			let mineTotal = toMine * this.miningEff;
+			if(this.oreReserves[i] > 0){
+				if(this.oreReserves[i] > mineTotal){
+					this.oreReserves[i] -= mineTotal;	
+					this.unrefOre[i] += mineTotal;
+				} else {
+					this.unrefOre[i] += this.oreReserves[i];
+					this.oreReserves[i] = 0;
+				}
+			}	
+		}
 	}
 
 	prospect() {
 		this.prospectAmount = 0;
-		for (let i = 0; i < this.prospectorsCount.length; i++) {
+		for(let i = 0, j = this.prospectorsCount.length; i < j; i++){
 			this.prospectAmount += (this.prospectorsCount[i] * this.prospectorsEff[i]);
 		}
-		this.updater.update();
-		this.prospect_canvas.prospect(this.prospectAmount);
-		let oreFound = this.prospect_canvas.oreFound;
-		for (let i = 0; i < oreFound.length; i++) {
+		let oreFound = this.prospect_canvas.prospect(this.prospectAmount);
+		for(let i = 0, j = oreFound.length; i < j; i++){
 			this.oreReserves[i] += oreFound[i];
 		}
-		oreFound = [0, 0, 0, 0];
+		this.prospect_canvas.oreFound = [0, 0, 0, 0];
 	}
 
 }

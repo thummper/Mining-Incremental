@@ -65,7 +65,6 @@
 			</div>
 			<!-- Tab Content -->
 			<div class="tab-content">
-
 				<div class="tab prospecting">
 					<h2 class="tab-title">
 						Prospecting <span id="prospectAmount">0</span>/S
@@ -76,28 +75,26 @@
 							Prospectors
 						</div>
 						<div class="items">
-							<div class="item-prospector">
-								<div class="item-title">
-									Human Prospector
+							<div class="prospect-titles button-titles">
+								<div class="title">
+									Human Prospector <span> 0 </span>
 								</div>
-								<div class="item-button prospector">
-									£ 5000
+								<div class="title">
+									Robot Prospector <span> 0 </span>
 								</div>
-							</div>
-							<div class="item-prospector">
-								<div class="item-title">
-									Robot Prospector
-								</div>
-								<div class="item-button prospector">
-									£ 50000
+								<div class="title">
+									Scientist Prospector <span> 0 </span>
 								</div>
 							</div>
-							<div class="item-prospector">
-								<div class="item-title">
-									Scientist Prospector
+							<div class="prospect-buttons">
+								<div class="item-button">
+									£5000
 								</div>
-								<div class="item-button prospector">
-									£ 1000000
+								<div class="item-button">
+									£50000
+								</div>
+								<div class="item-button">
+									£1000000
 								</div>
 							</div>
 						</div>
@@ -111,14 +108,44 @@
 
 						</div>
 					</div>
-
-
 				</div>
 
 				<div class="tab mining tab-hidden">
-					<h2 class="tab-title">
-						Mining
-					</h2>
+					<div class="tab-section">
+						<div class="tab-section-title">
+							Allocate Equipment
+						</div>
+						<div class="mining-allocate" id="mining-sliders">
+							<label for="iron">Iron <span class="val">0</span>/<span class='max'>0</span></label>
+							<input type="range" name="iron" min="0" max="0" value="0" step="1">
+							<label for="copper">Copper <span class="val">0</span>/<span class='max'>0</span></label>
+							<input type="range" name="copper" min="0" max="0" value="0" step="1">
+							<label for="gold">Gold <span class="val">0</span>/<span class='max'>0</span></label>
+							<input type="range" name="gold" min="0" max="0" value="0" step="1">
+							<label for="rem">Rare Earth Metals <span class="val">0</span>/<span class='max'>0</span></label>
+							<input type="range" name="rem" min="0" max="0" value="0" step="1">
+						
+						</div>
+						
+					
+					</div>
+					
+					<div class="tab-section">
+						<div class="tab-section-title">
+							Mining Equipment 
+						</div>
+						<div class="items">
+							<div class=" mining-titles button-titles">
+							<div class="title">Automatic Mining Machine <span> 0 </span>
+								</div>
+							
+							</div>
+							<div class="mining-buttons">
+								<div id="mineButton" class="item-button mining">
+								$500</div>
+							</div>
+						</div>
+					</div>
 				</div>
 
 				<div class="tab processing tab-hidden">

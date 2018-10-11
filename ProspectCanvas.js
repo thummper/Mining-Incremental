@@ -63,14 +63,15 @@ class ProspectCanvas extends Canvas {
 		this.drawCells();
 	}
 	prospect(amount) {
-		this.toDiscover = 0;
 		this.tick += amount;
 		if (this.tick >= 1) {
 			this.toDiscover = Math.round(this.tick);
 			this.tick = 0;
 			this.discoverSpaces();
 		}
+		return this.oreFound;
 	}
+	
 	discoverSpaces() {
 		//Loop through cells index
 		if (this.index + this.toDiscover < this.cells.length) {

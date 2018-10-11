@@ -6,7 +6,7 @@ class Point {
 		this.size = size;
 		this.color = '#e2a000';
 		this.life = life;
-		this.reward = Math.floor(Math.random() * 50 * this.life);
+		this.reward = Math.floor(Math.random() * 5 * this.life);
 	}
 
 	draw(mctx) {
