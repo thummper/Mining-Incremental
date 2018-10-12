@@ -3,8 +3,8 @@ class ProspectCanvas extends Canvas {
 		super();
 		this.canvas = document.getElementById('prospecting_canvas');
 		this.ctx = this.canvas.getContext('2d');
-		this.gridSize = 20;
-		this.genCoeffs = [5, 4, 2, 1];
+		this.gridSize = 12;
+		this.genCoeffs = [4, 3, 1, 0.5];
 		this.rows;
 		this.cols;
 		this.cells = [];
@@ -123,16 +123,16 @@ class Cell {
 		//I can smell a refactor 
 		if (this.type == 0) {
 			this.color = '#3a3c40';
-			this.amount = Math.round(Math.random() * this.genCoeffs[this.type]);
+			this.amount = getRandomInc(0.1, this.genCoeffs[this.type]);
 		} else if (this.type == 1) {
 			this.color = '#b4745e';
-			this.amount = Math.round(Math.random() * this.genCoeffs[this.type]);
+			this.amount = getRandomInc(0.1, this.genCoeffs[this.type]);
 		} else if (this.type == 2) {
 			this.color = '#e7bd42';
-			this.amount = Math.round(Math.random() * this.genCoeffs[this.type]);
+			this.amount = getRandomInc(0.1, this.genCoeffs[this.type]);
 		} else if (this.type == 3) {
 			this.color = '#4b4169';
-			this.amount = Math.round(Math.random() * this.genCoeffs[this.type]);
+			this.amount = getRandomInc(0.1, this.genCoeffs[this.type]);
 		}
 
 	}

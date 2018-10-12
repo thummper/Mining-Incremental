@@ -111,11 +111,14 @@
 				</div>
 
 				<div class="tab mining tab-hidden">
+					<h2 class="tab-title">
+						Mining
+					</h2>
 					<div class="tab-section">
 						<div class="tab-section-title">
 							Allocate Equipment
 						</div>
-						<div class="mining-allocate" id="mining-sliders">
+						<div class="sliders mining-allocate" id="mining-sliders">
 							<label for="iron">Iron <span class="val">0</span>/<span class='max'>0</span></label>
 							<input type="range" name="iron" min="0" max="0" value="0" step="1">
 							<label for="copper">Copper <span class="val">0</span>/<span class='max'>0</span></label>
@@ -124,25 +127,23 @@
 							<input type="range" name="gold" min="0" max="0" value="0" step="1">
 							<label for="rem">Rare Earth Metals <span class="val">0</span>/<span class='max'>0</span></label>
 							<input type="range" name="rem" min="0" max="0" value="0" step="1">
-						
+
 						</div>
-						
-					
 					</div>
-					
+
 					<div class="tab-section">
 						<div class="tab-section-title">
-							Mining Equipment 
+							Mining Equipment
 						</div>
 						<div class="items">
 							<div class=" mining-titles button-titles">
-							<div class="title">Automatic Mining Machine <span> 0 </span>
+								<div class="title">Automatic Mining Machine <span> 0 </span>
 								</div>
-							
+
 							</div>
-							<div class="mining-buttons">
+							<div class="mining-buttons buttons">
 								<div id="mineButton" class="item-button mining">
-								$500</div>
+									$500</div>
 							</div>
 						</div>
 					</div>
@@ -152,6 +153,50 @@
 					<h2 class="tab-title">
 						Processing
 					</h2>
+					<div class="tab-section">
+						<div class="tab-section-title">
+							Allocate Smelters
+						</div>
+
+						<div class="sliders smelters-allocate" id="smelters-sliders">
+							<label for="iron">Iron <span class="val">0</span>/<span class='max'>0</span></label>
+							<input type="range" name="iron" min="0" max="0" value="0" step="1">
+							<label for="copper">Copper <span class="val">0</span>/<span class='max'>0</span></label>
+							<input type="range" name="copper" min="0" max="0" value="0" step="1">
+							<label for="gold">Gold <span class="val">0</span>/<span class='max'>0</span></label>
+							<input type="range" name="gold" min="0" max="0" value="0" step="1">
+							<label for="rem">Rare Earth Metals <span class="val">0</span>/<span class='max'>0</span></label>
+							<input type="range" name="rem" min="0" max="0" value="0" step="1">
+						</div>
+
+					</div>
+
+					<div class="tab-section">
+						<div class="tab-section-title">
+							Smelting Equipment
+						</div>
+						<div class="items">
+							<div class=" process-titles button-titles">
+								<div class="title">Small Oven<span> 0 </span>
+								</div>
+								<div class="title">Blast Furnace<span> 0 </span>
+								</div>
+								<div class="title">Induction Furnace<span> 0 </span>
+								</div>
+
+							</div>
+							<div class="process-buttons buttons">
+								<div id="processButton" class="item-button process">
+									$6000</div>
+								<div id="processButton" class="item-button process">
+									$60000</div>
+								<div id="processButton" class="item-button process">
+									$1000000</div>
+							</div>
+						</div>
+					</div>
+
+
 				</div>
 
 				<div class="tab logistics tab-hidden">
