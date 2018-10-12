@@ -203,6 +203,82 @@
 					<h2 class="tab-title">
 						Logistics
 					</h2>
+
+
+					<div class="tab-section">
+						<div class="tab-section-title">
+							Ingot Prices (Per tonne)
+						</div>
+						<table class="ingotPrices">
+							<tr id="ingotPrice">
+								<td class="ironP">£ 500</td>
+								<td class="copperP">£ 700</td>
+								<td class="goldP">£ 1000</td>
+								<td class="remP">£ 3000</td>
+							</tr>
+							<tr id="ingotChange">
+								<td> 0% </td>
+								<td> 0% </td>
+								<td> 0% </td>
+								<td> 0% </td>
+							</tr>
+							<tr id="ingotDemand">
+								<td>Strong</td>
+								<td>Strong</td>
+								<td>Strong</td>
+								<td>Strong</td>
+							</tr>
+						</table>
+					</div>
+
+
+					<div class="tab-section">
+						<div class="tab-section-title">
+							Allocate Logistics
+						</div>
+						<div class="sliders logistics-allocate" id="logistics-sliders">
+							<label for="iron">Iron <span class="val">0</span>/<span class='max'>0</span></label>
+							<input type="range" name="iron" min="0" max="0" value="0" step="1">
+							<label for="copper">Copper <span class="val">0</span>/<span class='max'>0</span></label>
+							<input type="range" name="copper" min="0" max="0" value="0" step="1">
+							<label for="gold">Gold <span class="val">0</span>/<span class='max'>0</span></label>
+							<input type="range" name="gold" min="0" max="0" value="0" step="1">
+							<label for="rem">Rare Earth Metals <span class="val">0</span>/<span class='max'>0</span></label>
+							<input type="range" name="rem" min="0" max="0" value="0" step="1">
+						</div>
+
+					</div>
+
+
+					<div class="tab-section">
+						<div class="tab-section-title">
+							Logistics Equipment
+						</div>
+						<div class="items">
+							<div class="logistics-titles button-titles">
+								<div class="title">Small Van<span> 0 </span>
+								</div>
+								<div class="title">Lorry<span> 0 </span>
+								</div>
+								<div class="title">Autonomous Train <span> 0 </span>
+								</div>
+
+							</div>
+							<div id="logisticsButtons" class="logistics-buttons buttons">
+								<div id="logisticsButton" class="item-button process">
+									$500</div>
+								<div id="logisticsButton" class="item-button process">
+									$15000</div>
+								<div id="logisticsButton" class="item-button process">
+									$1000000</div>
+							</div>
+						</div>
+					</div>
+
+
+
+
+
 				</div>
 
 				<div class="tab research tab-hidden">

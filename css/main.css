@@ -148,6 +148,12 @@ body {
 .tab-hidden {
   display: none; }
 
+.ingotPrices td {
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 4px; }
+
 .items {
   display: flex;
   flex-direction: column;

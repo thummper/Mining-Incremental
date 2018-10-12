@@ -11,8 +11,15 @@ class Updater {
 		this.unrefinedRow = document.getElementById('unrefinedOre').getElementsByClassName('item');
 		this.refinedRow = document.getElementById('refinedOre').getElementsByClassName('item');
 		
+		this.logisticsRow = document.getElementById('logisticsButtons');
+		this.logisiticsTitle = document.getElementsByClassName('logistics-titles')[0].children;
+		
 		this.smeltTitle = document.getElementsByClassName('process-titles')[0].children;
 		
+		
+		this.priceRow = document.getElementById('ingotPrice').children;
+		this.changeRow = document.getElementById('ingotChange').children;
+		this.demandsRow = document.getElementById('ingotDemand').children;
 	}
 
 	getMoneyAverage(moneyChange) {
@@ -55,10 +62,53 @@ class Updater {
 		this.updateProspect();
 		this.updateProcessing();
 		
+		this.updateLogistics();
+		this.updateIngots();
+		
 		this.moneyDisplay.innerHTML = '$ ' + this.roundMoney(this.inc.money) + ' (' + moneyAverage + ')';
 		this.resetOreAverage(this.inc.oreResChange);
 		this.resetOreAverage(this.inc.unrefOreChange);
 		this.resetOreAverage(this.inc.refOreChange);
+		
+	}
+	
+	updateLogistics(){
+		for(let i = 0; i < this.inc.logisticsButtons.length; i++){
+			let button = this.inc.logisticsButtons[i];
+			button.innerHTML = "$ " + this.roundMoney(this.inc.logisticsCost[i]);
+		}
+		for(let i = 0; i < this.logisiticsTitle.length; i++){
+			let title = this.logisiticsTitle[i];
+			title.getElementsByTagName('span')[0].innerHTML = this.inc.logisticsCount[i];
+		}
+		
+	}
+	
+	updateIngots(){
+		//Update economy stuff
+		for(let i = 0; i < this.priceRow.length; i++){
+			let cell = this.priceRow[i];
+			cell.innerHTML = '$ ' + this.roundMoney(this.inc.ingotPrices[i]);
+		}
+		for(let i = 0; i < this.changeRow.length; i++){
+			let cell = this.changeRow[i];
+			cell.innerHTML = '$ ' + this.roundMoney(this.inc.ingotPriceChange[i]);
+		}
+		for(let i = 0; i < this.demandsRow.length; i++){
+			let cell = this.demandsRow[i];
+			let demand = this.inc.ingotPriceFactors[i];
+			let demandString;
+			if(demand <= 0.3){
+				demandString = "Strong Decline";
+			} else if(demand <= 0.5){
+				demandString = "Weak Decline";
+			} else if(demand <= 0.7){
+				demandString = "Weak Increase";
+			} else if(demand <= 1){
+				demandString = "Strong Increase";
+			}
+			cell.innerHTML = demandString;
+		}
 		
 	}
 	
