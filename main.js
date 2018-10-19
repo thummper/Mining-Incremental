@@ -1,8 +1,6 @@
 //Define inc globally
 let inc;
 window.addEventListener('load', function () {
-
-	console.log("Main loaded");
 	//Initialise..
 	inc = new Incremental();
 	//Function here to check and load data?
@@ -30,10 +28,6 @@ function openTab(tab) {
 	}
 }
 
-
-
-
-
 class Incremental {
 
 	constructor() {
@@ -43,41 +37,42 @@ class Incremental {
 		//Game stuff
 		this.clock = 0;
 		this.loop;
-		this.money = 100000;
+		this.money = 10000;
 		this.moneyChange = [0];
 
 		//Prospectors
 		this.prospectButtons = [];
-		this.prospectorsCount = [1, 0, 0];
-		this.prospectorsCost = [3000, 25000, 1000000];
-		this.prospectorsEff = [0.35, 0.80, 1.6];
-		this.prospectorsCoeff = [300, 490, 800];
+		this.prospectorsCount = [0, 0, 0];
+		this.prospectorsCost = [2000, 6000, 20000];
+		this.prospectorsEff = [0.30, 1, 3.4];
+		this.prospectorsCoeff = [700, 800, 1200];
 		this.prospectAmount = 0;
 		this.prospectUpgrades = [];
 
 		//Mining Equipment
 		this.miningButton;
-		this.miningCount = 1;
-		this.miningCost = 500;
-		this.miningEff = 1;
-		this.miningCoeff = 100;
+		this.miningSlots = 0;
+		this.miningCount = [0, 0, 0, 0];
+		this.miningCost = [1000, 800, 1000, 50000];
+		this.miningEff = [1, 5, 9, 17];
+		this.miningCoeff = [700, 900, 1200, 1500];
 
 		//Smelting
-		this.smeltSlots = 1;
+		this.smeltSlots = 0;
 		this.smeltingButtons = [];
-		this.smeltingCount = [1, 0, 0];
-		this.smeltingCost = [6000, 60000, 1000000];
-		this.smeltingEff = [1, 10, 100];
+		this.smeltingCount = [0, 0, 0];
+		this.smeltingCost = [10000, 72000, 500000];
+		this.smeltingEff = [10, 50, 100];
 		this.smeltAmount = 1;
-		this.smeltingCoeff = [300, 490, 800];
+		this.smeltingCoeff = [800, 900, 2000];
 
 		//Logistics
 		this.logisticSlots = 0;
 		this.logisticsButtons = [];
 		this.logisticsCount = [0, 0, 0];
-		this.logisticsCost = [100, 15000, 50000];
-		this.logisticsEff = [1, 10, 100];
-		this.logisticsCoeff = [300, 500, 800];
+		this.logisticsCost = [2000, 50000, 125000];
+		this.logisticsEff = [10, 50, 80];
+		this.logisticsCoeff = [800, 900, 1200];
 		this.logisticsVals = [0, 0, 0];
 		this.sellAmount = 0.3;
 
@@ -90,10 +85,10 @@ class Incremental {
 		this.refOre = [0, 0, 0, 0];
 
 		//Economy Stuff
-		this.ingotPrices = [500, 700, 1000, 3000];
+		this.ingotPrices = [60, 600, 10000, 18000];
 		this.ingotsSold = [0, 0, 0, 0];
-		this.ingotDemands = [10000, 12000, 13000, 14000];
-		this.ingotPriceFactors = [1, 1, 1, 1];
+		this.ingotDemands = [1000, 800, 600, 400];
+		this.ingotPriceFactors = [10, 10, 10, 10];
 		this.ingotPriceChange = [0, 0, 0, 0];
 
 		//Start by updating
@@ -121,97 +116,61 @@ class Incremental {
 		for (let i = 0, j = this.pSliders.length; i < j; i++) {
 			let slider = this.pSliders[i];
 			slider.oninput = function (e) {
-				this.updatePSliders();
+
+				this.updateSliders(this.miningSlots, this.pSliders, this.pSliderLabels, this.miningVals);
+
 			}.bind(this);
 		}
 		for (let i = 0, j = this.sSliders.length; i < j; i++) {
 			let slider = this.sSliders[i];
 			slider.oninput = function (e) {
-				this.updateSSliders();
+
+				this.updateSliders(this.smeltSlots, this.sSliders, this.sSliderLabels, this.smeltVals);
+
 			}.bind(this);
 		}
 		for (let i = 0, j = this.logSliders.length; i < j; i++) {
 			let slider = this.logSliders[i];
 			slider.oninput = function (e) {
-				this.updateLogSliders();
+
+				this.updateSliders(this.logisticSlots, this.logSliders, this.logSliderLabels, this.logisticsVals);
+
 			}.bind(this);
 		}
-		this.updateLogSliders();
-		this.updatePSliders();
-		this.updateSSliders();
+		this.updateSliders(this.miningSlots, this.pSliders, this.pSliderLabels, this.miningVals);
+		this.updateSliders(this.smeltSlots, this.sSliders, this.sSliderLabels, this.smeltVals);
+		this.updateSliders(this.logisticSlots, this.logSliders, this.logSliderLabels, this.logisticsVals);
 	}
 
-	updateLogSliders() {
-		let maxsliders = this.logisticSlots;
-		let currentUsed = 0;
-		for (let i = 0; i < this.logSliders.length; i++) {
-			let slider = this.logSliders[i];
-			let val = parseInt(slider.value);
-			currentUsed += val;
+	updateSliders(max, sliders, lbls, values) {
+		console.log("Max: " + max);
+		let used = 0;
+		for (let i = 0, j = sliders.length; i < j; i++) {
+			let slider = sliders[i];
+			let value = parseInt(slider.value);
+			used += value;
 		}
-		let slidersLeft = maxsliders - currentUsed;
-		for (let i = 0; i < this.logSliders.length; i++) {
-			let slider = this.logSliders[i];
-			slider.max = slidersLeft + parseInt(slider.value);
-			let lbs = this.logSliderLabels[i].getElementsByTagName('span');
-			lbs[0].innerHTML = slider.value;
-			lbs[1].innerHTML = slider.max;
-			this.logisticsVals[i] = parseInt(slider.value);
-		}
-	}
-
-
-	updateSSliders() {
-		let maxsliders = this.smeltSlots;
-		let currentUsed = 0;
-		for (let i = 0, j = this.sSliders.length; i < j; i++) {
-			let slider = this.sSliders[i];
-			let val = parseInt(slider.value);
-			currentUsed += val;
-		}
-		let slidersLeft = maxsliders - currentUsed;
-		for (let i = 0, j = this.sSliders.length; i < j; i++) {
-			let slider = this.sSliders[i];
-			slider.max = slidersLeft + parseInt(slider.value);
-			let lbls = this.sSliderLabels[i].getElementsByTagName('span');
-			lbls[0].innerHTML = slider.value;
-			this.smeltVals[i] = parseInt(slider.value);
-			lbls[1].innerHTML = slider.max;
-		}
-
-	}
-
-	updatePSliders() {
-		//Set max of all sliders.
-		let maxsliders = this.miningCount;
-		let currentUsed = 0;
-		//Work out the current used slots of input.
-		for (let i = 0, j = this.pSliders.length; i < j; i++) {
-			let slider = this.pSliders[i];
-			let val = parseInt(slider.value);
-			currentUsed += val;
-		}
-
-		let slidersLeft = maxsliders - currentUsed;
-		//Set slider max
-		for (let i = 0, j = this.pSliders.length; i < j; i++) {
-			let slider = this.pSliders[i];
-			slider.max = slidersLeft + parseInt(slider.value);
-			let lbls = this.pSliderLabels[i].getElementsByTagName('span');
-			lbls[0].innerHTML = slider.value;
-			this.miningVals[i] = parseInt(slider.value);
-			lbls[1].innerHTML = slider.max;
+		let slidersLeft = max - used;
+		console.log("Sliders left: ", slidersLeft);
+		for (let i = 0, j = sliders.length; i < j; i++) {
+			let slider = sliders[i];
+			let value = parseInt(slider.value);
+			slider.max = slidersLeft + value;
+			let labels = lbls[i].getElementsByTagName('span');
+			labels[0].innerHTML = value;
+			labels[1].innerHTML = slider.max;
+			values[i] = value;
 		}
 	}
-
 
 	start() {
 		//Start
 		//Set up event listeners 
-		this.miningButton = document.getElementById('mineButton');
+		this.miningButtons = document.getElementsByClassName('mining-buttons')[0].children;
 		this.prospectButtons = document.getElementsByClassName('prospect-buttons')[0].children;
 		this.smeltingButtons = document.getElementsByClassName('process-buttons')[0].children;
 		this.logisticsButtons = document.getElementsByClassName('logistics-buttons')[0].children;
+
 		this.makeUpgrades();
 		this.addEvents();
 		this.updater.update();
@@ -296,10 +255,13 @@ class Incremental {
 				this.buttonClick(e, 'logistics');
 			}.bind(this));
 		}
+		for (let i = 0, j = this.miningButtons.length; i < j; i++) {
+			let button = this.miningButtons[i];
+			button.addEventListener('click', function (e) {
+				this.buttonClick(e, 'mining');
+			}.bind(this));
+		}
 
-		this.miningButton.addEventListener('click', function (e) {
-			this.buttonClick(e, 'mining');
-		}.bind(this));
 	}
 
 	buttonClick(event, type) {
@@ -326,14 +288,17 @@ class Incremental {
 			}
 		}
 		if (type == 'mining') {
-			let cost = this.miningCost;
+			let cost = this.miningCost[index];
 			if (this.money >= cost) {
 				this.money -= cost;
 				this.moneyChange.push(-cost);
-				this.miningCount++;
-				let costInc = Math.log(this.miningCount + 1) * this.miningCoeff;
-				this.miningCost += costInc;
-				this.updatePSliders();
+				this.miningCount[index]++;
+				this.miningSlots += this.miningEff[index];
+				let costInc = Math.log(this.miningCount[index] + 1) * this.miningCoeff[index];
+				this.miningCost[index] += costInc;
+
+				this.updateSliders(this.miningSlots, this.pSliders, this.pSliderLabels, this.miningVals);
+
 			}
 		}
 		if (type == 'smelt') {
@@ -345,7 +310,9 @@ class Incremental {
 				this.smeltSlots += this.smeltingEff[index];
 				let costInc = Math.log(this.smeltingCount[index] + 1) * this.smeltingCoeff[index];
 				this.smeltingCost[index] += costInc;
-				this.updateSSliders();
+
+				this.updateSliders(this.smeltSlots, this.sSliders, this.sSliderLabels, this.smeltVals);
+
 			}
 		}
 		if (type == 'logistics') {
@@ -359,207 +326,177 @@ class Incremental {
 
 				let costInc = Math.log(this.logisticsCount[index] + 1) * this.logisticsCoeff[index];
 				this.logisticsCost[index] += costInc;
-				this.updateLogSliders();
-			}
 
+				this.updateSliders(this.logisticSlots, this.logSliders, this.logSliderLabels, this.logisticsVals);
+			}
 		}
 		this.updater.update();
 	}
 
 	ingotChange() {
-		//Given price factors, change prices 
-		let prices = this.ingotPrices;
-		let factors = this.ingotPriceFactors;
-		for (let i in prices) {
-			this.ingotPriceChange[i] = 0;
-			let price = prices[i];
-			let factor = factors[i];
-			if (factor <= 0.3) {
-				//Strong decline
-				//Decline from 0.5% to 6%
-				let percent = getRandomInc(0.5, 6);
-				let change = (price / 100) * percent;
-				if (price > change) {
-					this.ingotPrices[i] -= change;
-				}
-				this.ingotPriceChange[i] = -change;
-			} else if (factor <= 0.5) {
-				//Weak decline
-				//Decline from 0% to 3%;
-				let percent = getRandomInc(0, 3);
-				let change = (price / 100) * percent;
-				if (price > change) {
-					this.ingotPrices[i] -= change;
-				}
-				this.ingotPriceChange[i] = -change;
-			} else if (factor <= 0.7) {
-				//Weak growth
-				//Grow from 0% to 3%
-				let percent = getRandomInc(0, 3);
-				let change = (price / 100) * percent;
-				this.ingotPrices[i] += change;
+		
+		console.log("Should change ingots");
+		for(let i = 0; i < this.ingotPrices.length; i++){
+			
+			let price       = this.ingotPrices[i];
+			let priceFactor = this.ingotPriceFactors[i];
+			let percent     = 0;
+			
+			if(priceFactor < 3){
+				percent = (getRandomInc(1, 6) * -1) / 100;
+				let change = percent * this.ingotPrices[i];
 				this.ingotPriceChange[i] = change;
-			} else if (factor <= 1) {
-				//Strong growth
-				//Grow from 0.5% to 6%.
-				let percent = getRandomInc(0.5, 6);
-				let change = (price / 100) * percent;
 				this.ingotPrices[i] += change;
+				
+			} else if(priceFactor < 5){
+				percent = (getRandomInc(1, 4) * -1) / 100;
+				let change = percent * this.ingotPrices[i]; 
 				this.ingotPriceChange[i] = change;
+				this.ingotPrices[i] += change;
+				
+			} else if(priceFactor < 8){
+				percent = (getRandomInc(1, 4)) / 100;
+				let change = percent * this.ingotPrices[i]; 
+				this.ingotPriceChange[i] = change;
+				this.ingotPrices[i] += change;
+				
+			} else {
+				percent = (getRandomInc(1, 6)) / 100;
+				let change = percent * this.ingotPrices[i];
+				this.ingotPriceChange[i] = change;
+				this.ingotPrices[i] += change;
 			}
 		}
+		
+		
+		this.updater.updateIngots();
+		this.updateIngotFactors();
+		
+		
 	}
+	
+	updateIngotFactors(){
+		
+		for(let i = 0; i < this.ingotPriceChange.length; i++){
+			let change = this.ingotPriceChange[i];
+			if(change < 0){
+				
+				this.ingotPriceFactors[i] += 2;
+				
+			} else {
+				
+				this.ingotPriceFactors[i] -= 2;
+				
+			}
+			
+		}
+	}
+
 
 	changeEconomy() {
-		//Check what we have sold.
-		for (let i = 0; i < this.ingotsSold.length; i++) {
+		for(let i = 0; i < this.ingotsSold.length; i++){
 			let sold = this.ingotsSold[i];
 			let demand = this.ingotDemands[i];
-			if (sold < demand) {
-				//Increase
-				if (this.ingotPriceFactors[i] < 1) {
-					this.ingotPriceFactors[i] += 0.15;
-				}
-			} else if (sold > demand) {
-				//Decrease
-				if (this.ingotPriceFactors[i] > 0) {
-					this.ingotPriceFactors[i] -= 0.15;
-				}
-			}
-		}
-
-		//Change overall demand of ingots
-		for (let i = 0; i < this.ingotDemands.length; i++) {
-			//Get a random percent
-			let percent = getRandomInc(0, 3);
-			let number = getRandomInc(0, 100);
-			let negative;
-
-			if (number < 10) {
-				negative = true;
+			if(sold < demand){
+				//Price should increase.
+				this.ingotPriceFactors[i] = 10;
+				
 			} else {
-				negative = false;
+				//Price should decrease.
+				this.ingotPriceFactors[i] = 3;
 			}
-			let amountChange = Math.round(this.ingotDemands[i] * (percent / 100));
-			if (negative) {
-				amountChange = -amountChange;
-			}
-			this.ingotDemands[i] += amountChange;
+			
+			//Demand should generally increase (simple right now.. )
+			
+			let percent = getRandomInc(1, 3) / 100;
+			this.ingotDemand[i] += Math.round(this.ingotDemands[i] * percent);
+			
 		}
+		
+	}
+
+incLoop() {
+	if (this.clock % 2 == 0) {
+		//Change prices
+		this.ingotChange();
+		
+	}
+	if (this.clock == 24) {
+		this.clock = 0;
+		this.changeEconomy();
+		this.ingotChange();
 	}
 
 
+	this.money += this.money_canvas.moneyGen;
+	this.moneyChange.push(this.money_canvas.moneyGen);
+	this.money_canvas.moneyGen = 0;
+	this.transport();
+	this.smelt();
+	this.mine();
+	this.prospect();
 
-	incLoop() {
-		if (this.clock % 10 == 0) {
-			//Change prices
-			this.ingotChange();
-		}
-		if (this.clock == 20) {
-			//Change demands
-			this.clock = 0;
-			this.changeEconomy();
-		}
+	this.clock++;
+	this.updater.update();
+}
 
-
-		this.money += this.money_canvas.moneyGen;
-		this.moneyChange.push(this.money_canvas.moneyGen);
-		this.money_canvas.moneyGen = 0;
-		this.prospect();
-		this.mine();
-		this.smelt();
-		this.transport();
-		this.clock++;
-		this.updater.update();
-	}
-
-	transport() {
-		for (let i = 0, j = this.logisticsVals.length; i < j; i++) {
-			let toSell = this.logisticsVals[i];
-			let sellTotal = toSell * this.sellAmount;
-
-			if (this.refOre[i] > 0) {
-				if (this.refOre[i] > sellTotal) {
-
-					this.refOre[i] -= sellTotal;
-					this.refOreChange[i].push(-sellTotal);
-					let moneyGain = Math.round(sellTotal * this.ingotPrices[i]);
-					this.money += moneyGain;
-					this.moneyChange.push(moneyGain);
-
-				} else {
-
-					let moneyGain = Math.round(this.refOre[i] * this.ingotPrices[i]);
-					this.moneyChange.push(moneyGain);
-					this.refOreChange[i].push(-this.refOre[i]);
-					this.refOre[i] = 0;
-
-				}
-			}
-
-		}
-	}
-	smelt() {
-		for (let i = 0, j = this.smeltVals.length; i < j; i++) {
-			let toSmelt = this.smeltVals[i];
-			let smeltTotal = toSmelt * this.smeltAmount;
-			if (this.unrefOre[i] > 0) {
-				if (this.unrefOre[i] > smeltTotal) {
-					this.unrefOre[i] -= smeltTotal;
-					this.unrefOreChange[i].push(-smeltTotal);
-
-					this.refOre[i] += smeltTotal;
-
-					this.ingotsSold[i] += smeltTotal;
-					this.refOreChange[i].push(smeltTotal);
-
-				} else {
-					this.refOre[i] += this.unrefOre[i];
-					this.refOreChange[i].push(this.unrefOre[i]);
-					this.ingotsSold[i] += this.unrefOre[i];
-					this.unrefOreChange[i].push(-this.unrefOre[i]);
-					this.unrefOre[i] = 0;
-				}
-			}
-
-		}
-	}
-
-	mine() {
-		for (let i = 0; i < this.miningVals.length; i++) {
-			let toMine = this.miningVals[i];
-			let mineTotal = toMine * this.miningEff;
-			if (this.oreReserves[i] > 0) {
-				if (this.oreReserves[i] > mineTotal) {
-
-					this.oreReserves[i] -= mineTotal;
-					this.oreResChange[i].push(-mineTotal);
-					this.unrefOre[i] += mineTotal;
-					this.unrefOreChange[i].push(mineTotal);
-
-				} else {
-
-					this.oreResChange[i].push(-this.oreReserves[i]);
-					this.unrefOre[i] += this.oreReserves[i];
-					this.unrefOreChange[i].push(this.oreReserves[i]);
-					this.oreReserves[i] = 0;
-
-				}
+transport() {
+	for (let i = 0, j = this.logisticsVals.length; i < j; i++) {
+		let toSell = this.logisticsVals[i];
+		let sellTotal = toSell;
+		if (toSell > 0) {
+			if (this.refOre[i] >= sellTotal) {
+				this.refOre[i] -= sellTotal;
+				this.refOreChange[i].push(-sellTotal);
+				let moneyGain = Math.round(sellTotal * this.ingotPrices[i]);
+				this.money += moneyGain;
+				this.moneyChange.push(moneyGain);
 			}
 		}
 	}
+}
 
-	prospect() {
-		this.prospectAmount = 0;
-		for (let i = 0, j = this.prospectorsCount.length; i < j; i++) {
-			this.prospectAmount += (this.prospectorsCount[i] * this.prospectorsEff[i]);
+smelt() {
+	for (let i = 0, j = this.smeltVals.length; i < j; i++) {
+		let smelt = this.smeltVals[i];
+		let smeltTotal = smelt;
+		if (smelt > 0) {
+			if (this.unrefOre[i] >= smeltTotal) {
+				this.refOre[i] += smeltTotal;
+				this.refOreChange[i].push(smeltTotal);
+				this.unrefOre[i] -= smeltTotal;
+				this.unrefOreChange[i].push(-smeltTotal);
+			}
 		}
-		let oreFound = this.prospect_canvas.prospect(this.prospectAmount);
-		for (let i = 0, j = oreFound.length; i < j; i++) {
-			this.oreResChange[i].push(oreFound[i]);
-			this.oreReserves[i] += oreFound[i];
-		}
-		this.prospect_canvas.oreFound = [0, 0, 0, 0];
 	}
+}
+
+mine() {
+	for (let i = 0; i < this.miningVals.length; i++) {
+		let toMine = this.miningVals[i];
+		let mineTotal = toMine;
+		if (toMine > 0) {
+			if (this.oreReserves[i] >= mineTotal) {
+				this.oreReserves[i] -= mineTotal;
+				this.oreResChange[i].push(-mineTotal);
+				this.unrefOre[i] += mineTotal;
+				this.unrefOreChange[i].push(mineTotal);
+			}
+		}
+	}
+}
+
+prospect() {
+	this.prospectAmount = 0;
+	for (let i = 0, j = this.prospectorsCount.length; i < j; i++) {
+		this.prospectAmount += (this.prospectorsCount[i] * this.prospectorsEff[i]);
+	}
+	let oreFound = this.prospect_canvas.prospect(this.prospectAmount);
+	for (let i = 0, j = oreFound.length; i < j; i++) {
+		this.oreResChange[i].push(oreFound[i]);
+		this.oreReserves[i] += oreFound[i];
+	}
+	this.prospect_canvas.oreFound = [0, 0, 0, 0];
+}
 
 }
