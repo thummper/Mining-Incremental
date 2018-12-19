@@ -121,17 +121,20 @@ class Cell {
 	}
 	genAmount() {
 		//I can smell a refactor 
+		let colours = ['#3a3c40', '#b4745e', '#e7bd42', '#4b4169'];
+
+		this.color = colours[this.type];
 		if (this.type == 0) {
-			this.color = '#3a3c40';
+			
 			this.amount = getRandomInc(0.1, this.genCoeffs[this.type]);
 		} else if (this.type == 1) {
-			this.color = '#b4745e';
+			
 			this.amount = getRandomInc(0.1, this.genCoeffs[this.type]);
 		} else if (this.type == 2) {
-			this.color = '#e7bd42';
+			
 			this.amount = getRandomInc(0.1, this.genCoeffs[this.type]);
 		} else if (this.type == 3) {
-			this.color = '#4b4169';
+			
 			this.amount = getRandomInc(0.1, this.genCoeffs[this.type]);
 		}
 

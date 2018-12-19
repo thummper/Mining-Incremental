@@ -29,6 +29,7 @@ body {
 
 .mainContainer {
   width: 94%;
+  max-width: 1200px;
   min-height: 100%;
   margin: 40px auto;
   background: rgba(234, 246, 248, 0.7);

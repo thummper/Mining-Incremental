@@ -10,17 +10,17 @@ class Updater {
 		this.prospectUpgrades = document.getElementsByClassName('prosp-upgrades')[0];
 		this.unrefinedRow = document.getElementById('unrefinedOre').getElementsByClassName('item');
 		this.refinedRow = document.getElementById('refinedOre').getElementsByClassName('item');
-
 		this.logisticsRow = document.getElementById('logisticsButtons');
 		this.logisiticsTitle = document.getElementsByClassName('logistics-titles')[0].children;
-
 		this.smeltTitle = document.getElementsByClassName('process-titles')[0].children;
-		
 		this.miningTitles = document.getElementsByClassName('mining-titles')[0].children;
-
 		this.priceRow = document.getElementById('ingotPrice').children;
 		this.changeRow = document.getElementById('ingotChange').children;
 		this.demandsRow = document.getElementById('ingotDemand').children;
+
+		
+
+
 	}
 
 	getMoneyAverage(moneyChange) {
