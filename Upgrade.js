@@ -15,7 +15,7 @@ class ProspectUpgrade extends Upgrade {
 	//Not sure if i really want to pass /all/ of this information around? 
 	constructor(inc) {
 		super(inc);
-		this.maxCost = (this.inc.money + 20000) / 2 * 1.5; 
+		this.maxCost = (this.inc.moneyManager.money + 20000) / 2 * 1.5; 
 		this.upgrades = [
 			{
 				name: 'Divination Rods',

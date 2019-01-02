@@ -1,0 +1,101 @@
+$iron: #4d504b;
+$copper: #b4745e;
+$silver: #b5b5bd;
+$gold: #e7bd42;
+
+*{
+    border: 0;
+    margin: 0;
+
+}
+
+html, body{
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    background: gray;
+}
+
+.main {
+    height: 2000px;
+    flex: 1;
+    background-image: linear-gradient(#606c88, #3f4c6b);
+    display: grid;
+    grid-template-columns: 300px 1fr;
+
+}
+
+.header{
+    width: 100%;
+    background: yellow;
+    display: flex;
+    flex-direction: column;
+}
+
+.left{
+    border-right: solid 2px #f2f2f2;
+}
+
+.tab-button-container{
+    display: flex;
+    justify-content: space-around;
+    margin: 12px auto;
+}
+
+.tab-button{
+    flex: 1;
+    color: white;
+    background: black;
+    padding: 4px;
+    transition: all 0.3s;
+    cursor: pointer;
+    user-select: none;
+    text-align: center;
+    &:hover{
+        background: purple;
+    }
+}
+
+.money-display {
+    height: 24px;
+    margin: 12px auto;
+
+}
+
+.ore-display{
+    border-collapse: collapse;
+    border-spacing: 4px 6px;
+}
+th, td{
+    padding: 8px;
+}
+td{
+    text-align: center;
+}
+tr{
+    margin: 4px 0;
+}
+.iron, .copper, .gold, .silver{
+    color: white;
+    border-radius: 4px;
+    margin-right: 2px;
+}
+.iron {
+    background: $iron;
+}
+.copper{
+    background: $copper;
+}
+.gold{
+    background: $gold;
+}
+.silver{
+    background: $silver;
+}
+
+
+
