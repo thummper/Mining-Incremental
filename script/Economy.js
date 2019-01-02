@@ -16,8 +16,6 @@ class Company {
         this.restart();
     }
 
-
-
     restart(){
         console.log("Made Company: ", this.name);
         this.cash = this.randomRange(9000, 21000);
@@ -27,7 +25,6 @@ class Company {
         this.constant = this.randomRange(200, 400, 0);
         this.resets++;
     }
-
 
     mine() {
         for (let i = 0; i < this.ingotsSold.length; i++) {
@@ -52,23 +49,18 @@ class Company {
     }
 
     balanceSheet() {
-        //Company has just mined, it needs to sell
         let profit = 0;
-        //console.log("Company made: ", this.ingotsSold);
         for (let i = 0; i < this.ingotsSold.length; i++) {
             let sold = this.ingotsSold[i];
             let price = this.controller.ingotPrices[i];
             profit = (sold * price) * 0.7;
             this.lastProfit = profit;
-
         }
-
         let net = profit - this.expenses;
         this.cash += (profit - this.expenses);
-        //console.log("Profit: ", cashGenerated, " Expenses: ", this.expenses);
         this.expenses += this.expenses * (this.expenseGrowth / 100);
+
         if (this.cash < 0) {
-            //Company is dead
             this.restart();
         } else {
             this.grow(net);

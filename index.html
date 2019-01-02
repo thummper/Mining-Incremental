@@ -5,17 +5,19 @@
 	<link href="https://fonts.googleapis.com/css?family=Copse" rel="stylesheet">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.1.0/echarts.js"></script>
 	<link rel="stylesheet" href="css/main.css" />
-	<script src='Upgrade.js'></script>
-	<script src="Point.js"></script>
-	<script src="Canvas.js"></script>
-	<script src="ProspectCanvas.js"></script>
-	<script src="GraphHandler.js"></script>
-	<script src="MoneyCanvas.js"></script>
-	<script src="Economy.js"></script>
-	<script src="MoneyManager.js"></script>
-	<script src="OreManager.js"></script>
-	<script src="Updater.js"></script>
-	<script src="main.js"></script>
+
+
+	<script src="script/Canvas.js"></script>
+	<script src="script/MoneyCanvas.js"></script>
+	<script src="script/ProspectCanvas.js"></script>
+	<script src='script/Upgrade.js'></script>
+	<script src="script/GraphHandler.js"></script>
+	<script src="script/MoneyManager.js"></script>
+	<script src="script/OreManager.js"></script>
+	<script src="script/Economy.js"></script>
+	<script src="script/Updater.js"></script>
+	<script src="script/Main.js"></script>
+
 
 	<title>
 		Mining Incremental
@@ -64,22 +66,15 @@
 		<div class="left">
 			<div class="sidebar">
 				<div class="economy-status">
+
 					Economy Outlook: <span id="economy-outlook"></span>
+
 					<div class="ingot-demands">
 						Iron: <span class="ingot-sold"> 0 </span> / <span class="ingot-demand"></span>
 						Copper: <span class="ingot-sold"> 0 </span> / <span class="ingot-demand"></span>
 						Silver: <span class="ingot-sold"> 0 </span> / <span class="ingot-demand"></span>
 						Gold: <span class="ingot-sold"> 0 </span> / <span class="ingot-demand"></span>
-
-
-
-
 					</div>
-
-
-
-
-
 				</div>
 
 				<div class="debug-status">
@@ -90,12 +85,8 @@
 					Gold: <span id="gold-target">£0</span> <br>
 				</div>
 
-
-
 			</div>
-
-
-
+			
 		</div>
 		<!-- Main Content -->
 		<div class="main">
