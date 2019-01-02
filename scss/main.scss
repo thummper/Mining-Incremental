@@ -1,0 +1,393 @@
+//Vars 
+
+$maya: #73C2FB;
+$powder: #B0DFE5;
+$royal: #111E6C;
+$yale: #0E4D92;
+$iron: #3a3c40;
+$copper: #b4745e;
+$gold: #e7bd42;
+$rem: #4b4169;
+$silver: #c0c0c0;
+
+.ironP {
+	background-color: $iron;
+	color: white;
+}
+.copperP {
+	background-color: $copper;
+	color: white;
+}
+.goldP {
+	background-color: $gold;
+	color: white;
+}
+.remP {
+	background-color: $rem;
+	color: white;
+}
+.silverP{
+	background-color: $silver;
+	color: white;
+}
+
+
+* {
+	border: 0;
+	margin: 0;
+	font-family: 'Copse', serif;
+}
+
+html {
+	height: 100vh;
+}
+
+
+body{
+	min-height: 100%;
+	background-image: url('../assets/bg-tile.png');
+	display: flex;
+	flex-direction: column;
+}
+.header{
+	width: 100%;
+	background: orange;
+	padding-bottom: 12px;
+}
+.container{
+	width: 100%;
+	flex: 1;
+	display: flex;
+}
+.left {
+	width: 200px;
+	background: $powder;
+}
+.sidebar{
+	position: sticky;
+	top: 10px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding-top: 15px;
+}
+
+.debug-status{
+
+	margin-top: 24px;
+
+}
+
+.main{
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+}
+
+#money-canvas{
+	width: 100%;
+	height: 300px;
+	border-radius: 4px;
+	background: white;
+	display: block;
+}
+#prospecting-canvas{
+	width: 100%;
+	height: 250px;
+	border-radius: 4px;
+	background: white;
+	border: solid 2px $maya;
+}
+
+.oreDisplay{
+	width: 100%;
+	min-height: 140px;
+	margin: 16px auto;
+	tr   {
+		display: flex;
+		margin: 4px auto;
+	}
+	
+	td, th{
+		flex-basis: 100%;
+		padding-top: 10px;
+		padding-bottom: 10px;
+	}
+	.title {
+		align-self: center;
+	}
+	.item{
+		margin-left: 2px;
+		text-align: center;
+		border-radius: 4px;
+	}
+}
+
+.money-display{
+	padding: 6px 0px;
+	background-color: rgba($maya, 0.5);
+	color: black;
+	text-align: center;
+	font-size: 18px;
+}
+
+.tab-content{
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+}
+
+.tab{
+
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	min-height: 100%;
+	align-items: center;
+	
+}
+
+.tab-title{
+	margin: 8px auto;
+}
+
+.tab-section{
+	display: flex;
+	flex-direction: column;
+	width: 90%;
+	border: solid 2px lighten($maya, 20);
+	border-radius: 4px;
+	margin: 40px auto;
+
+	.tab-section-title{
+		font-weight: bold;
+		font-size: 18px;
+		text-align: center;
+		margin-top: -16px;
+		margin-bottom: 32px;
+		letter-spacing: 0.07em;
+		padding: 6px;
+		border-radius: 4px;
+		background: $yale;
+		align-self: center;
+		color: white;
+	}
+}
+
+.canvas-section{
+	width: 90%;
+	margin: 12px auto;
+}
+
+.company-item{
+	width: 80%;
+	margin: 12px auto;
+
+}
+.company-item-top{
+	display: flex;
+	justify-content: space-between;
+
+}
+.company-row{
+	padding: 4px;
+}
+.company-item-income{
+	display: flex;
+}
+
+
+
+.tabs{
+	display: flex;
+	// position: sticky;
+	// top: 0;
+	height: 50px;
+	width: 100%;
+}
+
+.tab-button{
+	flex-basis: 100%;
+	background-color: $powder;
+	transition: 0.3s;
+	font-size: 16px;
+	cursor: pointer;
+	&:hover{
+		background: $maya;
+	}
+}
+.tab-button.active{
+	background: $maya;
+}
+
+
+
+.tab-hidden{
+	display: none;
+}
+
+.ingotPrices
+{
+	td{
+		text-align: center;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		border-radius: 4px;
+	}
+}
+
+//Items 
+.items{
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	
+}
+.button-titles{
+	display: flex;
+}
+.title{
+	flex-basis: 100%;
+	text-align: center;
+}
+.prospect-buttons{
+	display: flex;
+}
+.buttons
+{
+	display: flex;
+}	
+
+
+.item-prospector{
+	align-self: center;
+}
+.item-button{
+	text-align: center;
+	padding: 8px;
+	border-radius: 4px;
+	margin: 4px auto;
+	border: solid 2px lighten($yale, 35);
+	background: $maya;
+	color: white;
+	cursor: pointer;
+	transition: all 0.2s;
+	user-select: none;
+	&:hover{
+		background: lighten($yale, 25);	
+		border: solid 2px $yale;
+	}
+	&:active{
+		background: lighten($yale, 25);
+	}
+}
+//UpgradeItem
+.upgItem{
+	position: relative;
+	border: solid 2px lighten($yale, 35);
+	display: flex;;
+	flex-direction: column;
+	width: 90%;
+	margin: 24px auto;
+	justify-content: center;
+	align-items: center;
+	border-radius: 4px;
+	background-color: $powder;
+	transition: 0.3s all;
+	padding: 8px;
+	max-width: 800px;
+	cursor: pointer;
+	user-select: none;
+	&:hover{
+		background: lighten($powder, 10);
+	}
+	&:active{
+		background: darken($powder, 5);
+	}
+}
+.upgClose{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 20px;
+	height: 20px;
+	border-radius: 4px;
+	position: absolute;
+	top: 6px;
+	right: 12px;
+	transition: 0.3s;
+	&:hover{
+		background: darken($powder, 5);
+	}
+}
+.upgTitle{
+	font-weight: bold;
+	font-size: 18px;
+	padding: 4px;
+}
+.upgDesc{
+	line-height: 1.5em;
+}
+.upgCost{
+	padding: 8px;
+}
+
+
+.sliders{
+	display: flex;
+	flex-direction: column;
+	width: 80%;
+	margin: 12px auto;
+	input{
+		margin-bottom: 24px;
+	}
+	input[type=range]{
+		-webkit-appearance: none;
+		width: 100%;
+		background: transparent;
+	}
+	input[type=range]::-webkit-slider-thumb{
+		-webkit-appearance: none;
+		border: 1px solid $yale;
+		background: $maya;
+		height: 24px;
+		width: 24px;
+		border-radius: 50%;
+		cursor: pointer;
+		margin-top: -7px;
+		box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+	}
+	
+	input[type=range]:focus{
+		outline: none;
+	}
+
+	input[type=range]::-webkit-slider-runnable-track{
+		width: 100%;
+		height: 8.4px;
+		cursor: pointer;
+		box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+		background: $powder;
+		border-radius: 1.3px;
+	}
+	input[type=range]::-ms-track{
+		width: 100%;
+		cursor: pointer;
+		background: transparent;
+		border-color: none;
+		color: none;
+	}
+		
+		
+	label{
+		margin-top: 24px;
+		margin-bottom: 8px;
+		text-align: center;
+		padding: 4px;
+}
+}
+
+
+

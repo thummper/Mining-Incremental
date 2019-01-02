@@ -17,7 +17,22 @@ class Updater {
 		this.priceRow = document.getElementById('ingotPrice').children;
 		this.changeRow = document.getElementById('ingotChange').children;
 		this.demandsRow = document.getElementById('ingotDemand').children;
+		this.prospectSellButtons = document.getElementsByClassName('sellinfo-buttons')[0].children;
 
+
+		//Company directory
+		this.companyDirectory = document.getElementsByClassName('company-directory')[0];
+		this.economyOutlook = document.getElementById('economy-outlook');
+
+
+		//Price targets
+		this.ironTarget = document.getElementById("iron-target");
+		this.copperTarget = document.getElementById("copper-target");
+		this.silverTarget = document.getElementById("silver-target");
+		this.goldTarget = document.getElementById("gold-target");
+
+		this.ingotsSold  = document.getElementsByClassName('ingot-sold');
+		this.ingotDemand = document.getElementsByClassName("ingot-demand");
 		
 
 
@@ -29,46 +44,215 @@ class Updater {
 			average += moneyChange[i];
 		}
 		average = this.roundNumber((average / moneyChange.length), false);
-		if (moneyChange.length > 4) {
-			let diff = moneyChange.length - 4;
-			moneyChange.splice(-1, diff);
-		}
 		return average;
 	}
 
-	getOreAverage(array, index) {
+	getOreAverage(array) {
+		//Is passed an index, should return index and trim.
 		let average = 0;
 		for (let i = 0; i < array.length; i++) {
 			average += array[i];
 		}
-		return this.roundNumber( (average / array.length), false);
+		average = this.roundNumber( (average / array.length), false);
+		return average;
+	}
 
-	}
-	resetOreAverage(array) {
-		//Array is an array of arrays
-		for (let i = 0; i < array.length; i++) {
-			let changeArray = array[i];
-			if (changeArray.length > 4) {
-				let diff = changeArray.length - 4;
-				changeArray.splice(0, diff);
-			}
-		}
-	}
 
 
 	update() {
 
-		let moneyAverage = this.getMoneyAverage(this.inc.moneyChange);
+		this.inc.moneyManager.tickMoney();
+		this.inc.oreManager.tickOre();
+		let moneyAverage = this.getMoneyAverage(this.inc.moneyManager.moneyChange);
 		this.updateMining();
 		this.updateProspect();
 		this.updateProcessing();
 		this.updateLogistics();
+		this.updateSellButtons();
+		this.updateCompetition();
+		this.updateTargets();
 		
-		this.moneyDisplay.innerHTML = '$ ' + this.roundNumber(this.inc.money, true) + ' (' + moneyAverage + ')';
-		this.resetOreAverage(this.inc.oreResChange);
-		this.resetOreAverage(this.inc.unrefOreChange);
-		this.resetOreAverage(this.inc.refOreChange);
+		this.moneyDisplay.innerHTML = '$ ' + this.roundNumber(this.inc.moneyManager.money, true) + ' (' + moneyAverage + ')';
 
+
+	}
+
+	updateTargets(){
+		this.ironTarget.innerHTML = "£" + roundNumber(this.inc.economy.ingotPriceTargets[0], 0);
+		this.copperTarget.innerHTML = "£" + roundNumber(this.inc.economy.ingotPriceTargets[1], 0);
+		this.silverTarget.innerHTML = "£" + roundNumber(this.inc.economy.ingotPriceTargets[2], 0);
+		this.goldTarget.innerHTML = "£" + roundNumber(this.inc.economy.ingotPriceTargets[3], 0);
+
+
+		for(let i = 0; i < this.ingotsSold.length; i++){
+			this.ingotsSold[i].innerHTML = roundNumber(this.inc.economy.soldIngots[i], 0);
+		}
+
+		for(let i = 0; i < this.ingotDemand.length; i++){
+			this.ingotDemand[i].innerHTML = roundNumber(this.inc.economy.ingotDemands[i], 0);
+		}
+
+	}
+
+	updateCompetition(){
+		//Generate HMTL displays for all fake companies, if they exist, update them.
+		let outlook = this.inc.economy.outlook;
+		if(outlook){
+			this.economyOutlook.innerHTML = roundNumber(outlook, 1);
+		} else {
+			this.economyOutlook.innerHTML = roundNumber(0, 1);
+		}
+		
+		let companies = this.inc.economy.companies;
+		let displayedCompanies = this.companyDirectory.children;
+		for(let i = 0; i < companies.length; i++){
+
+			//This will be bad. 
+			let company = companies[i];
+			//If company is being displayed already, update it
+			let name = company.name;
+			let updated = false;
+			for(let j = 0; j < displayedCompanies.length; j++){
+				let display = displayedCompanies[j];
+				if(display.classList.contains(name) && display.classList.contains("company-item")){
+					//Found company.
+					updated = true; 
+					this.updateCompany(display, company);	
+				}
+			}
+
+
+			if(!updated){
+				//Cound not find company in list
+				let companyDisplay = this.generateCompany(company);
+				this.companyDirectory.appendChild(companyDisplay);
+			}
+		}
+
+
+
+	}
+
+	updateCompany(html, company){
+		let cash = html.getElementsByClassName("company-item-cash")[0];
+		let exp  = html.getElementsByClassName('company-item-exp')[0];
+		let prod = html.getElementsByClassName('company-item-prod')[0];
+		let profit = html.getElementsByClassName('company-item-profit')[0];
+		let resets = html.getElementsByClassName('company-item-reset')[0];
+
+		profit.innerHTML = "+ £" + roundNumber(company.lastProfit, 1);
+		resets.innerHTML = company.resets;
+
+
+		if(company.cash){
+			cash.innerHTML = "Cash: " + roundNumber(company.cash, 1);
+		}
+		if(company.expenses){
+		exp.innerHTML  = "- £" + roundNumber(company.expenses, 1);
+		}
+
+		let prodVals = company.lastMine;
+		
+		if(prodVals.length > 0){
+			let str = "";
+			for(let i in prodVals){
+				str += roundNumber(prodVals[i], 1) + " ";
+			}
+			prod.innerHTML = str;
+		}
+
+	}
+
+	generateCompany(company){
+		let item = document.createElement('div');
+		item.setAttribute('class', 'company-item ' + company.name);
+		
+
+
+
+		let companyTop = document.createElement("div");
+		companyTop.setAttribute('class', 'company-item-top company-row');
+
+
+
+
+		let itemName = document.createElement('div');
+		itemName.setAttribute('class', 'company-item-name');
+		let name = "Company " + roundNumber(company.name, 0);
+		itemName.innerHTML = name;
+
+		let resets = document.createElement('div');
+		resets.setAttribute("class", "company-item-reset");
+		resets.innerHTML = "Resets : " + company.resets;
+
+		companyTop.appendChild(itemName);
+		companyTop.appendChild(resets);
+
+
+
+
+		let cash = document.createElement('div');
+		cash.setAttribute('class', 'company-item-cash company-row');
+		cash.innerHTML = roundNumber(company.cash, 1);
+
+
+
+
+		let companyIncome = document.createElement('div');
+		companyIncome.setAttribute('class', 'company-item-income company-row');
+
+
+
+
+		let expense = document.createElement('div');
+		expense.setAttribute('class', 'company-item-exp');
+		if(company.expenses){
+			expense.innerHTML = roundNumber(company.expenses, 1);
+		} else{
+			expense.innerHTML = roundNumber(0, 0);
+		}
+
+		let profit = document.createElement('div');
+		profit.setAttribute('class', 'company-item-profit');
+		profit.innerHTML = roundNumber(company.lastProfit, 1);
+
+		companyIncome.appendChild(profit);
+		companyIncome.appendChild(expense);
+
+
+
+
+
+		let production = document.createElement('div');
+		production.setAttribute('class', 'company-item-prod company-row');
+
+		let compProd = company.lastMine;
+		if(compProd.length > 0){
+			let str = "";
+			for(let i = 0; i < compProd.length; i++){
+				str += roundNumber(compProd[i], 1) + " | ";
+			}
+		}
+
+		
+
+
+
+		item.appendChild(companyTop);
+		item.appendChild(cash);
+		item.appendChild(companyIncome);
+		item.appendChild(production);
+
+		return item;
+	}
+
+	updateSellButtons(){
+		for(let i = 0; i < this.prospectSellButtons.length; i++){
+			let button = this.prospectSellButtons[i];
+			button.innerHTML = "£ " + this.roundNumber(this.inc.economy.ingotPrices[i] / 1.5);
+
+
+		}
 	}
 
 	updateLogistics() {
@@ -87,32 +271,30 @@ class Updater {
 		//Update economy stuff
 		for (let i = 0; i < this.priceRow.length; i++) {
 			let cell = this.priceRow[i];
-			cell.innerHTML = '$ ' + this.roundNumber(this.inc.ingotPrices[i], true);
+			cell.innerHTML = '$ ' + this.roundNumber(this.inc.economy.ingotPrices[i], true);
 		}
 		for (let i = 0; i < this.changeRow.length; i++) {
 			let cell = this.changeRow[i];
-			cell.innerHTML = '$ ' + this.roundNumber(this.inc.ingotPriceChange[i], true);
+			cell.innerHTML = '$' + this.roundNumber(this.inc.economy.ingotPriceChange[i][0], false) + " (" + this.roundNumber(this.inc.economy.ingotPriceChange[i][1]) + "%)";
 		}
-		console.log("ingot factors on update, ", this.inc.ingotPriceFactors);
-		for (let i = 0; i < this.demandsRow.length; i++) {
-			let cell = this.demandsRow[i];
-			let demand = this.inc.ingotPriceFactors[i].toFixed(2);
-			
-			console.log("Factor: ", demand, " Change: ", this.inc.ingotPriceChange[i]);
-			
-			let demandString;
-			if (demand < 3) {
-				demandString = "Strong Decline";
-			} else if (demand < 5) {
-				demandString  = "Weak Decline";
-			} else if (demand <= 8) {
-				demandString = "Weak Increase";
-			} else {
-				demandString = "Strong Increase";
-			}
-			console.log("Demand, ", demand, " String, " , demandString);
-			cell.innerHTML = demandString;
-		}
+	
+		// for (let i = 0; i < this.demandsRow.length; i++) {
+		// 	let cell = this.demandsRow[i];
+		// 	let demand = this.inc.ingotPriceFactors[i].toFixed(2);
+						
+		// 	let demandString;
+		// 	if (demand < 3) {
+		// 		demandString = "Strong Decline";
+		// 	} else if (demand < 5) {
+		// 		demandString  = "Weak Decline";
+		// 	} else if (demand <= 8) {
+		// 		demandString = "Weak Increase";
+		// 	} else {
+		// 		demandString = "Strong Increase";
+		// 	}
+
+		// 	cell.innerHTML = demandString;
+		// }
 	}
 
 	updateProcessing() {
@@ -130,8 +312,8 @@ class Updater {
 
 		for (let i = 0, j = this.refinedRow.length; i < j; i++) {
 			let item = this.refinedRow[i];
-			let amount = this.inc.refOre[i];
-			let avg = this.getOreAverage(this.inc.refOreChange[i]);
+			let amount = this.inc.oreManager.oreRefined[i];
+			let avg = this.getOreAverage(this.inc.oreManager.refinedChange[i]);
 			item.innerHTML = this.roundNumber(amount, false) + 't' + ' (' + avg + ')';
 		}
 	}
@@ -151,8 +333,8 @@ class Updater {
 		
 		for (let i = 0, j = this.unrefinedRow.length; i < j; i++) {
 			let item = this.unrefinedRow[i];
-			let amount = this.inc.unrefOre[i];
-			let avg = this.getOreAverage(this.inc.unrefOreChange[i]);
+			let amount = this.inc.oreManager.oreUnrefined[i];
+			let avg = this.getOreAverage(this.inc.oreManager.unrefinedChange[i]);
 			item.innerHTML = this.roundNumber(amount, false) + 't' + ' (' + avg + ')';
 		}
 	}
@@ -168,8 +350,8 @@ class Updater {
 		//Update Ore
 		for (let i = 0; i < this.prospectRow.length; i++) {
 			let item = this.prospectRow[i];
-			let amount = this.inc.oreReserves[i];
-			let avg = this.getOreAverage(this.inc.oreResChange[i]);
+			let amount = this.inc.oreManager.oreReserves[i];
+			let avg = this.getOreAverage(this.inc.oreManager.reservesChange[i]);
 			item.innerHTML = this.roundNumber(amount, false) + 't' + ' (' + avg + ')';
 		}
 		//Update Titles 
@@ -242,7 +424,7 @@ class Updater {
 			} else if (number >= 1000000) {
 				return (number / 1000000).toFixed(2) + ' M';
 			} else if (number >= 1000) {
-				return (number / 1000).toFixed(1) + ' K';
+				return (number / 1000).toFixed(2) + ' K';
 			}
 			return number.toFixed(1);
 		} else {

@@ -4,7 +4,6 @@ class MoneyCanvas extends Canvas {
 		super();
 		this.colours = ['50,60,64', '180,116,94', '231,189,66', '75,65,105'];
 		this.canvas = document.getElementById('money-canvas');
-		this.resizeCanvas();
 		this.ctx    = this.canvas.getContext('2d');
 		this.width  =  this.canvas.width;
 		this.height = this.canvas.height;
@@ -19,6 +18,7 @@ class MoneyCanvas extends Canvas {
 		this.mx = 0;
 		this.my = 0;
 		this.looper = null;
+		this.listening = true;
 		this.init();	
 	}
 
@@ -36,16 +36,28 @@ class MoneyCanvas extends Canvas {
 			this.getMouse(e);
 		}.bind(this));
 
+		this.canvas.addEventListener('mouseleave', function(e){
+			this.listening = false;
+
+		}.bind(this));
+		this.canvas.addEventListener('mouseenter', function(e){
+			this.listening = true;
+		}.bind(this));
+
 		this.makeGrid();
 		this.drawGrid();
 		this.addListeners();
 		this.loop();
 	}
 
+	resize(){
+		this.resizeCanvas();
+		this.makeGrid();
+	}
+
 	addListeners() {
 		window.addEventListener('resize', function (e) {
-			this.resizeCanvas();
-			this.makeGrid();
+			this.resize();
 		}.bind(this));
 	}
 
@@ -154,7 +166,10 @@ class MoneyCanvas extends Canvas {
 		
 		let ctx = this.ctx;
 		ctx.clearRect(0, 0, this.width, this.height);
+
+		if(this.listening){
 		this.checkMouse();
+		}
 		this.drawGrid();
 		this.updateCells();
 		window.requestAnimationFrame(this.loop.bind(this));
@@ -172,7 +187,9 @@ class MoneyCanvas extends Canvas {
 						this.revealed.push(cell);
 						cell.pushed = true;
 					}
-					this.oresProspected[cell.material] += 0.01;
+
+
+					this.oresProspected[cell.material] += (Math.random() * 0.5);
 				}
 			}
 		}
