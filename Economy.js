@@ -12,7 +12,7 @@ class Company {
         this.expenseGrowth = 0;
         this.lastProfit = 0;
         this.resets = -1;
-        this.lastMine = [0, 0, 0, 0];
+        this.lastMine = [0, 0, 0, 1];
         this.restart();
     }
 
