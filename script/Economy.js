@@ -1,5 +1,7 @@
 class Company {
     //A fake company that sells ingots to the market
+
+    /* TODO: Note that companies with very larger cash / income will end up gowing exponentially */
     constructor(econ) {
         this.id = randomRange(0, 100, 0);
         
@@ -23,7 +25,6 @@ class Company {
 
     /* TODO: trends and rallies in prices - prices tend to follow this pattern - ^v^v^v - perhaps the economy should have more of a factor, but sudden changed in this factor should be limited / offset*/
     restart(){
-        console.log("Made Company: ", this.name);
         this.cash = this.randomRange(9000, 21000);
         this.expenses = this.randomRange(1000, 26000);
         this.expenseGrowth = this.randomRange(9, 12);
@@ -95,10 +96,27 @@ class Company {
                 let budget = this.cash * (this.rnd / 2); //Grow at reduced rate.
                 this.cash -= budget;
                 for(let i = 0; i < this.productionRates.length; i++){
-                    this.productionRates[i] += this.randomRange(0.001, potentialRates[i], 0) + (budget / 1000000);
+                    this.productionRates[i] += this.randomRange(0.001, potentialRates[i] / 1.2, 0) + (budget / 1000000);
+                    // (Also grow at a reduced rate)
                 }
             } 
         }
+
+        //Net is operating
+
+        if(this.cash >= this.expenses * 20 && this.net > 0){
+            //Can cover expenses for awhile and net is positive - enter rapid growth phase 
+            //Note that we've already grown using some of the net income.
+            console.log("Rapidly expanding with budget of: ", largeBudget);
+            let largeBudget = this.cash * 0.75;
+            this.cash -= largeBudget;
+
+            for(let i = 0; i < this.productionRates.length; i++){
+                this.productionRates[i] += largeBudget / 10000000;
+            }
+
+        }
+
     }
 
  
@@ -154,6 +172,10 @@ class Economy {
         this.ingotFactors = [0.02, 0.1, 0.2, 0.3];
         //Holds the most recent price change.
         this.ingotPriceChange = [0, 0, 0, 0]; 
+
+        this.trend = [0,0,0,0];
+
+
     }
 
     getName(){
@@ -214,6 +236,7 @@ class Economy {
         for(let i in this.soldIngots){
             this.soldIngots[i] += this.ingotsSold[i];
         }
+        this.inc.updater.updateTargets();
 
 
         
@@ -248,7 +271,7 @@ class Economy {
                 demand[i] += demand[i] * this.defaultGrowth[i] - randomRange(0, 0.05, 0) + (this.outlook / 35);
             }
         }
-
+        this.inc.updater.updateTargets();
         this.soldIngots = [0, 0, 0, 0];
         for (let i = 0; i < priceFactors.length; i++) {
             this.ingotPriceTargets[i] += this.ingotPriceTargets[i] * priceFactors[i];
@@ -256,6 +279,11 @@ class Economy {
     }
 
     changePrices() {
+        for(let i in this.growthController){
+            console.log("Controller ", i, " : ", this.growthController[i].toFixed(4), "\n");
+        }
+        console.log(" ~~~ ");
+  
         for (let i = 0; i < this.ingotPrices.length; i++) {
             let price = this.ingotPrices[i];
             let target = this.ingotPriceTargets[i];
@@ -267,14 +295,14 @@ class Economy {
                 //TODO: THE GREATER THE DIFFERENCE, THE GREATER THE VARIANCE 
                 //Price is bigger than target
                 if (this.growthController[i] > 0) {
-                    this.growthController[i] = 0;
+                    this.growthController[i] /= 2;
                 }
                 this.growthController[i] -= this.randomRange(0, 0.12, 0);
             }
             if (diff > 0) {
                 //Price is smaller than target
                 if (this.growthController[i] < 0) {
-                    this.growthController[i] = 0;
+                    this.growthController[i] /= 2;
                 }
                 this.growthController[i] += this.randomRange(0, 0.12, 0);
             }
@@ -286,9 +314,65 @@ class Economy {
             let change = price * factor;
             let percent = change / price;
             this.ingotPrices[i] += change;
+            if(this.ingotPrices[i] < 0){
+                this.ingotPrices[i] = 1;
+            }
+
+
             this.ingotPriceChange[i] = [change, percent * 100];
+
+            if(change > 0){
+                this.trend[i] += 1.5;
+            } else {
+                this.trend[i] -= 1.5;
+            }
         }
+
+
+    //We have a certain percent change to enter a rally or rut - this should 
+    //increase / decrease based on how many turns the price has increase / decreased
+    
+
+    let rand = Math.floor(randomRange(0, 105, 1)); //Number between -100 and 100.
+    for(let i in this.trend){
+        let trend = this.trend[i];
+
+        if(trend < 0){
+
+            if(trend < rand && rand < 0){
+                this.trend[i] = 0;
+                console.log("Rut for: ", i);
+                this.growthController[i] -= 0.24;
+                if(this.growthController[i] < -1){
+                    this.growthController[i] = -1;
+                }
+            }
+
+        } else {
+
+            if(trend > rand && rand > 0){
+                console.log("Rally for: ", i);
+                this.trend[i] = 0;
+                this.growthController[i] += 0.24;
+                if(this.growthController[i] >= 1){
+                    this.growthController[i] = 1;
+                }
+            }
+
+        }
+
     }
+
+
+
+    }
+
+
+
+
+
+
+
 
 
 }
