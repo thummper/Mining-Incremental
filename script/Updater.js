@@ -113,14 +113,11 @@ class Updater {
 			this.economyOutlook.innerHTML = roundNumber(0, 1);
 		}
 
-
-
 		let companies = this.inc.economy.companies;
 		let displayedCompanies = this.companyDirectory.children;
 
 
 		for (let i = 0; i < companies.length; i++) {
-
 			//This will be bad. 
 			let company = companies[i];
 			//If company is being displayed already, update it
@@ -137,13 +134,30 @@ class Updater {
 				}
 
 			}
-
-
 			if (!updated) {
 				//Cound not find company in list
 				let companyDisplay = this.generateCompany(company);
 				this.companyDirectory.appendChild(companyDisplay);
 			}
+
+			//Sort the company list based on net worth. 
+			let length = displayedCompanies.length;
+
+			for(let i = 0; i < length; i++){
+				for(let	j = 0; j < (length - 1 - i); j++){
+
+					let net1 = displayedCompanies[j].getElementsByClassName("company-worth")[0].dataset.val;
+					let net2 = displayedCompanies[j+1].getElementsByClassName("company-worth")[0].dataset.val;
+
+					if(parseInt(net1) < parseInt(net2)){
+						//Swap
+						let temp = this.companyDirectory.children[j];
+						this.companyDirectory.removeChild(this.companyDirectory.children[j]);
+						this.companyDirectory.appendChild(temp);
+					}
+				}
+			}
+
 		}
 
 
@@ -155,6 +169,7 @@ class Updater {
 
 		let resets = html.getElementsByClassName('company-resets')[0];
 		let cash = html.getElementsByClassName('company-cash')[0];
+		let net = html.getElementsByClassName('company-worth')[0];
 		let operating = html.getElementsByClassName('company-operating')[0];
 		let profit = html.getElementsByClassName('company-profit')[0];
 		let expenses = html.getElementsByClassName('company-expenses')[0];
@@ -165,6 +180,8 @@ class Updater {
 
 		resets.innerHTML = company.resets;
 		cash.innerHTML = "£" + roundNumber(company.cash, 1);
+		net.innerHTML = "£" + roundNumber(company.networth, 0);
+		net.setAttribute('data-val', company.networth);
 		operating.innerHTML = "£" + roundNumber((company.lastProfit - company.expenses), 1);
 		profit.innerHTML = "£" + roundNumber(company.lastProfit, 1);
 		expenses.innerHTML = "-£" + roundNumber(company.expenses, 1);
@@ -198,7 +215,9 @@ class Updater {
 
 		let top = this.createItem('div', ['company-top']);
 		let name = this.createItem('div', ['company-name']);
+		let net = this.createItem('div', ['company-worth']);
 		let resets = this.createItem('div', ['company-resets']);
+
 		let money = this.createItem('div', ['company-money']);
 		let cash = this.createItem('div', ['company-cash']);
 		let operating = this.createItem('div', ['company-operating']);
@@ -214,8 +233,10 @@ class Updater {
 
 		name.innerHTML = company.name;
 		resets.innerHTML = company.resets;
-
+		net.innerHTML = "£" + roundNumber(company.networth, 0);
+		net.setAttribute('data-val', company.networth);
 		top.appendChild(name);
+		top.appendChild(net);
 		top.appendChild(resets);
 		wrapper.appendChild(top);
 
