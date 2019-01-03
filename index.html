@@ -5,17 +5,20 @@
 	<link href="https://fonts.googleapis.com/css?family=Copse" rel="stylesheet">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.1.0/echarts.js"></script>
 	<link rel="stylesheet" href="css/main.css" />
-	<script src='Upgrade.js'></script>
-	<script src="Point.js"></script>
-	<script src="Canvas.js"></script>
-	<script src="ProspectCanvas.js"></script>
-	<script src="GraphHandler.js"></script>
-	<script src="MoneyCanvas.js"></script>
-	<script src="Economy.js"></script>
-	<script src="MoneyManager.js"></script>
-	<script src="OreManager.js"></script>
-	<script src="Updater.js"></script>
-	<script src="main.js"></script>
+
+
+	<script src="script/Canvas.js"></script>
+	<script src="script/MoneyCanvas.js"></script>
+	<script src="script/ProspectCanvas.js"></script>
+	<script src='script/Upgrade.js'></script>
+	<script src="script/GraphHandler.js"></script>
+	<script src="script/MoneyManager.js"></script>
+	<script src="script/OreManager.js"></script>
+	<script src="script/WordGen.js"></script>
+	<script src="script/Economy.js"></script>
+	<script src="script/Updater.js"></script>
+	<script src="script/Main.js"></script>
+
 
 	<title>
 		Mining Incremental
@@ -64,22 +67,24 @@
 		<div class="left">
 			<div class="sidebar">
 				<div class="economy-status">
-					Economy Outlook: <span id="economy-outlook"></span>
-					<div class="ingot-demands">
-						Iron: <span class="ingot-sold"> 0 </span> / <span class="ingot-demand"></span>
-						Copper: <span class="ingot-sold"> 0 </span> / <span class="ingot-demand"></span>
-						Silver: <span class="ingot-sold"> 0 </span> / <span class="ingot-demand"></span>
-						Gold: <span class="ingot-sold"> 0 </span> / <span class="ingot-demand"></span>
-
-
-
-
+					<div class="outlook">
+						Economy Outlook: <span id="economy-outlook"></span>
 					</div>
+					<div class="ingot-demands">
+						<div>
+							Iron: <span class="ingot-sold"> 0 </span> / <span class="ingot-demand"></span>
+						</div>
+						<div>
+							Copper: <span class="ingot-sold"> 0 </span> / <span class="ingot-demand"></span>
+						</div>
 
-
-
-
-
+						<div>
+							Silver: <span class="ingot-sold"> 0 </span> / <span class="ingot-demand"></span>
+						</div>
+						<div>
+							Gold: <span class="ingot-sold"> 0 </span> / <span class="ingot-demand"></span>
+						</div>
+					</div>
 				</div>
 
 				<div class="debug-status">
@@ -90,11 +95,16 @@
 					Gold: <span id="gold-target">£0</span> <br>
 				</div>
 
+				<div class="debug-status">
+					Current Prices: <br>
+					Iron: <span id="iron-price">£0</span> <br>
+					Copper: <span id="copper-price">£0</span> <br>
+					Silver: <span id="silver-price">£0</span> <br>
+					Gold: <span id="gold-price">£0</span> <br>					
 
+				</div>
 
 			</div>
-
-
 
 		</div>
 		<!-- Main Content -->
@@ -113,7 +123,7 @@
 			<div class="tab-content">
 				<!-- Content for Tabs -->
 
-				
+
 
 				<div class="tab prospecting tab-hidden">
 
@@ -140,7 +150,7 @@
 							</div>
 						</div>
 					</div>
-					
+
 					<canvas id="prospecting-canvas"></canvas>
 
 					<div class="tab-section">
@@ -179,7 +189,7 @@
 						<div class="items prosp-upgrades">
 						</div>
 					</div>
-					
+
 				</div>
 
 				<div class="tab mining tab-hidden">
@@ -293,7 +303,7 @@
 				</div>
 
 
-				<div class="tab logistics">
+				<div class="tab logistics tab-hidden">
 					<h2 class="tab-title">
 						Logistics
 					</h2>
@@ -331,7 +341,7 @@
 					</div>
 
 
-					<div class="tab-section">
+					<div class="tab-section tab-hidden">
 						<div class="tab-section-title">
 							Allocate Logistics
 						</div>
@@ -376,16 +386,16 @@
 					</div>
 				</div>
 
-				<div class="tab competition tab-hidden">
-						<h2 class="tab-title">
-							Competition
-						</h2>
-						<div class="tab-section company-directory">
+				<div class="tab competition">
+					<h2 class="tab-title">
+						Competition
+					</h2>
+					<div class="tab-section company-directory">
 
 
 
 
-						</div>
+					</div>
 				</div>
 
 
@@ -404,4 +414,5 @@
 	</div>
 
 </body>
+
 </html>

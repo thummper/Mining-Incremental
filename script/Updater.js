@@ -30,10 +30,15 @@ class Updater {
 		this.copperTarget = document.getElementById("copper-target");
 		this.silverTarget = document.getElementById("silver-target");
 		this.goldTarget = document.getElementById("gold-target");
+		//Sidebar prices TODO: PRICE ELEMENTS SHOULD BE STANDARD AND ALL UPDATED AT THE SAME TIME
+		this.ironPrice = document.getElementById("iron-price");
+		this.copperPrice = document.getElementById("copper-price");
+		this.silverPrice = document.getElementById("silver-price");
+		this.goldPrice = document.getElementById("gold-price");
 
-		this.ingotsSold  = document.getElementsByClassName('ingot-sold');
+		this.ingotsSold = document.getElementsByClassName('ingot-sold');
 		this.ingotDemand = document.getElementsByClassName("ingot-demand");
-		
+
 
 
 	}
@@ -53,7 +58,7 @@ class Updater {
 		for (let i = 0; i < array.length; i++) {
 			average += array[i];
 		}
-		average = this.roundNumber( (average / array.length), false);
+		average = this.roundNumber((average / array.length), false);
 		return average;
 	}
 
@@ -64,190 +69,208 @@ class Updater {
 		this.inc.moneyManager.tickMoney();
 		this.inc.oreManager.tickOre();
 		let moneyAverage = this.getMoneyAverage(this.inc.moneyManager.moneyChange);
+
 		this.updateMining();
 		this.updateProspect();
 		this.updateProcessing();
 		this.updateLogistics();
 		this.updateSellButtons();
 		this.updateCompetition();
-		this.updateTargets();
-		
 		this.moneyDisplay.innerHTML = '$ ' + this.roundNumber(this.inc.moneyManager.money, true) + ' (' + moneyAverage + ')';
 
 
 	}
 
-	updateTargets(){
+	updateTargets() {
 		this.ironTarget.innerHTML = "£" + roundNumber(this.inc.economy.ingotPriceTargets[0], 0);
 		this.copperTarget.innerHTML = "£" + roundNumber(this.inc.economy.ingotPriceTargets[1], 0);
 		this.silverTarget.innerHTML = "£" + roundNumber(this.inc.economy.ingotPriceTargets[2], 0);
 		this.goldTarget.innerHTML = "£" + roundNumber(this.inc.economy.ingotPriceTargets[3], 0);
 
+		this.ironPrice.innerHTML = "£" + roundNumber(this.inc.economy.ingotPrices[0], 1);
+		this.copperPrice.innerHTML = "£" + roundNumber(this.inc.economy.ingotPrices[1], 1);
+		this.silverPrice.innerHTML = "£" + roundNumber(this.inc.economy.ingotPrices[2], 1);
+		this.goldPrice.innerHTML = "£" + roundNumber(this.inc.economy.ingotPrices[3], 1);
 
-		for(let i = 0; i < this.ingotsSold.length; i++){
+
+
+		for (let i = 0; i < this.ingotsSold.length; i++) {
 			this.ingotsSold[i].innerHTML = roundNumber(this.inc.economy.soldIngots[i], 0);
 		}
 
-		for(let i = 0; i < this.ingotDemand.length; i++){
+		for (let i = 0; i < this.ingotDemand.length; i++) {
 			this.ingotDemand[i].innerHTML = roundNumber(this.inc.economy.ingotDemands[i], 0);
 		}
 
 	}
 
-	updateCompetition(){
+	updateCompetition() {
 		//Generate HMTL displays for all fake companies, if they exist, update them.
 		let outlook = this.inc.economy.outlook;
-		if(outlook){
+		if (outlook) {
 			this.economyOutlook.innerHTML = roundNumber(outlook, 1);
 		} else {
 			this.economyOutlook.innerHTML = roundNumber(0, 1);
 		}
-		
+
 		let companies = this.inc.economy.companies;
 		let displayedCompanies = this.companyDirectory.children;
-		for(let i = 0; i < companies.length; i++){
 
+
+		for (let i = 0; i < companies.length; i++) {
 			//This will be bad. 
 			let company = companies[i];
 			//If company is being displayed already, update it
-			let name = company.name;
+			let id = company.id;
+
 			let updated = false;
-			for(let j = 0; j < displayedCompanies.length; j++){
+			for (let j = 0; j < displayedCompanies.length; j++) {
 				let display = displayedCompanies[j];
-				if(display.classList.contains(name) && display.classList.contains("company-item")){
-					//Found company.
-					updated = true; 
-					this.updateCompany(display, company);	
+				let displayID = display.getElementsByClassName('company-id')[0];
+
+				if (parseFloat(displayID.innerHTML) == id) {
+					updated = true;
+					this.updateCompany(display, company);
 				}
+
 			}
-
-
-			if(!updated){
+			if (!updated) {
 				//Cound not find company in list
 				let companyDisplay = this.generateCompany(company);
 				this.companyDirectory.appendChild(companyDisplay);
 			}
+
+			//Sort the company list based on net worth. 
+			let length = displayedCompanies.length;
+
+			for(let i = 0; i < length; i++){
+				for(let	j = 0; j < (length - 1 - i); j++){
+
+					let net1 = displayedCompanies[j].getElementsByClassName("company-worth")[0].dataset.val;
+					let net2 = displayedCompanies[j+1].getElementsByClassName("company-worth")[0].dataset.val;
+
+					if(parseInt(net1) < parseInt(net2)){
+						//Swap
+						let temp = this.companyDirectory.children[j];
+						this.companyDirectory.removeChild(this.companyDirectory.children[j]);
+						this.companyDirectory.appendChild(temp);
+					}
+				}
+			}
+
 		}
 
 
 
 	}
 
-	updateCompany(html, company){
-		let cash = html.getElementsByClassName("company-item-cash")[0];
-		let exp  = html.getElementsByClassName('company-item-exp')[0];
-		let prod = html.getElementsByClassName('company-item-prod')[0];
-		let profit = html.getElementsByClassName('company-item-profit')[0];
-		let resets = html.getElementsByClassName('company-item-reset')[0];
+	updateCompany(html, company) {
 
-		profit.innerHTML = "+ £" + roundNumber(company.lastProfit, 1);
+
+		let resets = html.getElementsByClassName('company-resets')[0];
+		let cash = html.getElementsByClassName('company-cash')[0];
+		let net = html.getElementsByClassName('company-worth')[0];
+		let operating = html.getElementsByClassName('company-operating')[0];
+		let profit = html.getElementsByClassName('company-profit')[0];
+		let expenses = html.getElementsByClassName('company-expenses')[0];
+		let iron = html.getElementsByClassName('ironP')[0];
+		let copper = html.getElementsByClassName('copperP')[0];
+		let silver = html.getElementsByClassName('silverP')[0];
+		let gold = html.getElementsByClassName('goldP')[0];
+
 		resets.innerHTML = company.resets;
-
-
-		if(company.cash){
-			cash.innerHTML = "Cash: " + roundNumber(company.cash, 1);
-		}
-		if(company.expenses){
-		exp.innerHTML  = "- £" + roundNumber(company.expenses, 1);
-		}
-
-		let prodVals = company.lastMine;
-		
-		if(prodVals.length > 0){
-			let str = "";
-			for(let i in prodVals){
-				str += roundNumber(prodVals[i], 1) + " ";
-			}
-			prod.innerHTML = str;
-		}
-
+		cash.innerHTML = "£" + roundNumber(company.cash, 1);
+		net.innerHTML = "£" + roundNumber(company.networth, 0);
+		net.setAttribute('data-val', company.networth);
+		operating.innerHTML = "£" + roundNumber((company.lastProfit - company.expenses), 1);
+		profit.innerHTML = "£" + roundNumber(company.lastProfit, 1);
+		expenses.innerHTML = "-£" + roundNumber(company.expenses, 1);
+		let mined = company.lastMine;
+		iron.innerHTML = roundNumber(mined[0], 0) + "t";
+		copper.innerHTML = roundNumber(mined[1], 0) + "t";
+		silver.innerHTML = roundNumber(mined[2], 0) + "t";
+		gold.innerHTML = roundNumber(mined[3], 0) + "t";
 	}
 
-	generateCompany(company){
-		let item = document.createElement('div');
-		item.setAttribute('class', 'company-item ' + company.name);
-		
+	createItem(type, classes) {
+		let item = document.createElement(type);
 
-
-
-		let companyTop = document.createElement("div");
-		companyTop.setAttribute('class', 'company-item-top company-row');
-
-
-
-
-		let itemName = document.createElement('div');
-		itemName.setAttribute('class', 'company-item-name');
-		let name = "Company " + roundNumber(company.name, 0);
-		itemName.innerHTML = name;
-
-		let resets = document.createElement('div');
-		resets.setAttribute("class", "company-item-reset");
-		resets.innerHTML = "Resets : " + company.resets;
-
-		companyTop.appendChild(itemName);
-		companyTop.appendChild(resets);
-
-
-
-
-		let cash = document.createElement('div');
-		cash.setAttribute('class', 'company-item-cash company-row');
-		cash.innerHTML = roundNumber(company.cash, 1);
-
-
-
-
-		let companyIncome = document.createElement('div');
-		companyIncome.setAttribute('class', 'company-item-income company-row');
-
-
-
-
-		let expense = document.createElement('div');
-		expense.setAttribute('class', 'company-item-exp');
-		if(company.expenses){
-			expense.innerHTML = roundNumber(company.expenses, 1);
-		} else{
-			expense.innerHTML = roundNumber(0, 0);
-		}
-
-		let profit = document.createElement('div');
-		profit.setAttribute('class', 'company-item-profit');
-		profit.innerHTML = roundNumber(company.lastProfit, 1);
-
-		companyIncome.appendChild(profit);
-		companyIncome.appendChild(expense);
-
-
-
-
-
-		let production = document.createElement('div');
-		production.setAttribute('class', 'company-item-prod company-row');
-
-		let compProd = company.lastMine;
-		if(compProd.length > 0){
-			let str = "";
-			for(let i = 0; i < compProd.length; i++){
-				str += roundNumber(compProd[i], 1) + " | ";
+		if (classes) {
+			let classString = "";
+			for (let i in classes) {
+				classString += classes[i] + " ";
 			}
+			item.setAttribute("class", classString);
 		}
-
-		
-
-
-
-		item.appendChild(companyTop);
-		item.appendChild(cash);
-		item.appendChild(companyIncome);
-		item.appendChild(production);
-
 		return item;
 	}
 
-	updateSellButtons(){
-		for(let i = 0; i < this.prospectSellButtons.length; i++){
+	generateCompany(company) {
+
+		let wrapper = this.createItem('div', ['company-wrapper']);
+		let id = this.createItem('div', ['company-id ']);
+		id.innerHTML = company.id;
+		wrapper.appendChild(id);
+
+
+		let top = this.createItem('div', ['company-top']);
+		let name = this.createItem('div', ['company-name']);
+		let net = this.createItem('div', ['company-worth']);
+		let resets = this.createItem('div', ['company-resets']);
+
+		let money = this.createItem('div', ['company-money']);
+		let cash = this.createItem('div', ['company-cash']);
+		let operating = this.createItem('div', ['company-operating']);
+		let income = this.createItem('div', ['company-income']);
+		let profit = this.createItem('div', ['company-profit']);
+		let expenses = this.createItem('div', ['company-expenses']);
+		let production = this.createItem('div', ['company-production']);
+		let iron = this.createItem('div', ['ironP']);
+		let copper = this.createItem('div', ['copperP']);
+		let silver = this.createItem('div', ['silverP']);
+		let gold = this.createItem('div', ['goldP']);
+
+
+		name.innerHTML = company.name;
+		resets.innerHTML = company.resets;
+		net.innerHTML = "£" + roundNumber(company.networth, 0);
+		net.setAttribute('data-val', company.networth);
+		top.appendChild(name);
+		top.appendChild(net);
+		top.appendChild(resets);
+		wrapper.appendChild(top);
+
+		cash.innerHTML = "£" + roundNumber(company.cash, 1);
+		operating.innerHTML = "£" + roundNumber((company.lastProfit - company.expenses), 1);
+
+		money.appendChild(cash);
+		money.appendChild(operating);
+		wrapper.appendChild(money);
+
+		profit.innerHTML = "£" + roundNumber(company.lastProfit, 1);
+		expenses.innerHTML = "-£" + roundNumber(company.expenses, 1);
+
+		income.appendChild(profit);
+		income.appendChild(expenses);
+		wrapper.appendChild(income);
+
+		let mined = company.lastMine;
+		iron.innerHTML = roundNumber(mined[0], 0) + "t";
+		copper.innerHTML = roundNumber(mined[1], 0) + "t";
+		silver.innerHTML = roundNumber(mined[2], 0) + "t";
+		gold.innerHTML = roundNumber(mined[3], 0) + "t";
+
+		production.appendChild(iron);
+		production.appendChild(copper);
+		production.appendChild(silver);
+		production.appendChild(gold);
+		wrapper.appendChild(production);
+
+		return wrapper;
+	}
+
+	updateSellButtons() {
+		for (let i = 0; i < this.prospectSellButtons.length; i++) {
 			let button = this.prospectSellButtons[i];
 			button.innerHTML = "£ " + this.roundNumber(this.inc.economy.ingotPrices[i] / 1.5);
 
@@ -273,15 +296,18 @@ class Updater {
 			let cell = this.priceRow[i];
 			cell.innerHTML = '$ ' + this.roundNumber(this.inc.economy.ingotPrices[i], true);
 		}
+
+
+
 		for (let i = 0; i < this.changeRow.length; i++) {
 			let cell = this.changeRow[i];
 			cell.innerHTML = '$' + this.roundNumber(this.inc.economy.ingotPriceChange[i][0], false) + " (" + this.roundNumber(this.inc.economy.ingotPriceChange[i][1]) + "%)";
 		}
-	
+
 		// for (let i = 0; i < this.demandsRow.length; i++) {
 		// 	let cell = this.demandsRow[i];
 		// 	let demand = this.inc.ingotPriceFactors[i].toFixed(2);
-						
+
 		// 	let demandString;
 		// 	if (demand < 3) {
 		// 		demandString = "Strong Decline";
@@ -321,16 +347,16 @@ class Updater {
 
 	updateMining() {
 		let miningButtons = this.inc.miningButtons;
-		for(let i = 0, j = miningButtons.length; i < j; i++){
+		for (let i = 0, j = miningButtons.length; i < j; i++) {
 			let button = miningButtons[i];
 			button.innerHTML = '$ ' + this.roundNumber(this.inc.miningCost[i], true);
 		}
-		
+
 		let titles = this.miningTitles;
-		for(let i = 0, j = titles.length; i < j; i++){
+		for (let i = 0, j = titles.length; i < j; i++) {
 			let display = titles[i].getElementsByTagName('span')[0].innerHTML = this.roundNumber(this.inc.miningCount[i], false);
 		}
-		
+
 		for (let i = 0, j = this.unrefinedRow.length; i < j; i++) {
 			let item = this.unrefinedRow[i];
 			let amount = this.inc.oreManager.oreUnrefined[i];

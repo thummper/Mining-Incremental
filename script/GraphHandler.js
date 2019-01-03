@@ -44,6 +44,13 @@ class GraphHandler {
 
 
     }
+    resizeGraphs(){
+        for(let i = 0; i < this.charts.length; i++){
+            let info = this.charts[i];
+            let chart = info[0];
+            chart.resize();
+        }
+    }
     makeGraphs() {
         //Initialises graphs with default data
         for (let i = 0; i < this.graphs.length; i++) {
