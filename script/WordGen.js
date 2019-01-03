@@ -97,7 +97,7 @@ class WordGen{
             "year","yellow","yes","yesterday","yet","you","young","younger",
             "your","yourself","youth","zero","zebra","zipper","zoo","zulu"
           ];
-          this.suffList = ['Inc', 'Industries', 'Resources', 'Ltd', 'Exploration', 'Materials', 'Resources'];
+          this.suffList = ['Inc', 'Industries', 'Resources', 'Ltd', 'Exploration', 'Materials', 'Resources', 'Minerals'];
     }
     getWord(){
         let word = this.wordList[Math.floor(Math.random()*this.wordList.length)];

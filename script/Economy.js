@@ -10,6 +10,7 @@ class Company {
         this.productionRates = [];
         this.constant = 0;
         this.growthRates = [0, 0, 0, 0];
+        this.rnd = null;
         this.cash = 0;
         this.expenses = 0;
         this.expenseGrowth = 0;
@@ -28,6 +29,7 @@ class Company {
         this.expenseGrowth = this.randomRange(9, 12);
         this.productionRates = [this.randomRange(0, 1.8, 0), this.randomRange(0, 1.3, 0), this.randomRange(0, 0.4, 0), this.randomRange(0, 0.2, 0)];
         this.constant = this.randomRange(200, 400, 0);
+        this.rnd = randomRange(0.1, 0.89, 0);
         this.resets++;
     }
 
@@ -77,16 +79,25 @@ class Company {
         if(net > 0){
             //Company will use net profits to grow.
             //Company will use up to 30% of cash to upgrade facilities
-            let percent = randomRange(0.005, 0.3);
-            let budget = net * percent;
+            let budget = net * this.rnd;
             this.cash -= budget;
             for(let i = 0; i < this.productionRates.length; i++){ 
-                this.productionRates[i] += this.randomRange(0.001, potentialRates[i], 0); 
+                this.productionRates[i] += this.randomRange(0.001, potentialRates[i], 0) + (budget / 10000000); 
             }
             this.expenseGrowth += this.randomRange(0.008, 0.1, 0);
         } else {
             //Company is running at a loss - try and cut expenses? 
             this.expenseGrowth /= 2;
+            //Company will dice roll - should we expand while running at a loss? 
+            let roll = randomRange(0, 10, 0);
+            if(roll < 7){ //Probably perfer to grow - once a company starts losing money it dies quickly.
+                //Grow
+                let budget = this.cash * (this.rnd / 2); //Grow at reduced rate.
+                this.cash -= budget;
+                for(let i = 0; i < this.productionRates.length; i++){
+                    this.productionRates[i] += this.randomRange(0.001, potentialRates[i], 0) + (budget / 1000000);
+                }
+            } 
         }
     }
 

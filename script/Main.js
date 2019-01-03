@@ -35,6 +35,7 @@ window.addEventListener('load', function () {
 
 			inc.money_canvas.resize();
 			inc.prospect_canvas.resizeCanvas();
+			inc.graphHandler.resizeGraphs();
 		}
 });
 
