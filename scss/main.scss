@@ -1,36 +1,7 @@
-//Vars 
 
-$maya: #73C2FB;
-$powder: #B0DFE5;
-$royal: #111E6C;
-$yale: #0E4D92;
-$iron: #3a3c40;
-$copper: #b4745e;
-$gold: #e7bd42;
-$rem: #4b4169;
-$silver: #c0c0c0;
 
-.ironP {
-	background-color: $iron;
-	color: white;
-}
-.copperP {
-	background-color: $copper;
-	color: white;
-}
-.goldP {
-	background-color: $gold;
-	color: white;
-}
-.remP {
-	background-color: $rem;
-	color: white;
-}
-.silverP{
-	background-color: $silver;
-	color: white;
-}
-
+@import 'colours.scss';
+@import 'company.scss';
 
 * {
 	border: 0;
@@ -180,24 +151,6 @@ body{
 	width: 90%;
 	margin: 12px auto;
 }
-
-.company-item{
-	width: 80%;
-	margin: 12px auto;
-
-}
-.company-item-top{
-	display: flex;
-	justify-content: space-between;
-
-}
-.company-row{
-	padding: 4px;
-}
-.company-item-income{
-	display: flex;
-}
-
 
 
 .tabs{

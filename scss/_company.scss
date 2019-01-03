@@ -1,0 +1,30 @@
+// Style for companies
+.company-wrapper{
+    width: 80%;
+    margin: 24px auto;
+}
+.company-id{
+    display: none;
+}
+
+.company-top, .company-money, .company-income, .company-production{
+    display: flex;
+    justify-content: space-around;
+    padding: 4px 8px;
+}
+
+.company-top{
+    justify-content: space-between;
+    margin: 0;
+    padding: 0;
+}
+
+.company-production{
+    flex-basis: 0;
+    div{
+        flex: 1;
+        margin-right: 12px;
+        text-align: center;
+        border-radius: 4px;
+    }
+}

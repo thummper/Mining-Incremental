@@ -1,7 +1,10 @@
 class Company {
     //A fake company that sells ingots to the market
     constructor(econ) {
-        this.name = randomRange(0, 100, 0);
+        this.id = randomRange(0, 100, 0);
+        
+        let wordGen = new WordGen();
+        this.name = wordGen.getWord();
         this.controller = econ;
         this.ingotsSold = [0, 0, 0, 0];
         this.productionRates = [];
@@ -16,6 +19,8 @@ class Company {
         this.restart();
     }
 
+
+    /* TODO: trends and rallies in prices - prices tend to follow this pattern - ^v^v^v - perhaps the economy should have more of a factor, but sudden changed in this factor should be limited / offset*/
     restart(){
         console.log("Made Company: ", this.name);
         this.cash = this.randomRange(9000, 21000);
