@@ -9,7 +9,7 @@ run npm install
 run npm make-style 
 
 
-Most recent live version will be [here](https://thummper.net/Projects/Games/Incremental/)
+Most recent live version will be [here](https://thummper.net/projects/games/incremental/)
 
 
 Note:
