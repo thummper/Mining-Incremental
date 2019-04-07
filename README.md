@@ -5,6 +5,7 @@ A (Simple?) Javascript Mining Incremental Game.
 To run locally: 
 
 run npm install 
+
 run npm make-style 
 
 
