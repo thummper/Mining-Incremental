@@ -1,0 +1,295 @@
+//Colours
+$main-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+$iron: #4d504b;
+$copper: #b85233;
+$silver: #b5b5bd;
+$gold: #e7bd42;
+
+
+$lightblue: #74b9ff;
+$darkblue: #0984e3;
+
+*{
+    margin: 0;
+    border: 0;
+    font-family: "Open Sans", sans-serif; 
+    
+
+}
+html{
+    height: 100%;
+}
+body{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#mining{
+    height: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    border: solid 6px $lightblue;
+}
+// Ore Colors
+.block{
+
+}
+.circle{
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+}
+.iron{
+    background: rgba($iron, 0.5);
+}
+.copper{
+    background: rgba($copper, 0.6);
+}
+.silver{
+    background: $silver;
+}
+.gold{
+    background: $gold;
+}
+
+// Navbar
+.nav-wrapper{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    background: $lightblue;
+    border-bottom: solid 4px $darkblue;
+}
+.nav-bar{
+    display: flex;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+#navbar-expand{
+    padding: 10px 12px;
+    cursor: pointer;
+    display: none;
+}
+.nav-bar li{
+    display: flex;
+    justify-content: space-between;
+    margin-right: 1px;
+}
+.nav-link{
+    display: block;
+    padding: 10px 12px;
+    color: #f2f2f2;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background 0.5s;
+        &:hover{
+        background: $darkblue;
+    }
+    
+}
+.nav-item{
+    display: flex;
+    justify-content: space-between;
+}
+.router-link-active{
+    background: $darkblue;
+}
+
+//General 
+.shadow{
+    width: 90%;
+    margin: 0 auto;
+    box-shadow: $main-shadow;
+    border-radius: 4px;
+    padding: 6px;
+}
+
+.flex-row{
+    display: flex;
+}
+.wrap{
+    flex-wrap: wrap;
+    justify-content: center;
+
+}
+.flex-col{
+    display: flex;
+    flex-direction: column;
+}
+.toasted-container.top-right{
+    top: 2% !important;
+    right: 5% !important;
+}
+
+
+//Map Styles
+.mapWrapper{
+    .shadow{
+        padding: 12px;
+    }
+}
+.mapLocations{
+    min-height: 140px;
+    margin: 32px auto;
+    display: flex;
+    margin-bottom: 100px;
+}
+
+
+.locationWrapper{
+
+    margin: 32px auto;
+    display: flex;
+    flex-direction: column;
+    .flex-row{
+        min-height: 140px;
+        max-height: 500px;
+        overflow-y: auto;
+    }
+
+
+}
+
+
+.map-title{
+    align-self: baseline;
+    margin: 8px auto;
+    background: $lightblue;
+    color: white;
+    padding: 12px;
+    border-radius: 4px;
+    
+    margin-bottom: 24px;
+}
+
+// Land Items
+.land-item{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 200px;
+    margin: 24px 32px;
+    box-shadow: 0 2px 3px rgba(10,10,10,.1),0 0 0 1px rgba(10,10,10,.1);
+    border-radius: 6px;
+    margin-bottom: 64px;
+    .top{
+        width: 100%;
+        min-height: 300px;
+        background-position: center;
+        background-size: cover;
+        display: flex;
+        flex-direction: column;
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+        
+        .land-title{
+            background: white;
+            padding: 4px;
+            border-radius: 4px;
+            margin-top: 12px;
+            margin-bottom: 24px;
+            align-self: center;
+        }
+        .land-table{
+            background: white;
+            padding: 2px;
+            border-radius: 4px;
+            align-self: center;
+            margin-top: auto;
+        }
+    }
+}
+
+.land-button{
+    padding: 8px;
+    background: #f2f2f2;
+    margin: 6px;
+    border-radius: 4px;
+    transition: all 0.3s;
+    user-select: none;
+    -moz-user-select: none;
+    cursor: pointer;
+    &:hover{
+        background: grey;
+    }
+}
+
+//Resource Container
+.moneyDisplay{
+    text-align: center;
+    padding: 12px 0;
+}
+.resourceWrapper{
+    overflow-x: auto;
+    width: 90%;
+    margin: 24px auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    .flex-row{
+        justify-content: space-around;
+        padding-bottom: 24px;
+    }
+    .col-title{
+        font-weight: bold;
+        padding: 24px 24px;
+    }
+}
+.oreDisplay{
+    min-width: 510px;
+    overflow-x: auto;
+    width: 100%;
+    min-height: 140px;
+    margin: 4px auto;
+    tr{
+        display: flex;
+        margin: 4px auto;
+    }
+    th, td{
+        flex-basis: 100%;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    td{
+        margin-left: 2px;
+        margin-right: 10px;
+        text-align: center;
+        border-radius: 4px;
+    }
+    .title{
+        align-self: center;
+        text-align: center;
+    }
+}
+
+// InfoWrapper
+.infoWrapper{
+    width: 90%;
+    margin: 24px auto;
+}
+.infoTable{
+    border-collapse: separate;
+    border-spacing: 30px 8px;
+    input{
+        font-size: 16px;
+    }
+}
+
+// Media Queries 
+
+@media screen and (max-width: 900px){
+    #navbar-expand{
+        display: flex;
+    }
+    .nav-bar{
+        flex-direction: column;
+    }
+    .nav-bar li, .nav-link{
+        flex: 1;
+    }
+}

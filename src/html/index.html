@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"> 
+
+    <link rel="stylesheet" href="main.css" />
+
+   
+</head>
+
+<body>
+    <!-- Main Vue Instance -->
+    <div id="mining">
+        <div class="nav-wrapper">
+            <ul class="nav-bar">
+                <li class="nav-li">
+                    <router-link class="nav-link" to="/" exact> Company Information </router-link>
+                    <div id="navbar-expand">Expand</div>
+                </li>
+                <li class="nav-li">
+                    <router-link class="nav-link" to="/map"> Map </router-link>
+                </li>
+                <li class="nav-li">
+                    <router-link class="nav-link" to="/prospecting"> Prospecting </router-link>
+                </li>
+                <li class="nav-li">
+                    <router-link class="nav-link" to="/mining"> Mining </router-link>
+                </li>
+                <li class="nav-li">
+                    <router-link class="nav-link" to="/smelting"> Smelting </router-link>
+                </li>
+                <li class="nav-li">
+                    <router-link class="nav-link" to="/sales"> Sales </router-link>
+                </li>
+                <li class="nav-li">
+                    <router-link class="nav-link" to="/competition"> Competition </router-link>
+                </li>
+                <li class="nav-li">
+                    <router-link class="nav-link" to="/research"> Research </router-link>
+                </li>
+                <li class="nav-li">
+                    <router-link class="nav-link" to="/statistics"> Statistics </router-link>
+                </li>
+            </ul>
+        </div>
+        <resdisplay ></resdisplay>
+        <router-view />
+    </div>
+</body>
+</html>
