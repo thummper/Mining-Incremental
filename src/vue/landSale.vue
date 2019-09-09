@@ -1,50 +1,83 @@
 <template>
-<div class="land-item">
+<!-- Split into 2? --> 
+<div class="land-item" :style="{ backgroundImage: 'url(' +  land.img + '.jpg )' }">
+    <div v-if="land.owned" class="hover">
+        <!-- Development stats here -->
 
-
-
-<div class="top" :style="{ backgroundImage: 'url(' +  land.img + '.jpg )' }" >
-        <table class="land-table">
-        <tr>
-        <td class="circle iron"></td>
-        <td>{{roundedIron}}</td>
-        </tr>
-                <tr>
-        <td class="circle copper"></td>
-        <td>{{roundedCopper}}</td>
-        </tr>
-                <tr>
-        <td class="circle silver"></td>
-        <td>{{roundedSilver}}</td>
-        </tr>
-                <tr>
-        <td class="circle gold"></td>
-        <td>{{roundedGold}}</td>
-        </tr>
-        </table> 
-      <div class="land-title">{{land.name}}</div>
-</div>
-
-
-  
-
-<div class="bottom">
-    <div class="land-stats">
-
+        <div v-if="land.developed">
+        <!-- Land is developed -->
+        
+        </div>
+        <div v-if="!land.developed">
+        <!-- Need development info -->
+        
+        </div>
+    
+    
+    
     </div>
-    <div v-if="! land.owned" v-on:click="buyLand" class="land-button">Purchase: {{roundedMoney}}</div>
-    <div v-if="land.owned" v-on:click="sellLand" class="land-button">Sell: {{roundedMoney}}</div>
-</div>
-</div>
+    <div class="default">
 
+
+    <div class="tooltipWrapper">
+        <div class="tooltip">
+         <i class="fas fa-question-circle" style="color: #2980b9"></i>
+        </div>
+        <div class="tooltipText">
+        <em>Value</em>
+        <br>
+        <div>
+        <span>Base Value: £{{roundedBase}}</span>
+        <span>Ore Value: £{{roundedOre}}</span>
+        <span>Developed Modifier: {{devModifier}}</span>
+        
+        
+        </div>
+
+
+        
+                </div>
+    </div>
+
+
+
+        <div class="land-title">{{land.name}}</div>
+        <table class="land-table">
+            <tr>
+                <td class="circle iron"></td>
+                <td class="amount">{{roundedIron}}</td>
+            </tr>
+            <tr>
+                <td class="circle copper"></td>
+                <td class="amount">{{roundedCopper}}</td>
+            </tr>
+            <tr>
+                <td class="circle silver"></td>
+                <td class="amount">{{roundedSilver}}</td>
+            </tr>
+            <tr>
+                <td class="circle gold"></td>
+                <td class="amount">{{roundedGold}}</td>
+            </tr>
+        </table>
+        <div v-if="! land.owned" v-on:click="buyLand" class="land-button">Purchase: {{roundedMoney}}</div>
+        <div v-if="land.owned" v-on:click="sellLand" class="land-button">Sell: {{roundedMoney}}</div>
+    </div>
+
+
+
+
+
+</div>
 </template>
+
+
+
+
 
 <script>
 import * as helper from "../js/helper.js";
-
-
 export default {
-
     data () {
         return {
             inc: this.$parent.inc,
@@ -56,7 +89,7 @@ export default {
 
     computed: {
         roundedMoney: function(){
-            return "£" + helper.roundSuffix(this.land.basePrice + this.land.oreWorth);
+            return "£" + helper.roundSuffix(this.land.value);
         },
         roundedIron: function(){
             return helper.roundSuffix(this.land.ores[0] * this.land.estimate);
@@ -70,6 +103,19 @@ export default {
         roundedGold: function(){
             return helper.roundSuffix(this.land.ores[3] * this.land.estimate);
         },
+        roundedBase: function(){
+            return helper.roundSuffix(this.land.basePrice);
+        },
+        roundedOre: function(){
+            return helper.roundSuffix(this.land.oreWorth);
+        },
+        devModifier: function(){
+            if(this.land.developed){
+                return "x" + this.land.developedModifier;
+
+            } 
+            return "None";
+        }
     },
 
     methods: {

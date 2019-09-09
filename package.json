@@ -22,7 +22,9 @@
     "webpack-cli": "^3.2.1",
     "webpack-dev-server": "^3.3.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@fortawesome/fontawesome-free": "^5.10.2"
+  },
   "scripts": {
     "build": "webpack",
     "start": "webpack-dev-server --history-api-fallback --inline --progress",

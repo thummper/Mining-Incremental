@@ -16,7 +16,7 @@ import cStats from '../vue/stats.vue';
 import cResDisplay from '../vue/resDisplay.vue';
 import Location from "../js/location.js";
 import Economy from "../js/economy.js";
-
+// Import other stuff. 
 import Toasted from 'vue-toasted';
 
 let options = {
@@ -30,11 +30,13 @@ Vue.use(Router);
 // Define Vue Components? 
 
 class Navigation {
+
     constructor(navItems, navExpand) {
         this.items = navItems;
         this.expand = navExpand;
         this.collapsed = false;
     }
+
     init() {
         this.checkWidth();
         window.addEventListener("resize", this.checkWidth.bind(this));
@@ -79,7 +81,6 @@ class Navigation {
 }
 
 
-
 class Incremental{
 
     constructor(){
@@ -113,10 +114,7 @@ class Incremental{
         this.mps = 1;
 
         // Mineral vars 
-
-
         this.prospectedAvail = [0, 0, 0, 0];
-
 
         this.prospected = [0, 0, 0, 0];
         this.mined      = [0, 0, 0, 0];
@@ -125,20 +123,21 @@ class Incremental{
 
         // Graph vars 
         this.netWorthTime = [];
-
-
         
         this.economy = new Economy();
         this.init();
     }
+
     init(){
-        // Should generate starter land for sale here. 
+        // Generate everything we need and start the gameloop 
        
 
         for(let i = 0, j = this.images.length; i < j; i++){
-            let land = this.generateLand();
+            let land = this.generateLand(4);
             if(i == j - 1){
+                // Start with 1 piece of developed land.
                 land.owned = 1;
+                land.developed = 1;
                 this.landOwned.push(land);
             } else {
                 this.landSale.push(land);
@@ -150,10 +149,6 @@ class Incremental{
     }
 
     updateAvailiableProspecting(){
-       
-
-
-
         // Update the amount of ore we have to prospect. 
         this.prospectedAvail = [0, 0, 0, 0];
         
@@ -163,8 +158,6 @@ class Incremental{
         //     this.prospectedAvail[i] = 0;
         // }
     
-
-
         let ownedLand = this.landOwned;
         for(let i in ownedLand){
             let ores = ownedLand[i].ores;
@@ -172,11 +165,6 @@ class Incremental{
                 this.prospectedAvail[j] += ores[j];
             }
         }
-
-        console.log("Available Prospecting: ", this.prospectedAvail);
-
-
-
     }
 
     generateLand(){
@@ -262,14 +250,8 @@ class Incremental{
         let net = 0;
         net += this.money;
         for(let i in this.landOwned){
-            net += this.landOwned[i].basePrice + this.landOwned[i].oreWorth;
+            net += this.landOwned[i].value;
         }
-        
-
-      
-
-
-
         this.netWorth = net;
     }
 
@@ -277,7 +259,7 @@ class Incremental{
         if(type == 1){ // Type 1 - Land 
             // Trying to buy land. 
             let landSale = this.landSale;
-            let price = item.basePrice + item.oreWorth;
+            let price = item.value;
             if(this.money >= price){
                 for(let i in landSale){
                     let land = landSale[i];
@@ -307,7 +289,7 @@ class Incremental{
             Need to regenerate land item and add to sales 
             */
            let landOwned = this.landOwned;
-           let price = item.basePrice + item.oreWorth;
+           let price = item.value;
            for(let i in landOwned){
                let landO = landOwned[i];
                if(landO == item){

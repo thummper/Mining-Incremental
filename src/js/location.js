@@ -3,10 +3,9 @@ import * as helper from "../js/helper.js";
 
 export default class Location{
     constructor(tier = 0, genArgs = [1.1, 1.1, 1.1, 1.1]){
+        this.value = 0;
         this.basePrice = 0;
         this.oreWorth = 0;
-
-
 
         this.name, this.estimate, this.ores;
         this.img;
@@ -14,9 +13,11 @@ export default class Location{
         this.owned = 0;
         this.tier = tier;
         this.genArgs = genArgs;
-      
-       
-       
+        this.developed = false; 
+        this.developedModifier = 2;
+        this.developCost = 0;
+        this.developTime = 0;
+
         this.bases = [
             [500000, 400000, 250000, 100000], // Tier 0
             [300000, 200000, 100000, 50000], // Tier 1
@@ -44,6 +45,7 @@ export default class Location{
         this.ores = baseOres;
     }
 
+    //TODO - Move this to helper, we'll need to generate a lot of names
     generateName(){
         let name = randomWords();
         name = name.charAt(0).toUpperCase() + name.slice(1) + " " + helper.randomFromArray(this.suffixs);
