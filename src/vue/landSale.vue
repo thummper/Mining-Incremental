@@ -12,12 +12,29 @@
                 <!-- Need development info -->
                 <div class="developmentWrapper">
                     <div class="smallTitle">Development</div>
-                    <div class="smallContent">
+
+
+
+
+
+
+                    <div v-if="!land.developing" class="smallContent">
                     This peice of land has not been developed, it's actual resource content is unknown and you cannot mine from it. 
                     <br>
+
                     Developing this land will take {{land.developTime}} quarters. 
                     </div>
-                    <div class="land-button" v-on:click="developLand"> Develop for: {{developPrice}}</div>
+
+                    <div v-if="land.developing" class="smallContent">
+                    This piece of land is being developed.
+                    <br>
+                    <div class="landProgress">
+                        <progress :value="inc.timePass" :max="inc.quarterTime"></progress>
+                    </div>
+                    Developing this land will take {{land.developTime}} more quarters. 
+                    </div> 
+
+                    <div class="land-button" v-if="!land.developing" v-on:click="developLand"> Develop for: {{developPrice}}</div>
                 
                 
                 </div>
@@ -127,20 +144,22 @@
         methods: {
             buyLand: function (event) {
                 let message = this.inc.purchase(this.land, 1);
-                this.inc.updateAvailiableProspecting();
+                this.inc.updateProspecting();
                 if (message !== null) {
                     this.$toasted.show(message);
                 }
             },
             sellLand: function (event) {
                 let message = this.inc.sell(this.land, 1);
-                this.inc.updateAvailiableProspecting();
+                this.inc.updateProspecting();
                 if (message !== null) {
                     this.$toasted.show(message);
                 }
             },
             developLand: function (event) {
                 // Start development of land
+                console.log("Developing Land");
+                this.inc.developLand(this.land);
 
             },
         }

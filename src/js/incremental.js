@@ -89,7 +89,7 @@ class Incremental{
         this.frameTime = 1; 
         this.smallCounter = 0;
         this.largeCounter = 0;
-        this.timePass = 0;
+        
 
 
         // Company Info vars
@@ -128,6 +128,8 @@ class Incremental{
 
         //Others
         this.year = 1990;
+        this.timePass = 0;
+        this.quarterTime = 100;
         this.quarter = 0;
 
 
@@ -147,26 +149,53 @@ class Incremental{
                 this.landSale.push(land);
             }
         }
-        this.updateAvailiableProspecting();
+        this.updateProspecting();
 
         this.loop();
     }
 
-    updateAvailiableProspecting(){
-        // Update the amount of ore we have to prospect. 
+    developLand(land){
+        let developCost = land.developPrice;
+        console.log("Dev land cost: ", developCost);
+        if(this.money >= developCost){
+            this.money -= developCost;
+            land.developing = true;
+            // Land will develop for land.developTime and then become land.developed. 
+            this.landDeveloping.push(land);
+        }
+    }
+
+    updateDeveloping(){
+        // Runs every quarter. 
+        let developing  = this.landDeveloping;
+        let ndeveloping = [];
+        for(let i = 0; i < developing.length; i++){
+            let land = developing[i];
+            land.developTime--;
+            if(land.developTime <= 0){
+                // Land has developed. 
+                land.developing = false;
+                land.developed  = true;
+                this.updateProspecting();
+
+            } else {
+                ndeveloping.push(land);
+            }
+        }
+        this.landDeveloping = ndeveloping;
+    }
+
+    updateProspecting(){
+        // For some reason we have to make a new array each time otherwise Vue won't update the page? 
         this.prospectedAvail = [0, 0, 0, 0];
-        
-        
-        // FYI - Vue wont recognise our array changes if we do it like this, need to make a new array 
-        //for(let i in this.prospectedAvail){
-        //     this.prospectedAvail[i] = 0;
-        // }
     
-        let ownedLand = this.landOwned;
-        for(let i in ownedLand){
-            let ores = ownedLand[i].ores;
-            for(let j in ores){
-                this.prospectedAvail[j] += ores[j];
+        for(let i in this.landOwned){
+            let land = this.landOwned[i];
+            if(land.developed){
+                let ores = land.ores;
+                for(let j in ores){
+                    this.prospectedAvail[j] += ores[j];
+                }
             }
         }
     }
@@ -235,18 +264,23 @@ class Incremental{
             this.netWorthTime.push(dataPoint);
         }
 
-        if(this.timePass >= 150){
+        if(this.timePass >= this.quarterTime){
+            console.log("Quarter has passed");
             /* 
             Quarter
 
             We measure development time in quarters. 
 
             */
-           this.quarter ++;
+           this.updateDeveloping();
+           this.quarter++;
+           this.timePass = 0;
         }
+
         if(this.quarter == 4){
             console.log("Year has passed");
             this.year++;
+            this.quarter = 0;
         }
         
 

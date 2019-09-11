@@ -13,6 +13,7 @@ export default class Location{
         this.owned = 0;
         this.tier = tier;
         this.genArgs = genArgs;
+        this.developing = false;
         this.developed = false; 
         this.developedModifier = 2;
         this.developPrice = 0;
@@ -34,8 +35,6 @@ export default class Location{
 
         this.developTime = Math.floor(helper.randomNumber(2, 8, 0) / (this.tier + 1));
       
-
-
         this.estimate = helper.randomNumber(0.67, 0.98, 0);
         let randFactor = helper.randomNumber(0.5, 1.2, 0);
         let baseOres = this.bases[this.tier];
