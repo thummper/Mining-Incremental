@@ -36,13 +36,16 @@ export default class Economy{
         Land price should also take into account whether it has been developed or not (as building mines takes time and is expensive)
         
         */
-
         let basePrice = helper.randomNumber(500000, 2000000, 0);
         this.landUpdate(land);
         land.basePrice = basePrice;
+        land.developPrice = Math.floor(basePrice / (land.tier + 1));
     }
 
     landUpdate(land){
+        // Don't really like half of the land values being determined here. 
+
+
         if(this.outlook >= 0){
             let add = (land.basePrice * 0.2) * helper.randomNumber(0.008, 0.015, 0);
             land.basePrice += add;

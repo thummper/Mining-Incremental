@@ -89,6 +89,7 @@ class Incremental{
         this.frameTime = 1; 
         this.smallCounter = 0;
         this.largeCounter = 0;
+        this.timePass = 0;
 
 
         // Company Info vars
@@ -103,19 +104,18 @@ class Incremental{
 
         // Land vars 
         this.landSale = [];
+        this.landDeveloping = [];
         this.landOwned = [];
         this.images = ["far-hills", "forest-valley", "grass-hills", "hill-river", "mountains", "rocky-valley", "sand-hills", "sand-mountain", "sandy-land", "tall-mountain", "alpine", "cloudy-mountains", "dark-mountains", "grassy-mountains", "green", "ocean", "rolling", "sepia-mountains", "starry-mountains", "treeland"]; 
         this.imgBase = "static/images/"; 
         this.usedImages = [];
 
         // Economy vars 
-
-        this.money = 10.5;
+        this.money = 100000000000;
         this.mps = 1;
 
         // Mineral vars 
         this.prospectedAvail = [0, 0, 0, 0];
-
         this.prospected = [0, 0, 0, 0];
         this.mined      = [0, 0, 0, 0];
         this.ingots     = [0, 0, 0, 0];
@@ -123,15 +123,19 @@ class Incremental{
 
         // Graph vars 
         this.netWorthTime = [];
-        
         this.economy = new Economy();
         this.init();
+
+        //Others
+        this.year = 1990;
+        this.quarter = 0;
+
+
+
     }
 
     init(){
         // Generate everything we need and start the gameloop 
-       
-
         for(let i = 0, j = this.images.length; i < j; i++){
             let land = this.generateLand(4);
             if(i == j - 1){
@@ -191,36 +195,30 @@ class Incremental{
         let frameTime = timeNow - this.lastTime;
         this.lastTime = timeNow;
         this.frameTime = frameTime / 1000;
+        this.timePass += this.frameTime;
 
         this.smallCounter += this.frameTime;
         this.largeCounter += this.frameTime;
 
         if(this.smallCounter >= 2){
-
             // Update Net Worth
             this.updateNetWorth();
             let allLand = this.landOwned.concat(this.landSale);
             for(let i in allLand){
                 this.economy.landUpdate(allLand[i]);
             }
-
-
-            // // Update prices of all land
-            // for(let i in this.landOwned){
-            //     this.economy.landUpdate(this.landOwned[i]);
-            // }
-            // for(let i in this.landSale){
-            //     this.economy.landUpdate(this.landSale[i]);
-            // }
-
-
             console.log("Small Tick");
             this.smallCounter = 0;
         }
         if(this.largeCounter >= 10){
+            console.log("TP: ", this.timePass);
+            /* 
+             Large Tick does stats.
+            
+            
+            */
             console.log("Large Tick");
             this.largeCounter = 0;
-
 
             let date = new Date();
             let h = date.getHours();
@@ -232,11 +230,27 @@ class Incremental{
             if(s < 10){
                 s = "0" + s;
             }
-
             let dataPoint = [h + ":" + m + ":" + s, this.netWorth];
             console.log(dataPoint);
             this.netWorthTime.push(dataPoint);
         }
+
+        if(this.timePass >= 150){
+            /* 
+            Quarter
+
+            We measure development time in quarters. 
+
+            */
+           this.quarter ++;
+        }
+        if(this.quarter == 4){
+            console.log("Year has passed");
+            this.year++;
+        }
+        
+
+
 
 
         let moneyGain = this.mps * this.frameTime;
