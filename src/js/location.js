@@ -18,6 +18,7 @@ export default class Location{
         this.developedModifier = 2;
         this.developPrice = 0;
         this.developTime = 0;
+        this.timePass = 0;
 
         this.bases = [
             [500000, 400000, 250000, 100000], // Tier 0

@@ -4,6 +4,8 @@ $iron: #4d504b;
 $copper: #b85233;
 $silver: #b5b5bd;
 $gold: #e7bd42;
+$slate: #34495e;
+$darkSlate: #2c3e50;
 
 
 $lightblue: #2980b9;
@@ -11,14 +13,10 @@ $darkblue: darken($lightblue, 10);
 
 $buttonBG: white;
 $buttonHover: darken(white, 10);
-
-
 *{
     margin: 0;
     border: 0;
     font-family: "Open Sans", sans-serif; 
-    
-
 }
 html{
     height: 100%;
@@ -141,19 +139,11 @@ body{
     margin-bottom: 100px;
     
 }
-
-
 .locationWrapper{
-
     margin: 32px auto;
     display: flex;
     flex-direction: column;
-
-
-
 }
-
-
 .map-title{
     align-self: baseline;
     margin: 0px auto;
@@ -166,94 +156,10 @@ body{
     margin-bottom: 24px;
 }
 
-// Land Items
-.land-item{
-    display: flex;
-    position: relative;
-    cursor: pointer;
-    border-radius: 4px;
-    width: 260px;
-    height: 320px;
-    margin: 12px;
-    background-position: center;
-    background-size: cover;
 
-    .default, .hover{
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-    .hover{
-        opacity: 0;
-        z-index: 2;
-        background: #f2f2f2;
-    }
-    &:hover{
-        .hover{
-            opacity: 1;
-        }
-    }
-}
-.land-table{
-    background: white;
-    padding: 2px;
-    border-radius: 4px;
-    align-self: center;
-    tr{
-        display: flex;
-        margin: 12px;
-        .amount{
-            padding-left: 12px;
-        }
-    }
-}
 
-.land-item {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-width: 200px;
-    margin: 16px 26px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-    border-radius: 4px;
-    margin-bottom: 36px;
 
-    &:hover{
-        box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-    }
 
-}
-.land-title{
-    background: white;
-    font-weight: 500;
-    font-size: 20px;
-    padding: 4px;
-    border-radius: 4px;
-    margin-top: 12px;
-    margin-bottom: 24px;
-    align-self: center;
-}
-
-.land-button{
-    margin-top: 20px;
-    border-radius: 4px;
-    padding: 8px;
-    text-align: center;
-    background: $buttonBG;
-    transition: all 0.3s;
-    user-select: none;
-    -moz-user-select: none;
-    cursor: pointer;
-    &:hover{
-        background: $buttonHover;
-    }
-}
 
 .tooltipWrapper{
     margin-right: auto;
@@ -299,15 +205,10 @@ body{
             }
         }
     }
-
-
-
 }
 .tooltipWrapper:hover .tooltipText{
    opacity: 1;
 }
-
-
 //Resource Container
 .moneyDisplay{
     text-align: center;
@@ -368,9 +269,7 @@ body{
         font-size: 16px;
     }
 }
-
 // Media Queries 
-
 @media screen and (max-width: 900px){
     #navbar-expand{
         display: flex;
@@ -382,3 +281,7 @@ body{
         flex: 1;
     }
 }
+
+
+@import "landCard.scss";
+@import "economy.scss";

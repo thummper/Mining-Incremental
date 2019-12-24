@@ -10,12 +10,19 @@
                 <th> Silver </th>
                 <th> Gold </th>
             </tr>
+            <tr id="estimatedOre">
+                <td class="tableTitle"> Estimated </td>
+                <td class="block iron">{{getPIron}}t</td>
+                <td class="block copper">{{getPCopper}}t</td>
+                <td class="block silver">{{getPSilver}}t</td>
+                <td class="block gold">{{getPGold}}t</td>
+            </tr>
             <tr id="prospectOre">
                 <td class="tableTitle">Prospected</td>
-                <td class="block iron"> 0t ({{getPIron}})</td>
-                <td class="block copper"> 0t ({{getPCopper}})</td>
-                <td class="block silver"> 0t ({{getPSilver}})</td>
-                <td class="block gold"> 0t ({{getPGold}})</td>
+                <td class="block iron"> 0t</td>
+                <td class="block copper"> 0t</td>
+                <td class="block silver"> 0t</td>
+                <td class="block gold"> 0t</td>
             </tr>
             <tr id="minedOre">
                  <td class="tableTitle">Raw</td>

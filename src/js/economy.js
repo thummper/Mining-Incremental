@@ -1,4 +1,5 @@
 import * as helper from "../js/helper.js";
+import Graph from "../js/graph.js";
 /* 
     Economy class should observe supply and control ingot demand with simple factors
     The Economy class will also house the competition companies 
@@ -23,6 +24,32 @@ export default class Economy{
         this.ingotPrices  = [50, 100, 200, 500];
         this.ingotTargets = [50, 100, 200, 500];
         this.outlook = 0.8;
+        // Real Estate Indexs
+        this.landIndGraph = new Graph("area");
+        this.currentLandIndex = 0;
+        this.historicLandIndex = [];
+    }
+
+
+
+    updateLandIndex(land, time){
+        let counter = 0;
+        for(let i = 0; i < land.length; i++){
+            counter += land[i].value;
+        }
+        // Index counts average land price. 
+        counter = Math.round(counter / land.length);
+        // Counter is current land index
+        this.currentLandIndex = counter; 
+        // Push counter and data to historic for graphing
+
+        this.historicLandIndex.push([time, counter]);
+
+        while(this.historicLandIndex.length > 100){
+            this.historicLandIndex.shift();
+        }
+        // Cant call this
+        this.landIndGraph.update(this.historicLandIndex);
     }
 
   

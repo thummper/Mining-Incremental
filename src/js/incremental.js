@@ -13,6 +13,7 @@ import cSales from '../vue/sales.vue';
 import cComp from '../vue/competition.vue';
 import cResearh from '../vue/research.vue';
 import cStats from '../vue/stats.vue';
+import cEconomy from '../vue/economy.vue';
 import cResDisplay from '../vue/resDisplay.vue';
 import Location from "../js/location.js";
 import Economy from "../js/economy.js";
@@ -121,6 +122,10 @@ class Incremental{
         this.ingots     = [0, 0, 0, 0];
 
 
+
+
+        // Graphs
+        this.graphs = [];
         // Graph vars 
         this.netWorthTime = [];
         this.economy = new Economy();
@@ -129,7 +134,7 @@ class Incremental{
         //Others
         this.year = 1990;
         this.timePass = 0;
-        this.quarterTime = 100;
+        this.quarterTime = 5;
         this.quarter = 0;
 
 
@@ -165,24 +170,32 @@ class Incremental{
         }
     }
 
-    updateDeveloping(){
+    updateDeveloping(timePassed){
+        
         // Runs every quarter. 
         let developing  = this.landDeveloping;
-        let ndeveloping = [];
+        let stillDeveloping = [];
         for(let i = 0; i < developing.length; i++){
             let land = developing[i];
-            land.developTime--;
-            if(land.developTime <= 0){
-                // Land has developed. 
-                land.developing = false;
-                land.developed  = true;
-                this.updateProspecting();
+            land.timePass += timePassed;
 
-            } else {
-                ndeveloping.push(land);
+            
+            if(land.timePass >= this.quarterTime){
+                land.developTime--;
+                land.timePass = 0;
+                if(land.developTime <= 0){
+                    land.developing = false;
+                    land.developed  = true;
+                    this.updateProspecting();
+                } 
             }
+
+            if(land.developing){
+                stillDeveloping.push(land);
+            }
+
         }
-        this.landDeveloping = ndeveloping;
+        this.landDeveloping = stillDeveloping;
     }
 
     updateProspecting(){
@@ -216,6 +229,7 @@ class Incremental{
         return land;
     }
 
+
     loop(){
         let timeNow = performance.now();
         if(this.lastTime == null){
@@ -224,7 +238,11 @@ class Incremental{
         let frameTime = timeNow - this.lastTime;
         this.lastTime = timeNow;
         this.frameTime = frameTime / 1000;
+
         this.timePass += this.frameTime;
+
+        this.updateDeveloping(this.frameTime);
+
 
         this.smallCounter += this.frameTime;
         this.largeCounter += this.frameTime;
@@ -239,16 +257,11 @@ class Incremental{
             console.log("Small Tick");
             this.smallCounter = 0;
         }
+
+
         if(this.largeCounter >= 10){
-            console.log("TP: ", this.timePass);
-            /* 
-             Large Tick does stats.
-            
-            
-            */
             console.log("Large Tick");
             this.largeCounter = 0;
-
             let date = new Date();
             let h = date.getHours();
             let m = date.getMinutes();
@@ -259,20 +272,15 @@ class Incremental{
             if(s < 10){
                 s = "0" + s;
             }
-            let dataPoint = [h + ":" + m + ":" + s, this.netWorth];
+            let time = h + ":" + m + ":" + s;
+            let dataPoint = [time, this.netWorth];
             console.log(dataPoint);
             this.netWorthTime.push(dataPoint);
+            this.economy.updateLandIndex(this.landOwned.concat(this.landSale), time);
         }
 
         if(this.timePass >= this.quarterTime){
             console.log("Quarter has passed");
-            /* 
-            Quarter
-
-            We measure development time in quarters. 
-
-            */
-           this.updateDeveloping();
            this.quarter++;
            this.timePass = 0;
         }
@@ -412,6 +420,11 @@ window.addEventListener("load", function () {
                 name: "Statistics",
                 component: cStats
             },
+            {
+                path: "/economy",
+                name: "Economy",
+                component: cEconomy
+            }
         ]
     });
     let miningIncremental = new Vue({

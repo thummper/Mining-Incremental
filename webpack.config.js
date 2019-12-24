@@ -45,7 +45,6 @@ module.exports = {
     ],
     entry: "./src/js/index.js",
     output: {
-        
         path: path.resolve(__dirname, 'dist'),
         filename: "main.js"
     },
@@ -57,6 +56,7 @@ module.exports = {
     devServer: {
         contentBase: path.join(__dirname, 'dist'),
         inline: true,
-        port: 3000
+        port: 3000,
+        watchContentBase: true,
       },
 };

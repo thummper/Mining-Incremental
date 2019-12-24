@@ -1,49 +1,35 @@
 <template>
     <!-- Split into 2? -->
     <div class="land-item" :style="{ backgroundImage: 'url(' +  land.img + '.jpg )' }">
+
+
+
+        <div v-if="!land.developed" v-bind:class="{ landFillDeveloped: land.developed}" class="landFill"></div>
+        
+
+    
         <div v-if="land.owned && !land.developed" class="hover">
-            <!-- Development stats here -->
-
-            <div v-if="land.developed">
-                <!-- Land is developed -->
-
-            </div>
-            <div v-if="!land.developed">
                 <!-- Need development info -->
                 <div class="developmentWrapper">
-                    <div class="smallTitle">Development</div>
-
-
-
-
-
-
-                    <div v-if="!land.developing" class="smallContent">
-                    This peice of land has not been developed, it's actual resource content is unknown and you cannot mine from it. 
-                    <br>
-
-                    Developing this land will take {{land.developTime}} quarters. 
-                    </div>
-
-                    <div v-if="land.developing" class="smallContent">
-                    This piece of land is being developed.
-                    <br>
-                    <div class="landProgress">
-                        <progress :value="inc.timePass" :max="inc.quarterTime"></progress>
-                    </div>
-                    Developing this land will take {{land.developTime}} more quarters. 
+                    <div class="land-title">Development</div>
+                    <div class="land-content">
+                        <template v-if="!land.developing">
+                        This piece of land has not been developed. You cannot mine from this land until appropriate infastructure has been put in place.
+                        <br><br>
+                        </template> 
+                        <template v-if="land.developing">
+                          Developing this land will take {{land.developTime}} more quarters.   
+                        </template>
+                        <template v-if="!land.developing">
+                            Developing this land will take {{land.developTime}} quarters. 
+                        </template>
+                        <div class="landProgress">
+                            <progress :value="land.timePass" :max="inc.quarterTime"></progress>
+                        </div>
                     </div> 
 
                     <div class="land-button" v-if="!land.developing" v-on:click="developLand"> Develop for: {{developPrice}}</div>
-                
-                
                 </div>
-
-                <div> Land is not developed. </div>
-
-            </div>
-
-
 
         </div>
         <div class="default">
@@ -83,17 +69,8 @@
             <div v-if="! land.owned" v-on:click="buyLand" class="land-button">Purchase: {{roundedMoney}}</div>
             <div v-if="land.owned" v-on:click="sellLand" class="land-button">Sell: {{roundedMoney}}</div>
         </div>
-
-
-
-
-
     </div>
 </template>
-
-
-
-
 
 <script>
     import * as helper from "../js/helper.js";
@@ -106,7 +83,6 @@
         props: {
             land: Object
         },
-
         computed: {
             roundedMoney: function () {
                 return "£" + helper.roundSuffix(this.land.value);
@@ -132,7 +108,6 @@
             devModifier: function () {
                 if (this.land.developed) {
                     return "x" + this.land.developedModifier;
-
                 }
                 return "None";
             },
@@ -140,7 +115,6 @@
                 return helper.roundSuffix(this.land.developPrice);
             }
         },
-
         methods: {
             buyLand: function (event) {
                 let message = this.inc.purchase(this.land, 1);
@@ -163,6 +137,5 @@
 
             },
         }
-
     }
 </script>
