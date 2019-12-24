@@ -31,13 +31,11 @@ Vue.use(Router);
 // Define Vue Components? 
 
 class Navigation {
-
     constructor(navItems, navExpand) {
         this.items = navItems;
         this.expand = navExpand;
         this.collapsed = false;
     }
-
     init() {
         this.checkWidth();
         window.addEventListener("resize", this.checkWidth.bind(this));
@@ -98,10 +96,21 @@ class Incremental{
         this.name = this.name.charAt(0).toUpperCase() + this.name.slice(1) + " Inc";
         this.ceo = "";
 
-        this.netWorth = 0;
-        this.revenue = 0;
+
+
+        // Net Worth Stuff
+        this.netWorth  = 0;
+        this.landValue = 0;
+
+        // Income Stuff
+        this.landAppreciation = 0;
+
+        this.revenue  = 0;
         this.expenses = 0;
-        this.income = 0;
+        this.profit   = 0;
+
+
+ 
 
         // Land vars 
         this.landSale = [];
@@ -248,13 +257,14 @@ class Incremental{
         this.largeCounter += this.frameTime;
 
         if(this.smallCounter >= 2){
-            // Update Net Worth
+            // Small Counter Triggered 
             this.updateNetWorth();
             let allLand = this.landOwned.concat(this.landSale);
             for(let i in allLand){
-                this.economy.landUpdate(allLand[i]);
+                let land = allLand[i];
+                let apprciatedValue = this.economy.landUpdate(land);
+                this.landAppreciation += apprciatedValue;
             }
-            console.log("Small Tick");
             this.smallCounter = 0;
         }
 
@@ -287,6 +297,10 @@ class Incremental{
 
         if(this.quarter == 4){
             console.log("Year has passed");
+            // Reset Yearly Variables. 
+            this.landAppreciation = 0;
+
+
             this.year++;
             this.quarter = 0;
         }
@@ -304,11 +318,13 @@ class Incremental{
 
     updateNetWorth(){
         let net = 0;
+        let landValue = 0;
         net += this.money;
         for(let i in this.landOwned){
-            net += this.landOwned[i].value;
+            landValue += this.landOwned[i].value;
         }
-        this.netWorth = net;
+        this.landValue = landValue;
+        this.netWorth = landValue + net;
     }
 
     purchase(item, type){

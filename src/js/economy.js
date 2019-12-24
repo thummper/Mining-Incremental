@@ -70,12 +70,15 @@ export default class Economy{
     }
 
     landUpdate(land){
-        // Don't really like half of the land values being determined here. 
+        // Given a piece of land, adjust price based on economy, and work out its value.
 
+        let economyFactor = 0;
+        
 
         if(this.outlook >= 0){
-            let add = (land.basePrice * 0.2) * helper.randomNumber(0.008, 0.015, 0);
-            land.basePrice += add;
+            economyFactor = (land.basePrice * 0.2) * helper.randomNumber(0.008, 0.015, 0);
+            land.basePrice += economyFactor;
+            // If we own the land, this value needs to be added to accounting info (appreciation    )
         }
         //Update price of land based on ores.
         let oreValue = 0;
@@ -88,13 +91,14 @@ export default class Economy{
             let worth = amount * value;
             oreValue += worth;
         }
-      
         land.oreWorth = oreValue;
-
         land.value = land.basePrice + land.oreWorth;
         if(land.developed){
        
             land.value =  land.value * land.developedModifier;
         }
+        return economyFactor;
     }
+
+
 }

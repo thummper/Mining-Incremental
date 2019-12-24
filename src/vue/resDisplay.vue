@@ -1,6 +1,6 @@
 <template>
 <div class="resourceWrapper shadow">
-    <div class="moneyDisplay">{{roundedMoney}}</div>
+    <div class="moneyDisplay">Money: {{roundedMoney}}</div>
     <div class="flex-row">
         <table class="oreDisplay">
             <tr>
@@ -12,10 +12,10 @@
             </tr>
             <tr id="estimatedOre">
                 <td class="tableTitle"> Estimated </td>
-                <td class="block iron">{{getPIron}}t</td>
+                <td class="block iron">  {{getPIron}}t</td>
                 <td class="block copper">{{getPCopper}}t</td>
                 <td class="block silver">{{getPSilver}}t</td>
-                <td class="block gold">{{getPGold}}t</td>
+                <td class="block gold">  {{getPGold}}t</td>
             </tr>
             <tr id="prospectOre">
                 <td class="tableTitle">Prospected</td>
