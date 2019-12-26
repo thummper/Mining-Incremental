@@ -34,7 +34,7 @@
             </tr>
             <tr>
                 <td> Revenue </td>
-                <td> £0 </td>
+                <td> £ 0 </td>
             </tr>
             <tr>
                 <td> Asset Appreciation </td>
@@ -42,11 +42,11 @@
             </tr>
             <tr>
                 <td> Operating Expenses </td>
-                <td> £0 </td>
+                <td> £ 0 </td>
             </tr>
             <tr>
                 <td> Net Profit </td>
-                <td> £0 </td>
+                <td> £ 0 </td>
             </tr>
 
         </table>

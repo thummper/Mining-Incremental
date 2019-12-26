@@ -5,7 +5,7 @@ import Router from 'vue-router';
 
 // Import templates 
 import cInfo from '../vue/info.vue';
-import cMap from '../vue/map.vue';
+import cLand from '../vue/land.vue';
 import cProsp from '../vue/prosp.vue';
 import cMining from '../vue/mining.vue';
 import cSmelting from '../vue/smelting.vue';
@@ -15,7 +15,7 @@ import cResearh from '../vue/research.vue';
 import cStats from '../vue/stats.vue';
 import cEconomy from '../vue/economy.vue';
 import cResDisplay from '../vue/resDisplay.vue';
-import Location from "../js/location.js";
+import Location from "../js/land.js";
 import Economy from "../js/economy.js";
 // Import other stuff. 
 import Toasted from 'vue-toasted';
@@ -89,14 +89,10 @@ class Incremental{
         this.smallCounter = 0;
         this.largeCounter = 0;
         
-
-
         // Company Info vars
         this.name = randomWords();
         this.name = this.name.charAt(0).toUpperCase() + this.name.slice(1) + " Inc";
         this.ceo = "";
-
-
 
         // Net Worth Stuff
         this.netWorth  = 0;
@@ -108,9 +104,6 @@ class Incremental{
         this.revenue  = 0;
         this.expenses = 0;
         this.profit   = 0;
-
-
- 
 
         // Land vars 
         this.landSale = [];
@@ -130,9 +123,6 @@ class Incremental{
         this.mined      = [0, 0, 0, 0];
         this.ingots     = [0, 0, 0, 0];
 
-
-
-
         // Graphs
         this.graphs = [];
         // Graph vars 
@@ -145,32 +135,30 @@ class Incremental{
         this.timePass = 0;
         this.quarterTime = 5;
         this.quarter = 0;
-
-
-
     }
 
     init(){
         // Generate everything we need and start the gameloop 
         for(let i = 0, j = this.images.length; i < j; i++){
             let land = this.generateLand(4);
-            if(i == j - 1){
+            if(i % 2 == 0){
                 // Start with 1 piece of developed land.
                 land.owned = 1;
                 land.developed = 1;
+                this.economy.landUpdate(land);
+                land.previousValue = land.value;
                 this.landOwned.push(land);
             } else {
                 this.landSale.push(land);
             }
         }
         this.updateProspecting();
-
+        this.updateNetWorth();
         this.loop();
     }
 
     developLand(land){
         let developCost = land.developPrice;
-        console.log("Dev land cost: ", developCost);
         if(this.money >= developCost){
             this.money -= developCost;
             land.developing = true;
@@ -180,15 +168,12 @@ class Incremental{
     }
 
     updateDeveloping(timePassed){
-        
         // Runs every quarter. 
         let developing  = this.landDeveloping;
         let stillDeveloping = [];
         for(let i = 0; i < developing.length; i++){
             let land = developing[i];
             land.timePass += timePassed;
-
-            
             if(land.timePass >= this.quarterTime){
                 land.developTime--;
                 land.timePass = 0;
@@ -198,7 +183,6 @@ class Incremental{
                     this.updateProspecting();
                 } 
             }
-
             if(land.developing){
                 stillDeveloping.push(land);
             }
@@ -210,7 +194,6 @@ class Incremental{
     updateProspecting(){
         // For some reason we have to make a new array each time otherwise Vue won't update the page? 
         this.prospectedAvail = [0, 0, 0, 0];
-    
         for(let i in this.landOwned){
             let land = this.landOwned[i];
             if(land.developed){
@@ -224,22 +207,64 @@ class Incremental{
 
     generateLand(){
         let land = new Location();
+        //Set Price
         this.economy.landPrice(land);
-
         let randomIndex = helper.randomFromArray(this.images, 1);
         let randomImage = this.images[randomIndex];
-
         this.images.splice(randomIndex, 1);
         this.usedImages.push(randomImage);
-
         land.img = this.imgBase + randomImage;
         land.image = this.randomImage;
-
         return land;
     }
 
+    appreciateLand(){
+        // Update the value of land so consistent with ore prices and economy 
+        let allLand = this.landOwned.concat(this.landSale);
+        for(let i = 0; i < allLand.length; i++){
+            let land = allLand[i];
+            this.economy.landUpdate(land);
+            if(land.owned){
+                let valueIncrease = land.value - land.previousValue;
+                this.landAppreciation += valueIncrease;
+            }
+        }
+    }
 
-    loop(){
+
+    doSmallCounter(){
+        this.updateNetWorth();
+        this.appreciateLand();
+        this.smallCounter = 0;
+    }
+
+    updateGraphs(){
+        let time = helper.getTime();
+        let worthDataPoint = [time, this.netWorth];
+        this.economy.updateLandIndex(this.landOwned.concat(this.landSale), time);
+    }
+
+    doLargeCounter(){
+        this.updateGraphs();
+        this.largeCounter = 0;
+    }
+
+    doQuarter(){
+        console.log("Quarter has passed");
+        this.quarter++;
+        this.timePass = 0;
+    }
+
+    doYear(){
+        console.log("Year has passed");
+        this.year++;
+
+        // Reset Yearly Variables. 
+        this.landAppreciation = 0;
+        this.quarter = 0;
+    }
+
+    getFrameTime(){
         let timeNow = performance.now();
         if(this.lastTime == null){
             this.lastTime = timeNow;
@@ -247,72 +272,37 @@ class Incremental{
         let frameTime = timeNow - this.lastTime;
         this.lastTime = timeNow;
         this.frameTime = frameTime / 1000;
-
         this.timePass += this.frameTime;
+    }
 
+
+    loop(){
+        this.getFrameTime();
+
+        // Update Development Progress on Land
         this.updateDeveloping(this.frameTime);
-
-
         this.smallCounter += this.frameTime;
         this.largeCounter += this.frameTime;
 
         if(this.smallCounter >= 2){
-            // Small Counter Triggered 
-            this.updateNetWorth();
-            let allLand = this.landOwned.concat(this.landSale);
-            for(let i in allLand){
-                let land = allLand[i];
-                let apprciatedValue = this.economy.landUpdate(land);
-                this.landAppreciation += apprciatedValue;
-            }
-            this.smallCounter = 0;
+            this.doSmallCounter();
         }
 
-
         if(this.largeCounter >= 10){
-            console.log("Large Tick");
-            this.largeCounter = 0;
-            let date = new Date();
-            let h = date.getHours();
-            let m = date.getMinutes();
-            let s = date.getSeconds();
-            if(m < 10){
-                m = "0" + m;
-            }
-            if(s < 10){
-                s = "0" + s;
-            }
-            let time = h + ":" + m + ":" + s;
-            let dataPoint = [time, this.netWorth];
-            console.log(dataPoint);
-            this.netWorthTime.push(dataPoint);
-            this.economy.updateLandIndex(this.landOwned.concat(this.landSale), time);
+            this.doLargeCounter();
         }
 
         if(this.timePass >= this.quarterTime){
-            console.log("Quarter has passed");
-           this.quarter++;
-           this.timePass = 0;
+            this.doQuarter();
         }
 
         if(this.quarter == 4){
-            console.log("Year has passed");
-            // Reset Yearly Variables. 
-            this.landAppreciation = 0;
-
-
-            this.year++;
-            this.quarter = 0;
+            this.doYear();
         }
-        
-
-
-
 
         let moneyGain = this.mps * this.frameTime;
         this.money += moneyGain;
         // Should generate more land for sale if we fall below a certain threshold 
-
         window.requestAnimationFrame(this.loop.bind(this));
     }
 
@@ -343,15 +333,11 @@ class Incremental{
                         return "Successfully brought land for: " + helper.roundSuffix(price);
                     }
                 }
-
             } else{
                 let diff = price - this.money;
                 return "Cannot Afford Land (" + helper.roundSuffix(diff) + ")";
-            }
-                    
+            }           
         }
-        
-        
     }
 
     sell(item, type){
@@ -365,8 +351,6 @@ class Incremental{
            for(let i in landOwned){
                let landO = landOwned[i];
                if(landO == item){
-
-
                 this.money += price;
                 this.landOwned.splice(i, 1);
                 item.generate();
@@ -374,14 +358,9 @@ class Incremental{
                 this.landSale.push(item);
                 item.owned = 0;
                 return "Successfully sold for: " + helper.roundSuffix(price);
-
-
                }
-           }
-  
-          
+           }  
         }
-      
         return null;
     }
 }
@@ -397,9 +376,9 @@ window.addEventListener("load", function () {
                 component: cInfo
             },
             {
-                path: '/map',
-                name: "Map",
-                component: cMap
+                path: '/land',
+                name: "Land",
+                component: cLand
             },
             {
                 path: "/prospecting",

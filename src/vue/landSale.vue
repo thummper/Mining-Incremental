@@ -1,39 +1,8 @@
 <template>
-    <!-- Split into 2? -->
-    <div class="land-item" :style="{ backgroundImage: 'url(' +  land.img + '.jpg )' }">
 
-
-
-        <div v-if="!land.developed" v-bind:class="{ landFillDeveloped: land.developed}" class="landFill"></div>
-        
-
-    
-        <div v-if="land.owned && !land.developed" class="hover">
-                <!-- Need development info -->
-                <div class="developmentWrapper">
-                    <div class="land-title">Development</div>
-                    <div class="land-content">
-                        <template v-if="!land.developing">
-                        This piece of land has not been developed. You cannot mine from this land until appropriate infastructure has been put in place.
-                        <br><br>
-                        </template> 
-                        <template v-if="land.developing">
-                          Developing this land will take {{land.developTime}} more quarters.   
-                        </template>
-                        <template v-if="!land.developing">
-                            Developing this land will take {{land.developTime}} quarters. 
-                        </template>
-                        <div class="landProgress">
-                            <progress :value="land.timePass" :max="inc.quarterTime"></progress>
-                        </div>
-                    </div> 
-
-                    <div class="land-button" v-if="!land.developing" v-on:click="developLand"> Develop for: {{developPrice}}</div>
-                </div>
-
-        </div>
-        <div class="default">
-            <div class="tooltipWrapper">
+<div class="landItem" :style="{ backgroundImage: 'url(' +  land.img + '.jpg )' }" v-bind:class="{landItemHover: !land.developed && land.owned}" v-on:click="clicked">
+  <div class="wrapper">
+                  <div class="tooltipWrapper">
                 <div class="tooltip">
                     <i class="fas fa-question-circle" style="color: #2980b9"></i>
                 </div>
@@ -41,14 +10,48 @@
                     <em>Value</em>
                     <br>
                     <div>
-                        <span>Base Value: £{{roundedBase}}</span>
-                        <span>Ore Value: £{{roundedOre}}</span>
+                        <span>Base Value: £{{roundedBase}}</span><br>
+                        <span>Ore Value: £{{roundedOre}}</span><br>
                         <span>Developed Modifier: {{devModifier}}</span>
                     </div>
                 </div>
             </div>
-            <div class="land-title">{{land.name}}</div>
-            <table class="land-table">
+      
+   
+
+    <div class="hover" v-if="land.owned && !land.developed">
+            <div class="titleWrapper centerWrapper">
+        <div class="landTitle">Development</div>
+      </div>
+      <div class="contentWrapper centerWrapper">
+        <div class="landContent">
+            <template v-if="!land.developing">
+                This piece of land has not been developed. You cannot mine from this land until appropriate infastructure has been put in place.
+                <br><br>
+            </template> 
+            <template v-if="land.developing">
+                Developing this land will take {{land.developTime}} more quarters.   
+            </template>
+            <template v-if="!land.developing">
+                Developing this land will take {{land.developTime}} quarters. 
+            </template>
+            <div class="landProgress">
+                <progress :value="land.timePass" :max="inc.quarterTime"></progress>
+            </div>
+        </div>
+      </div>
+      <div class="buttonWrapper centerWrapper">
+          <div class="landButton" v-if="!land.developing" v-on:click="developLand"> Develop for: {{developPrice}}</div>
+      </div> 
+    </div>
+    
+    <div class="default">
+      <div class="titleWrapper centerWrapper">
+        <div class="landTitle">{{land.name}}</div>
+      </div>
+      <div class="contentWrapper centerWrapper">
+        <div class="landContent">
+                        <table class="landTable" v-bind:class="{ developTable: !land.developed}">
                 <tr>
                     <td class="circle iron"></td>
                     <td class="amount">{{roundedIron}}</td>
@@ -66,10 +69,18 @@
                     <td class="amount">{{roundedGold}}</td>
                 </tr>
             </table>
-            <div v-if="! land.owned" v-on:click="buyLand" class="land-button">Purchase: {{roundedMoney}}</div>
-            <div v-if="land.owned" v-on:click="sellLand" class="land-button">Sell: {{roundedMoney}}</div>
         </div>
+      </div>
+      <div class="buttonWrapper centerWrapper">
+          <div v-if="! land.owned" v-on:click="buyLand" class="landButton">Purchase: {{roundedMoney}}</div>
+          <div v-if="land.owned" v-on:click="sellLand" class="landButton">Sell: {{roundedMoney}}</div>
+      </div>      
     </div>
+    
+    
+  </div>
+</div>
+
 </template>
 
 <script>
@@ -79,6 +90,9 @@
             return {
                 inc: this.$parent.inc,
             }
+        },
+        mounted: function(){
+            console.log("ROUTE: ", this.$route);
         },
         props: {
             land: Object
@@ -134,8 +148,17 @@
                 // Start development of land
                 console.log("Developing Land");
                 this.inc.developLand(this.land);
-
             },
+            clicked: function(event){
+                // Should only fire if clicked on the map page. 
+                let route = this.$route;
+                console.log("Current Route Name: ", route.name);
+                if(route.name == "Prospecting" && this.land.developed){
+                    // Load this land into map.
+                    // When this is clicked, we need to draw this land's island in map.
+                    this.$parent.draw(this.land);
+                }
+            }
         }
     }
 </script>

@@ -128,7 +128,7 @@ body{
 
 
 //Map Styles
-.mapWrapper{
+.locationWrapper{
     .shadow{
         padding: 12px;
     }
@@ -162,11 +162,11 @@ body{
 
 
 .tooltipWrapper{
-    margin-right: auto;
-    margin-left: 8px;
-    
-    position: relative;
+    position: absolute;
+    top: 5px;
+    left: 4px;
     display: inline-block;
+    z-index: 20;
     .tooltip{
         background: white;
         width: 20px;
@@ -180,10 +180,9 @@ body{
             background: darken(white, 8);
         }    
     }
-
     .tooltipText{
         opacity: 0;
-        $width: 200px;
+        $width: 230px;
         width: $width;
         background: black;
         color: #fff;
@@ -206,7 +205,10 @@ body{
         }
     }
 }
-.tooltipWrapper:hover .tooltipText{
+.tooltip:hover{
+    background: $slate;
+}
+.tooltip:hover + .tooltipText{
    opacity: 1;
 }
 //Resource Container
@@ -285,3 +287,4 @@ body{
 
 @import "landCard.scss";
 @import "economy.scss";
+@import "map.scss";

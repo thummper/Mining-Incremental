@@ -54,29 +54,23 @@ export default class Economy{
 
   
     landPrice(land){
-        /* 
-        TODO: 
-
-        Land price should be based on a general market value (depending on tier of land), and should also depend on 
-        on the amount of ore the land will provide you with. 
-
-        Land price should also take into account whether it has been developed or not (as building mines takes time and is expensive)
-        
-        */
         let basePrice = helper.randomNumber(500000, 2000000, 0);
-        this.landUpdate(land);
         land.basePrice = basePrice;
         land.developPrice = Math.floor(basePrice / (land.tier + 1));
+        this.landUpdate(land);
+        land.previousValue = land.value;
+  
     }
+
+
 
     landUpdate(land){
         // Given a piece of land, adjust price based on economy, and work out its value.
-
-        let economyFactor = 0;
+        land.previousValue = land.value;
         
 
         if(this.outlook >= 0){
-            economyFactor = (land.basePrice * 0.2) * helper.randomNumber(0.008, 0.015, 0);
+            let economyFactor = (land.basePrice * 0.2) * helper.randomNumber(0.008, 0.015, 0);
             land.basePrice += economyFactor;
             // If we own the land, this value needs to be added to accounting info (appreciation    )
         }
@@ -93,11 +87,11 @@ export default class Economy{
         }
         land.oreWorth = oreValue;
         land.value = land.basePrice + land.oreWorth;
+
         if(land.developed){
-       
             land.value =  land.value * land.developedModifier;
         }
-        return economyFactor;
+
     }
 
 

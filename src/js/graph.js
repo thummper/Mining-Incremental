@@ -52,7 +52,6 @@ export default class Graph {
 
         for(let i = 0; i < data.length; i++){
             let item = data[i];
-            console.log("Item", item);
             labels.push(item[0]);
             series.push(item[1]);
         }
@@ -88,8 +87,5 @@ export default class Graph {
         if(this.chart !== null){
             this.chart.setOption(this.option);
         }
-        
-       
-
     }
 }
