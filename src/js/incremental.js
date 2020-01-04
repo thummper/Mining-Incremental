@@ -3,7 +3,9 @@ import * as helper from "../js/helper.js";
 import Vue from 'vue';
 import Router from 'vue-router';
 
+
 // Import templates 
+
 import cInfo from '../vue/info.vue';
 import cLand from '../vue/land.vue';
 import cProsp from '../vue/prosp.vue';
@@ -15,6 +17,7 @@ import cResearh from '../vue/research.vue';
 import cStats from '../vue/stats.vue';
 import cEconomy from '../vue/economy.vue';
 import cResDisplay from '../vue/resDisplay.vue';
+import ProspCanvas from "../js/prospCanvas.js";
 import Location from "../js/land.js";
 import Economy from "../js/economy.js";
 // Import other stuff. 
@@ -130,11 +133,14 @@ class Incremental{
         this.economy = new Economy();
         this.init();
 
-        //Others
+        // Others
         this.year = 1990;
         this.timePass = 0;
         this.quarterTime = 5;
         this.quarter = 0;
+
+        // Canvas 
+        this.prospCanvas = null;
     }
 
     init(){
@@ -276,10 +282,12 @@ class Incremental{
     }
 
 
+
+
     loop(){
         this.getFrameTime();
-
         // Update Development Progress on Land
+       
         this.updateDeveloping(this.frameTime);
         this.smallCounter += this.frameTime;
         this.largeCounter += this.frameTime;
