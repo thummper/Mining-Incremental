@@ -208,4 +208,22 @@
 }
 
 
+.landSelected{
+    .landTitle{
+        background: $slate;
+        color: white;
+    }
+    .landTable{
+        background: $slate;
+        color: white;
+    }
+    .circle{
+        border: solid 2px white;
+    }
+    transition: all 0.3s;
+  
+}
+
+
+
 

@@ -54,8 +54,6 @@ export default{
     data () {
         return {
             inc: this.$parent.inc,
-            mined: [20, 50, 30, 20],
-            ingots: [500, 200, 100]
         }
     },
     computed: {
@@ -63,6 +61,7 @@ export default{
             return "£" + helper.roundSuffix(this.inc.money);
         },
         getPIron: function(){
+           
             return helper.roundSuffix(this.inc.prospectedAvail[0], 0);
         },
         getPCopper: function(){

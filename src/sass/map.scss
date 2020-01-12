@@ -13,6 +13,67 @@ $mapDark: #282e2e;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
+    position: relative;
+}
+
+.defaultSlider{
+    display: flex;
+    span{
+        height: 26px;
+        margin-right: 12px;
+        display: flex;
+        align-items: center;
+    }
+    position: absolute;
+    top: 30px;
+    right: 42px;
+}
+
+.slider {
+    z-index: 1000;
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+
+    input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+    input:checked + .slider:before {
+        transform: translateX(20px);
+      }
+      input:checked + .slider {
+        background-color: #2196F3;
+      }
+      
+      input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+      }
+    .slider{
+        border-radius: 34px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-color: #ccc;
+        transition: .4s;
+
+        &:before{
+            transition: .4s;
+            position: absolute;
+            content: "";
+            height: 21px;
+            width: 21px;
+            left: 4px;
+            bottom: 3px;
+            background: white;
+            border-radius: 50%;
+        }
+    }
+
 }
 .mapTop, .mapBottom{
     background: white;

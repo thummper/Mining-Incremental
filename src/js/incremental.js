@@ -126,6 +126,9 @@ class Incremental{
         this.mined      = [0, 0, 0, 0];
         this.ingots     = [0, 0, 0, 0];
 
+        // Test Ore
+        this.orePrices = [25, 50, 100, 200];
+
         // Graphs
         this.graphs = [];
         // Graph vars 
@@ -158,6 +161,9 @@ class Incremental{
                 this.landSale.push(land);
             }
         }
+    
+
+       
         this.updateProspecting();
         this.updateNetWorth();
         this.loop();
@@ -242,17 +248,21 @@ class Incremental{
         this.updateNetWorth();
         this.appreciateLand();
         this.smallCounter = 0;
+        this.economy.updateOrePrices();
     }
 
     updateGraphs(){
         let time = helper.getTime();
         let worthDataPoint = [time, this.netWorth];
         this.economy.updateLandIndex(this.landOwned.concat(this.landSale), time);
+        this.economy.updateOreData(time);
+     
     }
 
     doLargeCounter(){
         this.updateGraphs();
         this.largeCounter = 0;
+       
     }
 
     doQuarter(){
@@ -331,17 +341,18 @@ class Incremental{
             let landSale = this.landSale;
             let price = item.value;
             if(this.money >= price){
-                for(let i in landSale){
+                for(let i in landSale) {
                     let land = landSale[i];
-                    if(land == item){
+                    if(land == item) {
                         this.money -= price;
                         this.landSale.splice(i, 1);
+                        // Push places land at the end of an array.
                         this.landOwned.push(land);
                         land.owned = 1;
                         return "Successfully brought land for: " + helper.roundSuffix(price);
                     }
                 }
-            } else{
+            } else {
                 let diff = price - this.money;
                 return "Cannot Afford Land (" + helper.roundSuffix(diff) + ")";
             }           
@@ -349,25 +360,35 @@ class Incremental{
     }
 
     sell(item, type){
-        if(type == 1){ // Type 1 - Land 
+        if(type == 1){
+            // Type 1 - Land 
             /* 
             Need to remove item from landOwned array
             Need to regenerate land item and add to sales 
             */
            let landOwned = this.landOwned;
-           let price = item.value;
-           for(let i in landOwned){
-               let landO = landOwned[i];
-               if(landO == item){
-                this.money += price;
-                this.landOwned.splice(i, 1);
-                item.generate();
-                this.economy.landPrice(item);
-                this.landSale.push(item);
-                item.owned = 0;
-                return "Successfully sold for: " + helper.roundSuffix(price);
+           for(let i = 0; i < landOwned.length; i++){
+               let land = landOwned[i];
+               if(land == item){
+                   landOwned.splice(i, 1);
+
+                   let price = item.value;
+                   this.money += price;
+                   item.owned = 0;
+                   item.generate();
+                   this.economy.landPrice(item);
+                   this.landSale.push(item);
+                   return "Successfully sold for: " + helper.roundSuffix(price);  
+
                }
-           }  
+           }
+
+         
+           
+           
+          
+
+         
         }
         return null;
     }

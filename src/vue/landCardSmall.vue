@@ -1,6 +1,6 @@
 <template>
 
-<div class="landItem" :style="{ backgroundImage: 'url(' +  land.img + '.jpg )' }" v-bind:class="{landItemHover: !land.developed && land.owned}" v-on:click="clicked">
+<div class="landItem" :style="{ backgroundImage: 'url(' +  land.img + '.jpg )' }" v-bind:class="{landItemHover: !land.developed && land.owned, landSelected: land.displaying}" v-on:click="clicked">
   <div class="wrapper">
     <div class="default">
       <div class="titleWrapper centerWrapper">

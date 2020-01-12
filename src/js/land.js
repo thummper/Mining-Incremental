@@ -21,6 +21,7 @@ export default class Location {
         this.developPrice = 0;
         this.developTime = 0;
         this.timePass = 0;
+        this.displaying = false;
 
         this.bases = [
             [500000, 400000, 250000, 100000], // Tier 0
@@ -40,10 +41,10 @@ export default class Location {
         this.name = helper.generateName();
         this.name = this.name.charAt(0).toUpperCase() + this.name.slice(1) + " " + helper.randomFromArray(this.suffixs);
         this.developTime = Math.floor(helper.randomNumber(2, 8, 0) / (this.tier + 1));
-
-
-
+        this.developed = false;
+        this.developing = false;
         this.estimate = helper.randomNumber(0.67, 0.98, 0);
+
         let randFactor = helper.randomNumber(0.5, 1.2, 0);
         let baseOres = this.bases[this.tier];
         for (let i in this.genArgs) {
@@ -54,6 +55,7 @@ export default class Location {
             baseOres[i] *= randFactor;
             baseOres[i] = Math.round(baseOres[i]);
         }
+        
         this.ores = baseOres;
         this.island = new Island({xl: 0, xr: 1000, yt: 0, yb: 600}, helper.randomNumber(1, 6000));
         this.island.generate();

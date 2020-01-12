@@ -1,7 +1,21 @@
 <template>
 <div class="mapWrapper">
     <div class="map">
-        <canvas class="mapTop" id="mapDisplay"></canvas>
+        <div class="defaultSlider">
+            <span> Default Land </span>
+            <label class="slider">
+                <input type="checkbox">
+                <span class="slider round"></span>
+            </label>
+        </div>
+
+
+
+
+        <canvas class="mapTop" id="mapDisplay">
+
+        
+        </canvas>
         <div class="split"></div>
         <div class="mapBottom">
             <land-card-small v-for="land in inc.landOwned" :land="land" />
@@ -21,6 +35,7 @@ export default{
             inc: this.$parent.inc,
             canvas: null,
             scaling: 1,
+            activeLand: null,
         }
     },
     mounted: function(){
@@ -34,8 +49,14 @@ export default{
     },
     methods: {
         draw: function(land){
-            //Called when land card clicked. 
+            // Called when land card clicked. 
+            if(this.activeLand !== null){
+                this.activeLand.displaying = false;
+            }
+            this.activeLand = land;
+            this.activeLand.displaying = true;
             this.inc.prospCanvas.setIsland(land.island);
+
     }
 }
 }

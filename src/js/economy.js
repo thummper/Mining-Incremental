@@ -15,19 +15,86 @@ import Graph from "../js/graph.js";
         Supply & Demand should change
         Companies may pay dividends / Release sales figures
 
-
-
 */
 export default class Economy{
     constructor(){
-        this.orePrices    = [25, 50, 100, 250];
-        this.ingotPrices  = [50, 100, 200, 500];
-        this.ingotTargets = [50, 100, 200, 500];
+
+        this.lastOrePrices = [20, 45, 90, 220];
+        this.orePrices     = [25, 50, 100, 250];
+
+        this.oreTargets = [40, 100, 200, 800];
+
+        this.lastIngotPrices = [50, 100, 200, 500];
+        this.ingotPrices     = [50, 100, 200, 500];
+
+        this.lastIngotTargets = [50, 100, 200, 500];
+        this.ingotTargets     = [50, 100, 200, 500];
+
+
         this.outlook = 0.8;
-        // Real Estate Indexs
-        this.landIndGraph = new Graph("area");
+        // Graphs
+        this.landIndGraph     = new Graph("area");
+        this.ironPriceGraph   = new Graph("line");
+        this.copperPriceGraph = new Graph("line");
+        this.silverPriceGraph = new Graph("line");
+        this.goldPriceGraph   = new Graph("line");
+        this.historicIronPrice   = [["00:00", 0]];
+        this.historicCopperPrice = [["00:00", 0]];
+        this.historicSilverPrice = [["00:00", 0]];
+        this.historicGoldPrice   = [["00:00", 0]];
+
+
+
+
         this.currentLandIndex = 0;
         this.historicLandIndex = [];
+    }
+
+    updateOrePrices(){
+        this.lastOrePrices = this.orePrices;
+        this.orePrices = [0, 0, 0, 0];
+
+
+        // Simple Update Logic
+        for(let i = 0; i < this.orePrices.length; i++){
+            let price = this.lastOrePrices[i];
+            let target = this.oreTargets[i];
+            if(price < target){
+                price += helper.randomNumber(0, target * 1.25, 0);
+            } else {
+                price -= helper.randomNumber(0, target * 1.25, 0);
+            }
+            this.orePrices[i] = price;
+        }
+    }
+
+    updateOreData(time){
+        // Given time, update historic data for all ore prices.
+        let orePrices = this.lastOrePrices;
+        let historics = [this.historicIronPrice, this.historicCopperPrice, this.historicSilverPrice, this.historicGoldPrice];
+
+
+        for(let i = 0; i < orePrices.length; i++){
+            let price = orePrices[i];
+            historics[i].push([time, price]);
+        }
+
+        for(let i = 0; i < historics.price; i++){
+            while(historics[i].length > 100){
+                historics[i].shift();
+            }
+        }
+        this.updateOreGraphs();
+    }
+
+    updateOreGraphs(){
+        let graphs = [this.ironPriceGraph, this.copperPriceGraph, this.silverPriceGraph, this.goldPriceGraph];
+        let data   = [this.historicIronPrice, this.historicCopperPrice, this.historicSilverPrice, this.historicGoldPrice];
+        for(let i = 0; i < graphs.length; i++){
+        
+            let graph = graphs[i];
+            graph.update(data[i]);
+        }
     }
 
 
@@ -42,7 +109,6 @@ export default class Economy{
         // Counter is current land index
         this.currentLandIndex = counter; 
         // Push counter and data to historic for graphing
-
         this.historicLandIndex.push([time, counter]);
 
         while(this.historicLandIndex.length > 100){
@@ -91,7 +157,6 @@ export default class Economy{
         if(land.developed){
             land.value =  land.value * land.developedModifier;
         }
-
     }
 
 
