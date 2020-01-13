@@ -5,7 +5,7 @@
             <div class="defaultSlider">
                 <span> Default Land </span>
                 <label class="slider">
-                    <input type="checkbox">
+                    <input id="defaultSlider" type="checkbox" >
                     <span class="slider round"></span>
                 </label>
             </div>
@@ -44,7 +44,6 @@
 </main>
 </template>
 
-
 <script>
 
 import {Tabs, Tab} from 'vue-slim-tabs';
@@ -60,10 +59,31 @@ export default {
             canvas: null,
             scaling: 1,
             activeLand: null,
+            slider: null,
         }
     },
     mounted: function(){
         this.inc.prospCanvas = new ProspCanvas(document.getElementById("mapDisplay"));
+        this.slider = document.getElementById("defaultSlider");
+
+        this.slider.addEventListener("change", function(event){
+    
+            if(this.activeLand){
+                    let value = event.target.checked;
+                    this.activeLand.default = event.target.checked;
+                    if(value){
+                        // Set it to true
+                        if(this.defaultLand){
+                            this.inc.defaultLand.default = false;
+                        }
+                    }
+                    this.inc.defaultLand = this.activeLand;
+            }
+        }.bind(this));
+        if(this.inc.defaultLand){
+            this.draw(this.inc.defaultLand);
+        }
+
     },
     destroyed: function(){
         this.inc.prospCanvas = null;
@@ -79,6 +99,9 @@ export default {
                 this.activeLand.displaying = false;
             }
             this.activeLand = land;
+            console.log("Slider: ", this.slider);
+            this.slider.checked = land.default;
+
             this.activeLand.displaying = true;
             this.inc.prospCanvas.setIsland(land.island);
         }

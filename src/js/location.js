@@ -19,6 +19,7 @@ export default class Location{
         this.developPrice = 0;
         this.developTime = 0;
         this.timePass = 0;
+        this.default = 0; // For default drawing.
 
         this.bases = [
             [500000, 400000, 250000, 100000], // Tier 0

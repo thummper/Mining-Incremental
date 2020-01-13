@@ -114,6 +114,7 @@ class Incremental{
         this.profit   = 0;
 
         // Land vars 
+        this.defaultLand = null;
         this.landSale = [];
         this.landDeveloping = [];
         this.landOwned = [];
