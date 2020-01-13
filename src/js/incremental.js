@@ -4,6 +4,8 @@ import Vue from 'vue';
 import Router from 'vue-router';
 
 
+
+
 // Import templates 
 
 import cInfo from '../vue/info.vue';
@@ -31,7 +33,10 @@ Vue.use(Router);
 
 
 
-// Define Vue Components? 
+
+
+
+// Define Vue Components
 
 class Navigation {
     constructor(navItems, navExpand) {

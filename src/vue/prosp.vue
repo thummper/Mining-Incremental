@@ -1,35 +1,59 @@
 <template>
-<div class="mapWrapper">
-    <div class="map">
-        <div class="defaultSlider">
-            <span> Default Land </span>
-            <label class="slider">
-                <input type="checkbox">
-                <span class="slider round"></span>
-            </label>
+<main class="prospWrapper">
+    <section class="mapWrapper">
+        <div class="map">
+            <div class="defaultSlider">
+                <span> Default Land </span>
+                <label class="slider">
+                    <input type="checkbox">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <canvas class="mapTop" id="mapDisplay"></canvas>
+            <div class="split"></div>
+            <div class="mapBottom">
+                <land-card-small v-for="land in inc.landOwned" :land="land" />
+            </div>
         </div>
-
-
-
-
-        <canvas class="mapTop" id="mapDisplay">
-
-        
-        </canvas>
-        <div class="split"></div>
-        <div class="mapBottom">
-            <land-card-small v-for="land in inc.landOwned" :land="land" />
+    </section>
+    <section class="prospInfo">
+        <div class="prospPrevent" v-bind:class="{hide: this.activeLand !== null}">
+            <div class="prospText">
+                Select a Land card to view this information
+            </div>
         </div>
-    </div>
+        <tabs>
+            <tab title="Iron">
+              Iron Mine Info
+            </tab>
+            <tab title="Copper">
+              Copper Mine Info
+            </tab>
+            <tab title="Silver">
+              Silver Mine Info
+            </tab>
+            <tab title="Gold">
+                Gold Mine Info
+              </tab>
+          </tabs>
 
-</div>
+
+    </section>
+
+
+</main>
 </template>
+
+
 <script>
+
+import {Tabs, Tab} from 'vue-slim-tabs';
+
 
 import ProspCanvas from "../js/prospCanvas.js";
 import landCardSmall from '../vue/landCardSmall.vue';
 import * as helper from "../js/helper.js";
-export default{
+export default {
     data () {
         return {
             inc: this.$parent.inc,
@@ -45,7 +69,8 @@ export default{
         this.inc.prospCanvas = null;
     },
     components: {
-        'land-card-small': landCardSmall
+        'land-card-small': landCardSmall,
+        Tabs, Tab,
     },
     methods: {
         draw: function(land){
@@ -56,8 +81,7 @@ export default{
             this.activeLand = land;
             this.activeLand.displaying = true;
             this.inc.prospCanvas.setIsland(land.island);
-
+        }
     }
-}
 }
 </script>

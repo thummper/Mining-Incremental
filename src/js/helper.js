@@ -20,11 +20,16 @@ export function roundNumber(number) {
     return Math.round(number);
 }
 export function roundSuffix(number) {
-    if (number >= 1000000000) {
-        return (number / 1000000000).toFixed(3) + " B";
-    } else if (number >= 1000000) {
+    let absNumber = Math.abs(number);
+
+
+    if(absNumber >= 1000000000000){
+        return (number / 1000000000).toFixed(1) + " T";   
+    }else if (absNumber >= 1000000000) {
+        return (number / 1000000000).toFixed(1) + " B";
+    } else if (absNumber >= 1000000) {
         return (number / 1000000).toFixed(2) + " M";
-    } else if (number >= 1000) {
+    } else if (absNumber >= 1000) {
         return (number / 1000).toFixed(2) + " K";
     } else {
         return Math.round(number);

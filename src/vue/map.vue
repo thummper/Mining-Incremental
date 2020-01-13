@@ -1,6 +1,5 @@
 <template>
 <div class="mapWrapper">
-
     <div class="mapLocations shadow flex-col">
         <div class="shadow-title map-title">Active Land</div>
                 <div class="flex-row wrap">

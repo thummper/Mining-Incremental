@@ -4,11 +4,6 @@
         {{content}}
     </div>
 </div>
-
-
 </template>
 <script>
-
-
-
 </script>

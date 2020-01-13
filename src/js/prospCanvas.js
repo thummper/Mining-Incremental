@@ -6,7 +6,7 @@ export default class ProspCanvas {
         this.canvas = canvas;
         this.ctx    = canvas.getContext("2d");
         trackTransforms(this.ctx);
-        this.island;
+        this.island = null;
         this.scaling = 1;
 
         this.xPadding = 0;
@@ -48,7 +48,6 @@ export default class ProspCanvas {
     init(){
         this.resize();  
         window.addEventListener("resize", function(){
-         
             this.resize();
             this.draw();
         }.bind(this));
@@ -79,10 +78,12 @@ export default class ProspCanvas {
             }
         }.bind(this));
         this.canvas.addEventListener("wheel", function(event){
+            if(this.island !== null){
             let wheel = event.deltaY < 0 ? 1 : -1;
             let delta = event.wheelDelta ? event.wheelDelta/40 : event.detail ? -event.detail : 0;
             if(delta) this.zoom(wheel);
             return event.preventDefault() && false;
+            }
           
         }.bind(this));
 
