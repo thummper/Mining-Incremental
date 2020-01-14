@@ -1,18 +1,5 @@
 # js-mining-incremental
 A (Simple?) Javascript Mining Incremental Game. 
 
-
-To run locally: 
-
-run npm install 
-
-run npm make-style 
-
-
-Most recent live version will be [here](https://thummper.net/projects/games/incremental/)
-
-
-Note:
-
-This is currently suspended and will be moved to vue within the decade. 
+Currently only the vue branch is active - it will take over as master once functionality between the 2 versions are about equal.  
 
