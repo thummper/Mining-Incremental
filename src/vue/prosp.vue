@@ -61,7 +61,7 @@ import {Tabs, Tab} from 'vue-slim-tabs';
 
 import prospectStaff from "../vue/prospectorsStaff.vue";
 
-import ProspCanvas from "../js/prospCanvas.js";
+import ProspCanvas from "../js/ProspectCanvas.js";
 import landCardSmall from '../vue/landCardSmall.vue';
 import * as helper from "../js/helper.js";
 export default {

@@ -1,5 +1,5 @@
-import * as helper from "./helper.js";
-import Island from './island.js';
+import * as helper from "./Helper.js";
+import Island from './Island.js';
 
 export default class Location {
     constructor(tier = 0, genArgs = [1.1, 1.1, 1.1, 1.1]) {

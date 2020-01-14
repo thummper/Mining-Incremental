@@ -1,5 +1,5 @@
-import * as helper from "../js/helper.js";
-import Graph from "../js/graph.js";
+import * as helper from "./Helper.js";
+import Graph from "./Graph.js";
 /* 
     Economy class should observe supply and control ingot demand with simple factors
     The Economy class will also house the competition companies 

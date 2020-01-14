@@ -1,5 +1,5 @@
 let randomWords = require('random-words');
-import * as helper from "../js/helper.js";
+import * as helper from "./Helper.js";
 import Vue from 'vue';
 import Router from 'vue-router';
 
@@ -7,6 +7,10 @@ import Router from 'vue-router';
 
 
 // Import templates 
+import Navigation from "./Navigation.js";
+import Land from "./Land.js";
+import Economy from "./Economy.js";
+import ProspectCanvas from "./ProspectCanvas.js";
 
 import cInfo from '../vue/info.vue';
 import cLand from '../vue/land.vue';
@@ -19,12 +23,10 @@ import cResearh from '../vue/research.vue';
 import cStats from '../vue/stats.vue';
 import cEconomy from '../vue/economy.vue';
 import cResDisplay from '../vue/resDisplay.vue';
-import ProspCanvas from "../js/prospCanvas.js";
-import Location from "../js/land.js";
-import Economy from "../js/economy.js";
+
+
 // Import other stuff. 
 import Toasted from 'vue-toasted';
-
 let options = {
     duration : 1500
 };
@@ -32,64 +34,7 @@ Vue.use(Toasted, options);
 Vue.use(Router);
 
 
-
-
-
-
 // Define Vue Components
-
-// TODO: On scroll, once money is off the screen, transform resource info to smaller static bar. 
-
-class Navigation {
-    constructor(navItems, navExpand) {
-        this.items = navItems;
-        this.expand = navExpand;
-        this.collapsed = false;
-    }
-    init() {
-        this.checkWidth();
-        window.addEventListener("resize", this.checkWidth.bind(this));
-        console.log(this.expand);
-        this.expand.addEventListener("click", function () {
-            if(this.collapsed){
-                this.showItems();
-                this.collapsed = false;
-            } else {
-                this.hideItems();
-                this.collapsed = true;
-            }
-            console.log("clicked");
-        }.bind(this), false);
-    }
-
-    checkWidth() {
-        if (window.innerWidth <= 900 && this.collapsed == false) {
-            // We should collapse the navbar 
-            this.hideItems();
-            this.collapsed = true;
-            // Hide all nav items except for first, show the expand icon.
-        } else if (window.innerWidth >= 900) {
-            this.showItems();
-            this.collapsed = false;
-        }
-    }
-
-    showItems() {
-        for (let i = 0; i < this.items.length; i++) {
-            this.items[i].style.display = "flex";
-        }
-    }
-
-    hideItems() {
-        for (let i = 0; i < this.items.length; i++) {
-            if (i != 0) {
-                this.items[i].style.display = "none";
-            }
-        }
-    }
-}
-
-
 class Incremental{
 
     constructor(){
@@ -110,7 +55,6 @@ class Incremental{
 
         // Income Stuff
         this.landAppreciation = 0;
-
         this.revenue  = 0;
         this.expenses = 0;
         this.profit   = 0;
@@ -133,6 +77,15 @@ class Incremental{
         this.prospected = [0, 0, 0, 0];
         this.mined      = [0, 0, 0, 0];
         this.ingots     = [0, 0, 0, 0];
+
+        // Prospectors
+        // [1, 2, 10] - Array value tallys how many we own?
+        // Trying to do this in a different way.
+        this.totalProspectors    = [];
+        this.basicProspectors    = [];
+        this.advancedProspectors = [];
+        this.superiorProspectors = [];
+
 
         // Test Ore
         this.orePrices = [25, 50, 100, 200];
@@ -169,9 +122,7 @@ class Incremental{
                 this.landSale.push(land);
             }
         }
-    
-
-       
+           
         this.updateProspecting();
         this.updateNetWorth();
         this.loop();
@@ -226,7 +177,7 @@ class Incremental{
     }
 
     generateLand(){
-        let land = new Location();
+        let land = new Land();
         //Set Price
         this.economy.landPrice(land);
         let randomIndex = helper.randomFromArray(this.images, 1);
@@ -343,8 +294,9 @@ class Incremental{
         this.netWorth = landValue + net;
     }
 
-    purchase(item, type){
-        if(type == 1){ // Type 1 - Land 
+    purchase(item, type, subtype = null){
+        if(type == 1){ 
+            // Type 1 - Land 
             // Trying to buy land. 
             let landSale = this.landSale;
             let price = item.value;
@@ -364,6 +316,24 @@ class Incremental{
                 let diff = price - this.money;
                 return "Cannot Afford Land (" + helper.roundSuffix(diff) + ")";
             }           
+        }
+        if(type == 2){
+            // Type 2 - Prospector.
+
+            
+            // For simplicity sake, subtype is going to be "basic", "advanced", or, "superior".
+            if(type == "basic"){
+                // OOF, we need to track prices outside of prospecting object
+          
+
+            } else if(type == "advanced"){
+
+            } else if(type == "superior"){
+
+            }
+
+
+
         }
     }
 

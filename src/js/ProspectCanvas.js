@@ -1,28 +1,23 @@
 
 
 export default class ProspCanvas {
-
     constructor(canvas){
         this.canvas = canvas;
         this.ctx    = canvas.getContext("2d");
         trackTransforms(this.ctx);
         this.island = null;
         this.scaling = 1;
-
         this.xPadding = 0;
         this.yPadding = 0;
         this.startX = 0;
         this.startY = 0;
         this.mouseDown = false;
 
-
         this.zoomIntensity = 0.2;
         this.scale = 1;
 
-
         this.scaleFactor = 1.1;
         
-
         this.mx = 0;
         this.my = 0;
         this.init();

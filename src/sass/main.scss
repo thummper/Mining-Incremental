@@ -419,6 +419,55 @@ body{
 
 }
 
+.buyProspectStaff{
+    width: 90%;
+    margin: 12px auto;
+    margin-top: 24px;
+
+}
+.basicBuy{
+    display: flex;
+    flex-direction: column;
+}
+.prospBuyTitle{
+    display: block;
+    padding: 14px;
+    background: black;
+    border-radius: 3px;
+    color: white;
+    align-self: flex-start;
+    margin-bottom: 8px;
+}
+.prospBuyButton{
+    margin-top: 12px;
+    text-decoration: none;
+    color: white;
+    background: $lightblue;
+    font-size: 16px;
+    padding: 6px 18px;
+    border-radius: 2px;
+    display: inline-block;
+    text-align: center;
+    align-self: flex-start;
+    transition:  all .2s;
+    cursor: pointer;
+    &:hover{
+        background: $darkblue;
+    }
+    
+}
+.prospBuyText{
+    line-height: 24px;
+}
+.prospSep{
+    width: 100%;
+    background: black;
+    height: 2.5px;
+    border-radius: 30%;
+    margin-top: 12px;
+    margin-bottom: 40px;
+}
+
 
 @import "landCard.scss";
 @import "economy.scss";

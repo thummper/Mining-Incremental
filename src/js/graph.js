@@ -1,4 +1,4 @@
-import * as helper from "../js/helper.js";
+import * as helper from "./Helper.js";
 export default class Graph {
     constructor(type) {
         this.type = type;
