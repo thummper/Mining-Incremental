@@ -16,6 +16,17 @@
             </div>
         </div>
     </section>
+
+    <section class="prospWorkers">
+        <div class="prospTitle">
+            Prospectors (Global)
+        </div>
+        <div class="prospContent">
+            <prospecting-staff />
+        </div>
+    </section>
+
+
     <section class="prospInfo">
         <div class="prospPrevent" v-bind:class="{hide: this.activeLand !== null}">
             <div class="prospText">
@@ -48,6 +59,7 @@
 
 import {Tabs, Tab} from 'vue-slim-tabs';
 
+import prospectStaff from "../vue/prospectorsStaff.vue";
 
 import ProspCanvas from "../js/prospCanvas.js";
 import landCardSmall from '../vue/landCardSmall.vue';
@@ -65,7 +77,6 @@ export default {
     mounted: function(){
         this.inc.prospCanvas = new ProspCanvas(document.getElementById("mapDisplay"));
         this.slider = document.getElementById("defaultSlider");
-
         this.slider.addEventListener("change", function(event){
     
             if(this.activeLand){
@@ -78,6 +89,7 @@ export default {
                         }
                     }
                     this.inc.defaultLand = this.activeLand;
+                    //TODO: When land is sold, need to check if it is default or this will break.
             }
         }.bind(this));
         if(this.inc.defaultLand){
@@ -91,6 +103,7 @@ export default {
     components: {
         'land-card-small': landCardSmall,
         Tabs, Tab,
+        'prospecting-staff': prospectStaff
     },
     methods: {
         draw: function(land){

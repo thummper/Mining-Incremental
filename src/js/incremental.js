@@ -38,6 +38,8 @@ Vue.use(Router);
 
 // Define Vue Components
 
+// TODO: On scroll, once money is off the screen, transform resource info to smaller static bar. 
+
 class Navigation {
     constructor(navItems, navExpand) {
         this.items = navItems;
