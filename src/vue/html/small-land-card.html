@@ -1,0 +1,44 @@
+<li class="wideLandWrapper" v-on:click="clicked" v-bind:class="{landSelected: land.displaying}">
+    <div class="left" :style="{ backgroundImage: 'url(' +  land.img + '.jpg )' }">
+        <div class="landTitle wide">
+            {{land.name}}
+        </div>
+    </div>
+    <div class="right">
+        <table class="landTable wide">
+            <tr>
+                <div class="cell">
+                    <td class="circle iron"></td>
+                    <td class="amount">{{roundedIron}}</td>
+                </div>
+                <div class="cell">
+                    <td class="circle copper"></td>
+                    <td class="amount">{{roundedCopper}}</td>
+
+
+                </div>
+                <div class="cell">
+                    
+                <td class="circle silver"></td>
+                <td class="amount">{{roundedSilver}}</td>
+
+
+                </div>
+
+                <div class="cell">
+                    
+                <td class="circle gold"></td>
+                <td class="amount">{{roundedGold}}</td>
+
+
+
+                </div>
+                
+                
+
+            </tr>
+        </table>
+    </div>
+</li>
+
+

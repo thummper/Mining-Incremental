@@ -25,7 +25,7 @@
 </template>
 <script>
 import landCard from '../vue/landCard.vue';
-import * as helper from "../js/helper.js";
+import * as Helper from "../js/Helper.js";
 export default{
     data () {
         return {

@@ -1,4 +1,4 @@
-import * as helper from "./Helper.js";
+import * as Helper from "./Helper.js";
 import Graph from "./Graph.js";
 /* 
     Economy class should observe supply and control ingot demand with simple factors
@@ -60,9 +60,9 @@ export default class Economy{
             let price = this.lastOrePrices[i];
             let target = this.oreTargets[i];
             if(price < target){
-                price += helper.randomNumber(0, target * 1.25, 0);
+                price += Helper.randomNumber(0, target * 1.25, 0);
             } else {
-                price -= helper.randomNumber(0, target * 1.25, 0);
+                price -= Helper.randomNumber(0, target * 1.25, 0);
             }
             this.orePrices[i] = price;
         }
@@ -120,7 +120,7 @@ export default class Economy{
 
   
     landPrice(land){
-        let basePrice = helper.randomNumber(500000, 2000000, 0);
+        let basePrice = Helper.randomNumber(500000, 2000000, 0);
         land.basePrice = basePrice;
         land.developPrice = Math.floor(basePrice / (land.tier + 1));
         this.landUpdate(land);
@@ -136,7 +136,7 @@ export default class Economy{
         
 
         if(this.outlook >= 0){
-            let economyFactor = (land.basePrice * 0.2) * helper.randomNumber(0.008, 0.015, 0);
+            let economyFactor = (land.basePrice * 0.2) * Helper.randomNumber(0.008, 0.015, 0);
             land.basePrice += economyFactor;
             // If we own the land, this value needs to be added to accounting info (appreciation    )
         }

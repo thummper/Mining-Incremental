@@ -1,9 +1,8 @@
 export default class Prospector{
-    constructor(type){
+    constructor(tp){
         // Instantiated with a type.
-
         this.types = {
-            "Basic" : {
+            "basic" : {
                 basePrice: 10000,
                 annualPrice: 20000,
                 costReduction: 0,
@@ -11,7 +10,7 @@ export default class Prospector{
                 salaryReduction: 0,
                 boostedEfficiency: 0,
             },
-            "Advanced" : {
+            "advanced" : {
                 basePrice: 20000,
                 annualPrice: 50000,
                 costReduction: 0,
@@ -19,7 +18,7 @@ export default class Prospector{
                 salaryReduction: 0,
                 boostedEfficiency: 0,
             },
-            "Superior" : {
+            "superior" : {
                 basePrice: 1000000,
                 annualPrice: 750000,
                 costReduction: 0,
@@ -28,10 +27,13 @@ export default class Prospector{
                 boostedEfficiency: 0,
             }
         };
-        this.hire(type);
-    }
+        let type = this.types[tp];
+        this.basePrice = type.basePrice;
+        this.annualPrice = type.annualPrice;
+        this.costReduction = type.costReduction;
+        this.baseEfficiency = type.baseEfficiency;
+        this.salaryReduction = type.salaryReduction;
+        this.boostedEfficiency = type.boostedEfficiency;
 
-    hire(type){
-        // A type of prospector is hired. 
     }
 }

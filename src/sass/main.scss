@@ -389,11 +389,6 @@ body{
 }
 
 .prospWorkers{
-    width: 90%;
-    margin: 48px auto;
-    background: black;
-    border: solid 6px black;
-    border-radius: 4px;
     display: flex;
     flex-direction: column;
     
@@ -411,6 +406,11 @@ body{
         background: white;
         width: 100%;
         margin: 0px auto;
+
+        .oreDisplay{
+            border-bottom: 3.5px solid black;
+        }
+        
     }
 }
 

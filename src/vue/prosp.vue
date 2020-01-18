@@ -1,21 +1,29 @@
 <template>
 <main class="prospWrapper">
     <section class="mapWrapper">
-        <div class="map">
-            <div class="defaultSlider">
-                <span> Default Land </span>
-                <label class="slider">
-                    <input id="defaultSlider" type="checkbox" >
-                    <span class="slider round"></span>
-                </label>
-            </div>
-            <canvas class="mapTop" id="mapDisplay"></canvas>
-            <div class="split"></div>
-            <div class="mapBottom">
-                <land-card-small v-for="land in inc.landOwned" :land="land" />
+        <div class="mapTop">
+            <div class="map">
+                <div class="defaultSlider">
+                    <span> Default Land </span>
+                    <label class="slider">
+                        <input id="defaultSlider" type="checkbox" >
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <canvas class="mapCanvas" id="mapDisplay"></canvas>
             </div>
         </div>
+        <div class="split">
+            <div class="splitTitle"> Land Queue </div>
+        </div>
+        <div class="mapBottom">
+            <draggable class="dragWrapper" v-model="inc.landOwned">
+                <land-card-small class="list-group-item" v-for="land in inc.landOwned" :land="land" :key="land.name" />
+            </draggable>
+            
+        </div>
     </section>
+
 
     <section class="prospWorkers">
         <div class="prospTitle">
@@ -47,23 +55,23 @@
                 Gold Mine Info
               </tab>
           </tabs>
-
-
     </section>
-
-
 </main>
 </template>
 
 <script>
 
-import {Tabs, Tab} from 'vue-slim-tabs';
+import draggable from 'vuedraggable';
 
+import rawDist from './rawdisplay.vue';
+
+import {Tabs, Tab} from 'vue-slim-tabs';
 import prospectStaff from "../vue/prospectorsStaff.vue";
 
 import ProspCanvas from "../js/ProspectCanvas.js";
 import landCardSmall from '../vue/landCardSmall.vue';
-import * as helper from "../js/helper.js";
+import * as Helper from "../js/Helper.js";
+
 export default {
     data () {
         return {
@@ -102,8 +110,11 @@ export default {
     },
     components: {
         'land-card-small': landCardSmall,
-        Tabs, Tab,
-        'prospecting-staff': prospectStaff
+        Tabs, 
+        Tab,
+        'prospecting-staff': prospectStaff,
+        'raw-displayer': rawDist,
+        draggable,
     },
     methods: {
         draw: function(land){
@@ -112,12 +123,12 @@ export default {
                 this.activeLand.displaying = false;
             }
             this.activeLand = land;
-            console.log("Slider: ", this.slider);
+      
             this.slider.checked = land.default;
-
             this.activeLand.displaying = true;
-            this.inc.prospCanvas.setIsland(land.island);
-        }
-    }
+            //this.inc.prospCanvas.setIsland(land.island);
+        },
+    },
+
 }
 </script>

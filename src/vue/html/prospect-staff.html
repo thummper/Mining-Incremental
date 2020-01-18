@@ -2,25 +2,25 @@
     <table class="oreDisplay">
         <tr>
             <th> Type </th>
-            <th> Quantitiy </th>
+            <th> Quantity </th>
             <th> Yearly Expenses </th>
         </tr>
         <tr>
             <td class="tableTitle"> Basic </td>
-            <td> 0 </td>
-            <td> 0 </td>
+            <td> {{basicProspectors}} </td>
+            <td> {{basicExpenses}} </td>
 
         </tr>
         <tr>
             <td class="tableTitle"> Advanced </td>
-            <td> 0 </td>
-            <td> 0 </td>
+            <td> {{advancedProspectors}} </td>
+            <td> {{advancedExpenses}} </td>
 
         </tr>
         <tr>
-            <td class="tableTitle"> Vasly Superior </td>
-            <td> 0 </td>
-            <td> 0 </td>
+            <td class="tableTitle"> Vastly Superior </td>
+            <td> {{superiorProspectors}} </td>
+            <td> {{superiorExpenses}} </td>
 
         </tr>
     </table>
@@ -40,7 +40,7 @@
                 Basic Prospectors cost: £20.0 K per year (0% of your annual expenses).
                 <br>
             </div>
-            <button class="prospBuyButton">
+            <button class="prospBuyButton" v-on:click="buyProspector('basic')">
                 £ 1.02 K
             </button>
             <div class="prospSep"></div>
@@ -60,7 +60,7 @@
                 Advanced Prospectors cost: £20.0 K per year (0% of your annual expenses).
                 <br>
             </div>
-            <button class="prospBuyButton">
+            <button class="prospBuyButton" v-on:click="buyProspector('advanced')">
                 £ 17 K
             </button>
             <div class="prospSep"></div>
@@ -81,7 +81,7 @@
                 Vastly Superior Prospectors cost: £20.0 K per year (0% of your annual expenses).
                 <br>
             </div>
-            <button class="prospBuyButton">
+            <button class="prospBuyButton" v-on:click="buyProspector('superior')">
                 £ 1.02 K
             </button>
             <div class="prospSep"></div>

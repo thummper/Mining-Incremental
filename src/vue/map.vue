@@ -19,7 +19,7 @@
 </template>
 <script>
 import landSale from '../vue/landSale.vue';
-import * as helper from "../js/helper.js";
+
 export default{
     data () {
         return {

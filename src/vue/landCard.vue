@@ -84,7 +84,7 @@
 </template>
 
 <script>
-    import * as helper from "../js/helper.js";
+    import * as Helper from "../js/Helper.js";
     export default {
         data() {
             return {
@@ -99,25 +99,25 @@
         },
         computed: {
             roundedMoney: function () {
-                return "£" + helper.roundSuffix(this.land.value);
+                return "£" + Helper.roundSuffix(this.land.value);
             },
             roundedIron: function () {
-                return helper.roundSuffix(this.land.ores[0] * this.land.estimate);
+                return Helper.roundSuffix(this.land.ores[0] * this.land.estimate);
             },
             roundedCopper: function () {
-                return helper.roundSuffix(this.land.ores[1] * this.land.estimate);
+                return Helper.roundSuffix(this.land.ores[1] * this.land.estimate);
             },
             roundedSilver: function () {
-                return helper.roundSuffix(this.land.ores[2] * this.land.estimate);
+                return Helper.roundSuffix(this.land.ores[2] * this.land.estimate);
             },
             roundedGold: function () {
-                return helper.roundSuffix(this.land.ores[3] * this.land.estimate);
+                return Helper.roundSuffix(this.land.ores[3] * this.land.estimate);
             },
             roundedBase: function () {
-                return helper.roundSuffix(this.land.basePrice);
+                return Helper.roundSuffix(this.land.basePrice);
             },
             roundedOre: function () {
-                return helper.roundSuffix(this.land.oreWorth);
+                return Helper.roundSuffix(this.land.oreWorth);
             },
             devModifier: function () {
                 if (this.land.developed) {
@@ -126,7 +126,7 @@
                 return "None";
             },
             developPrice: function(){
-                return helper.roundSuffix(this.land.developPrice);
+                return Helper.roundSuffix(this.land.developPrice);
             }
         },
         methods: {

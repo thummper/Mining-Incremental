@@ -209,6 +209,7 @@
 
 
 .landSelected{
+    transition: all 0.3s;
     .landTitle{
         background: $slate;
         color: white;
@@ -218,10 +219,9 @@
         color: white;
     }
     .circle{
-        border: solid 2px white;
+   
+       
     }
-    transition: all 0.3s;
-  
 }
 
 

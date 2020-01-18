@@ -1,5 +1,5 @@
 let randomWords = require('random-words');
-import * as helper from "./Helper.js";
+import * as Helper from "./Helper.js";
 import Vue from 'vue';
 import Router from 'vue-router';
 
@@ -10,7 +10,7 @@ import Router from 'vue-router';
 import Navigation from "./Navigation.js";
 import Land from "./Land.js";
 import Economy from "./Economy.js";
-import ProspectCanvas from "./ProspectCanvas.js";
+
 
 import cInfo from '../vue/info.vue';
 import cLand from '../vue/land.vue';
@@ -27,6 +27,7 @@ import cResDisplay from '../vue/resDisplay.vue';
 
 // Import other stuff. 
 import Toasted from 'vue-toasted';
+import Prospector from "./Prospector.js";
 let options = {
     duration : 1500
 };
@@ -43,6 +44,14 @@ class Incremental{
         this.frameTime = 1; 
         this.smallCounter = 0;
         this.largeCounter = 0;
+
+
+        // New Counters.
+        this.dayCounter     = 0;
+        this.weekCounter    = 0;
+        this.monthCounter   = 0;
+        this.quarterCounter = 0;
+        this.yearCounter    = 0;
         
         // Company Info vars
         this.name = randomWords();
@@ -81,7 +90,7 @@ class Incremental{
         // Prospectors
         // [1, 2, 10] - Array value tallys how many we own?
         // Trying to do this in a different way.
-        this.totalProspectors    = [];
+        this.totalProspectors    = [0, 0, 0];
         this.basicProspectors    = [];
         this.advancedProspectors = [];
         this.superiorProspectors = [];
@@ -180,13 +189,17 @@ class Incremental{
         let land = new Land();
         //Set Price
         this.economy.landPrice(land);
-        let randomIndex = helper.randomFromArray(this.images, 1);
+        let randomIndex = Helper.randomFromArray(this.images, 1);
         let randomImage = this.images[randomIndex];
         this.images.splice(randomIndex, 1);
         this.usedImages.push(randomImage);
         land.img = this.imgBase + randomImage;
         land.image = this.randomImage;
         return land;
+    }
+
+    prospect(){
+        // Given that we have some developed land in the land queue, we will prospect that land with the prospectors we have availiable.
     }
 
     appreciateLand(){
@@ -202,42 +215,57 @@ class Incremental{
         }
     }
 
-
-    doSmallCounter(){
-        this.updateNetWorth();
-        this.appreciateLand();
-        this.smallCounter = 0;
-        this.economy.updateOrePrices();
-    }
-
     updateGraphs(){
-        let time = helper.getTime();
+        let time = Helper.getTime();
         let worthDataPoint = [time, this.netWorth];
         this.economy.updateLandIndex(this.landOwned.concat(this.landSale), time);
         this.economy.updateOreData(time);
      
     }
 
-    doLargeCounter(){
-        this.updateGraphs();
-        this.largeCounter = 0;
-       
-    }
 
-    doQuarter(){
-        console.log("Quarter has passed");
-        this.quarter++;
+    doDayCounter(){
+        this.updateNetWorth();
+        this.appreciateLand();
+        this.prospect();
+        this.economy.updateOrePrices();
         this.timePass = 0;
+        this.dayCounter++;
     }
 
-    doYear(){
-        console.log("Year has passed");
+    doWeekCounter(){
+        // A week has passed
+        console.log("Week has passed");
+
+       
+        this.updateGraphs();
+
+        this.weekCounter++;
+        this.dayCounter = 0;
+    }
+
+    doMonthCounter(){
+        this.weekCounter = 0;
+        this.monthCounter++;
+    }
+
+    doQuarterCounter(){
+        console.log("Quarter has passed");
+        this.monthCounter = 0;
+        this.quarterCounter++;       
+    }
+    doYearCounter(){
+        this.quarterCounter = 0;
         this.year++;
 
-        // Reset Yearly Variables. 
+        //Reset annual varaibles
         this.landAppreciation = 0;
-        this.quarter = 0;
+
     }
+
+
+
+
 
     getFrameTime(){
         let timeNow = performance.now();
@@ -251,30 +279,28 @@ class Incremental{
     }
 
 
-
-
     loop(){
+        // Frame time is time in seconds since last frame.
         this.getFrameTime();
         // Update Development Progress on Land
-       
+        // TODO: this needs to use new counter.
         this.updateDeveloping(this.frameTime);
-        this.smallCounter += this.frameTime;
-        this.largeCounter += this.frameTime;
 
-        if(this.smallCounter >= 2){
-            this.doSmallCounter();
+
+        if(this.timePass >= 1){
+            this.doDayCounter();
         }
-
-        if(this.largeCounter >= 10){
-            this.doLargeCounter();
+        if(this.dayCounter >= 7){
+            this.doWeekCounter();
         }
-
-        if(this.timePass >= this.quarterTime){
-            this.doQuarter();
+        if(this.weekCounter >= 4){
+            this.doMonthCounter();
         }
-
-        if(this.quarter == 4){
-            this.doYear();
+        if(this.monthCounter >= 4){
+            this.doQuarterCounter();
+        }
+        if(this.quarterCounter >= 4){
+            this.doYearCounter();
         }
 
         let moneyGain = this.mps * this.frameTime;
@@ -309,32 +335,54 @@ class Incremental{
                         // Push places land at the end of an array.
                         this.landOwned.push(land);
                         land.owned = 1;
-                        return "Successfully brought land for: " + helper.roundSuffix(price);
+                        return "Successfully brought land for: " + Helper.roundSuffix(price);
                     }
                 }
             } else {
                 let diff = price - this.money;
-                return "Cannot Afford Land (" + helper.roundSuffix(diff) + ")";
+                return "Cannot Afford Land (" + Helper.roundSuffix(diff) + ")";
             }           
         }
         if(type == 2){
             // Type 2 - Prospector.
-
             
             // For simplicity sake, subtype is going to be "basic", "advanced", or, "superior".
-            if(type == "basic"){
-                // OOF, we need to track prices outside of prospecting object
-          
-
-            } else if(type == "advanced"){
-
-            } else if(type == "superior"){
-
+            if(subtype !== null){
+                let prospector = new Prospector(subtype);
+                let price      = prospector.basePrice;
+                if(this.canAfford(price)){
+                    this.spend(price);
+                }
+                if(subtype == "basic"){
+                    this.basicProspectors.push(prospector);
+                }
+                if(subtype == "advanced"){
+                    this.advancedProspectors.push(prospector);
+                }
+                if(subtype == "superior"){
+                    this.superiorProspectors.push(prospector);
+                }
+                
+                let toNumber = {
+                    "basic" : 0,
+                    "advanced": 1,
+                    "superior": 2,
+                };
+                this.totalProspectors[toNumber[subtype]]++;
+                console.log("TOTAL: ", this.totalProspectors);
             }
-
-
-
         }
+    }
+
+    canAfford(price){
+        if(this.money >= price){
+            return true;
+        }
+        return false;
+    }
+
+    spend(price){
+        this.money -= price;
     }
 
     sell(item, type){
@@ -349,24 +397,16 @@ class Incremental{
                let land = landOwned[i];
                if(land == item){
                    landOwned.splice(i, 1);
-
                    let price = item.value;
                    this.money += price;
                    item.owned = 0;
                    item.generate();
                    this.economy.landPrice(item);
                    this.landSale.push(item);
-                   return "Successfully sold for: " + helper.roundSuffix(price);  
+                   return "Successfully sold for: " + Helper.roundSuffix(price);  
 
                }
            }
-
-         
-           
-           
-          
-
-         
         }
         return null;
     }
@@ -375,7 +415,7 @@ class Incremental{
 
 
 window.addEventListener("load", function () {
-    helper.printc("Window load event", "info");
+    Helper.printc("Window load event", "info");
     let router = new Router({
         routes: [{
                 path: '/',

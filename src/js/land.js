@@ -1,4 +1,4 @@
-import * as helper from "./Helper.js";
+import * as Helper from "./Helper.js";
 import Island from './Island.js';
 
 export default class Location {
@@ -38,14 +38,14 @@ export default class Location {
     }
 
     generate() {
-        this.name = helper.generateName();
-        this.name = this.name.charAt(0).toUpperCase() + this.name.slice(1) + " " + helper.randomFromArray(this.suffixs);
-        this.developTime = Math.floor(helper.randomNumber(2, 8, 0) / (this.tier + 1));
+        this.name = Helper.generateName();
+        this.name = this.name.charAt(0).toUpperCase() + this.name.slice(1) + " " + Helper.randomFromArray(this.suffixs);
+        this.developTime = Math.floor(Helper.randomNumber(2, 8, 0) / (this.tier + 1));
         this.developed = false;
         this.developing = false;
-        this.estimate = helper.randomNumber(0.67, 0.98, 0);
+        this.estimate = Helper.randomNumber(0.67, 0.98, 0);
 
-        let randFactor = helper.randomNumber(0.5, 1.2, 0);
+        let randFactor = Helper.randomNumber(0.5, 1.2, 0);
         let baseOres = this.bases[this.tier];
         for (let i in this.genArgs) {
             if (this.genArgs[i] != 0) {
@@ -57,7 +57,7 @@ export default class Location {
         }
         
         this.ores = baseOres;
-        this.island = new Island({xl: 0, xr: 1000, yt: 0, yb: 600}, helper.randomNumber(1, 6000));
+        this.island = new Island({xl: 0, xr: 1000, yt: 0, yb: 600}, Helper.randomNumber(1, 6000));
         this.island.generate();
     }
 }

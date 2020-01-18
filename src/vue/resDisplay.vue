@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import * as helper from "../js/helper.js";
+import * as Helper from "../js/Helper.js";
 export default{
     data () {
         return {
@@ -58,20 +58,20 @@ export default{
     },
     computed: {
         roundedMoney: function(){
-            return "£" + helper.roundSuffix(this.inc.money);
+            return "£" + Helper.roundSuffix(this.inc.money);
         },
         getPIron: function(){
            
-            return helper.roundSuffix(this.inc.prospectedAvail[0], 0);
+            return Helper.roundSuffix(this.inc.prospectedAvail[0], 0);
         },
         getPCopper: function(){
-             return helper.roundSuffix(this.inc.prospectedAvail[1], 0);   
+             return Helper.roundSuffix(this.inc.prospectedAvail[1], 0);   
         },
         getPSilver: function(){
-             return helper.roundSuffix(this.inc.prospectedAvail[2], 0);   
+             return Helper.roundSuffix(this.inc.prospectedAvail[2], 0);   
         },
         getPGold: function(){
-             return helper.roundSuffix(this.inc.prospectedAvail[3], 0);   
+             return Helper.roundSuffix(this.inc.prospectedAvail[3], 0);   
         }
    
 

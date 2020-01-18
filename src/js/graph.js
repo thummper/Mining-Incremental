@@ -1,4 +1,4 @@
-import * as helper from "./Helper.js";
+import * as Helper from "./Helper.js";
 export default class Graph {
     constructor(type) {
         this.type = type;
@@ -7,7 +7,7 @@ export default class Graph {
                 tooltip: {
                     trigger: 'item',
                     formatter: function (params) {
-                        return helper.roundSuffix(params.data)
+                        return Helper.roundSuffix(params.data)
                     }
                 },
                 xAxis: [{}],
@@ -31,7 +31,7 @@ export default class Graph {
                 tooltip: {
                     trigger: 'item',
                     formatter: function (params) {
-                        return helper.roundSuffix(params.data)
+                        return Helper.roundSuffix(params.data)
                     }
                 },
                 xAxis: {
@@ -85,7 +85,7 @@ export default class Graph {
                 data: series,
             }
         ];
-        this.option.formatter = helper.roundSuffix;
+        this.option.formatter = Helper.roundSuffix;
         if(this.chart !== null){
             this.chart.setOption(this.option);
         }
@@ -110,7 +110,7 @@ export default class Graph {
         this.option.yAxis = [{
             type: 'value',
             axisLabel: {
-                formatter: helper.roundSuffix
+                formatter: Helper.roundSuffix
             }
         }];
         
@@ -122,7 +122,7 @@ export default class Graph {
                 areaStyle: {}
             }
         ];
-        this.option.formatter = helper.roundSuffix;
+        this.option.formatter = Helper.roundSuffix;
         if(this.chart !== null){
             this.chart.setOption(this.option);
         }

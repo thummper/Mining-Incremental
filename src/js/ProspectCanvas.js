@@ -80,7 +80,7 @@ export default class ProspCanvas {
             return event.preventDefault() && false;
             }
           
-        }.bind(this));
+        }.bind(this), {passive: true});
 
         this.startX = this.canvas.width  / 2;
         this.startY = this.canvas.height / 2;
@@ -103,7 +103,7 @@ export default class ProspCanvas {
         this.canvas.width  = this.canvas.offsetWidth;
         this.canvas.height = this.canvas.offsetHeight;
         if(this.island){
-            this.scale();
+          
         }
       
     }

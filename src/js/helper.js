@@ -21,8 +21,6 @@ export function roundNumber(number) {
 }
 export function roundSuffix(number) {
     let absNumber = Math.abs(number);
-
-
     if(absNumber >= 1000000000000){
         return (number / 1000000000).toFixed(1) + " T";   
     }else if (absNumber >= 1000000000) {

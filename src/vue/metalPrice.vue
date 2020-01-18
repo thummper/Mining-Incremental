@@ -42,7 +42,7 @@
 </template>
 <script>
 
-import * as helper from "../js/helper.js";
+import * as Helper from "../js/Helper.js";
 // Think we can only make / display the chart if we are here, as canvas not in DOM.
 export default{
     data () {
@@ -116,16 +116,16 @@ export default{
     computed:{
         getIronPrice: function(){
 
-            return helper.roundSuffix(this.inc.economy.orePrices[0], 0);
+            return Helper.roundSuffix(this.inc.economy.orePrices[0], 0);
         },
         getCopperPrice: function(){
-            return helper.roundSuffix(this.inc.economy.orePrices[1], 0);
+            return Helper.roundSuffix(this.inc.economy.orePrices[1], 0);
         },
         getSilverPrice: function(){
-            return helper.roundSuffix(this.inc.economy.orePrices[2], 0);
+            return Helper.roundSuffix(this.inc.economy.orePrices[2], 0);
         },
         getGoldPrice: function(){
-            return helper.roundSuffix(this.inc.economy.orePrices[3], 0);
+            return Helper.roundSuffix(this.inc.economy.orePrices[3], 0);
         },
     }
 }

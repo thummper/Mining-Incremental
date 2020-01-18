@@ -61,7 +61,7 @@
 </template>
 <script>
 import metalPrice from "../vue/metalPrice.vue";
-import Graph from "../js/graph.js";
+import Graph from "../js/Graph.js";
 // Think we can only make / display the chart if we are here, as canvas not in DOM.
 export default{
     data () {
@@ -81,7 +81,7 @@ export default{
         landIndex.init(landIn);
         landIn.addEventListener("scroll", function(event){
             event.preventDefault();
-        });
+        }, {passive: true});
 
         let ironPriceGraph = this.inc.economy.ironPriceGraph;
         let ironElement    = document.getElementById("ironGraph");

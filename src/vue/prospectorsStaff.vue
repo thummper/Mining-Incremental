@@ -1,16 +1,51 @@
 <template src="./html/prospect-staff.html"></template>
 <script>
 
-import * as helper from "../js/helper.js";
+import * as Helper from "../js/Helper.js";
 export default{
     data () {
         return {
             inc: this.$parent.inc,
         }
     },
+    
     methods:{
+        buyProspector: function(type){
+            console.log("Buying Type: ", type);
+            this.inc.purchase(null, 2, type);
+        },
+        tallyExpenses: function(prospectors){
+            let expenses = 0;
+            console.log("Prosp :", prospectors);
+            for(let i = 0; i < prospectors.length; i++){
+                expenses += prospectors[i].annualPrice;
+            }
+            return expenses;
+        }
     },
     computed:{
+        basicProspectors: function(){
+            return Helper.roundSuffix(this.inc.basicProspectors.length);
+        },
+        advancedProspectors: function(){
+            return Helper.roundSuffix(this.inc.advancedProspectors.length);
+        },
+        superiorProspectors: function(){
+            return Helper.roundSuffix(this.inc.superiorProspectors.length);
+        },
+        basicExpenses: function(){
+            let expenses = this.tallyExpenses(this.inc.basicProspectors);
+            return "£" + Helper.roundSuffix(expenses);
+        },
+        advancedExpenses: function(){
+            let expenses = this.tallyExpenses(this.inc.advancedProspectors);
+            return "£" + Helper.roundSuffix(expenses);
+        },
+        superiorExpenses: function(){
+            let expenses = this.tallyExpenses(this.inc.superiorProspectors);
+            return "£" + Helper.roundSuffix(expenses);
+        }
+
     }
 }
 </script>

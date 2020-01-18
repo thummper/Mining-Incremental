@@ -1,5 +1,5 @@
 let randomWords = require('random-words');
-import * as helper from "../js/helper.js";
+import * as Helper from "./Helper.js";
 
 export default class Location{
     constructor(tier = 0, genArgs = [1.1, 1.1, 1.1, 1.1]){
@@ -35,9 +35,9 @@ export default class Location{
         this.generateName(); 
         // Random Factor
 
-        this.developTime = Math.floor(helper.randomNumber(2, 8, 0) / (this.tier + 1));
-        this.estimate = helper.randomNumber(0.67, 0.98, 0);
-        let randFactor = helper.randomNumber(0.5, 1.2, 0);
+        this.developTime = Math.floor(Helper.randomNumber(2, 8, 0) / (this.tier + 1));
+        this.estimate = Helper.randomNumber(0.67, 0.98, 0);
+        let randFactor = Helper.randomNumber(0.5, 1.2, 0);
         let baseOres = this.bases[this.tier];
         for(let i in this.genArgs){
             if(this.genArgs[i] != 0){
@@ -53,7 +53,7 @@ export default class Location{
     //TODO - Move this to helper, we'll need to generate a lot of names
     generateName(){
         let name = randomWords();
-        name = name.charAt(0).toUpperCase() + name.slice(1) + " " + helper.randomFromArray(this.suffixs);
+        name = name.charAt(0).toUpperCase() + name.slice(1) + " " + Helper.randomFromArray(this.suffixs);
         this.name = name;
     }
 

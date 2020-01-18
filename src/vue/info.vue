@@ -56,7 +56,7 @@
     </div>
 </template>
 <script>
-    import * as helper from "../js/helper.js";
+    import * as Helper from "../js/Helper.js";
     export default {
         data() {
             return {
@@ -65,17 +65,17 @@
         },
         computed: {
             netWorth: function () {
-                return "£ " + helper.roundSuffix(this.inc.netWorth);
+                return "£ " + Helper.roundSuffix(this.inc.netWorth);
             },
             cash: function () {
-                return "£ " + helper.roundSuffix(this.inc.money);
+                return "£ " + Helper.roundSuffix(this.inc.money);
 
             },
             landValue: function () {
-                return "£ " + helper.roundSuffix(this.inc.landValue);
+                return "£ " + Helper.roundSuffix(this.inc.landValue);
             },
             appreciation: function(){
-                return "£ " + helper.roundSuffix(this.inc.landAppreciation);
+                return "£ " + Helper.roundSuffix(this.inc.landAppreciation);
             }
         }
     }
