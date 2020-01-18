@@ -42,11 +42,27 @@
             </tr>
             <tr>
                 <td> Operating Expenses </td>
-                <td> £ 0 </td>
+                <td> {{operatingExpenses}} </td>
+            </tr>
+            <tr>
+                <td> Prospector Expenses </td>
+                <td> {{totalProspectorExpenses}} </td>
+            </tr>
+            <tr>
+                <td > Basic </td>
+                <td> {{basicProspectorExpenses}} </td>
+            </tr>
+            <tr>
+                <td> Advanced </td>
+                <td> {{advancedProspectorExpenses}} </td>
+            </tr>
+            <tr>
+            <td> Superior </td>
+                <td> {{superiorProspectorExpenses}} </td>
             </tr>
             <tr>
                 <td> Net Profit </td>
-                <td> £ 0 </td>
+                <td> {{netProfit}} </td>
             </tr>
 
         </table>
@@ -76,6 +92,24 @@
             },
             appreciation: function(){
                 return "£ " + Helper.roundSuffix(this.inc.landAppreciation);
+            },
+            basicProspectorExpenses: function(){
+                return "£ " + Helper.roundSuffix(this.inc.prospectorExpenses[0]);
+            },
+            advancedProspectorExpenses: function(){
+                return "£ " + Helper.roundSuffix(this.inc.prospectorExpenses[1]);
+            },
+            superiorProspectorExpenses: function(){
+                return "£ " + Helper.roundSuffix(this.inc.prospectorExpenses[2]);
+            },
+            totalProspectorExpenses: function(){
+                 return "£ " + Helper.roundSuffix(this.inc.prospectorExpenses[0] + this.inc.prospectorExpenses[1] + this.inc.prospectorExpenses[2]);  
+            },
+            operatingExpenses: function(){
+                return "£ " + Helper.roundSuffix(this.inc.expenses);
+            },
+            netProfit: function(){
+                return "£ " + Helper.roundSuffix(this.inc.netProfit);
             }
         }
     }

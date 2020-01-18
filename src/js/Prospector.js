@@ -8,6 +8,7 @@ export default class Prospector{
                 costReduction: 0,
                 baseEfficiency: 0.4,
                 salaryReduction: 0,
+                salaryInflation: 0,
                 boostedEfficiency: 0,
             },
             "advanced" : {
@@ -16,6 +17,7 @@ export default class Prospector{
                 costReduction: 0,
                 baseEfficiency: 0.7,
                 salaryReduction: 0,
+                salaryInflation: 0,
                 boostedEfficiency: 0,
             },
             "superior" : {
@@ -24,6 +26,7 @@ export default class Prospector{
                 costReduction: 0,
                 baseEfficiency: 1.2,
                 salaryReduction: 0,
+                salaryInflation: 0,
                 boostedEfficiency: 0,
             }
         };
@@ -33,6 +36,7 @@ export default class Prospector{
         this.costReduction = type.costReduction;
         this.baseEfficiency = type.baseEfficiency;
         this.salaryReduction = type.salaryReduction;
+        this.salaryInflation = type.salaryInflation;
         this.boostedEfficiency = type.boostedEfficiency;
 
     }

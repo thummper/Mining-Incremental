@@ -65,8 +65,13 @@ class Incremental{
         // Income Stuff
         this.landAppreciation = 0;
         this.revenue  = 0;
-        this.expenses = 0;
-        this.profit   = 0;
+
+        // Expenses
+        this.expenses = 0; //Total
+        this.prospectorExpenses = [0, 0, 0]; // Basic, Adv, Sup expenses.
+
+  
+        this.netProfit = 0;
 
         // Land vars 
         this.defaultLand = null;
@@ -223,6 +228,31 @@ class Incremental{
      
     }
 
+    addProspectorExpenses(prospectors){
+        // This is monthly. 
+        let expenses = 0;
+        for(let prosp of prospectors){
+            let base = prosp.annualPrice;
+            let inflation = prosp.salaryInflation;
+            let reduction = prosp.salaryReduction; 
+            let totalDiscount = inflation - reduction;
+
+            let additional = base * totalDiscount;
+            base = base + additional;
+            expenses += base / 12;
+        }
+        return expenses;
+
+    }
+
+    getNetProfit(){
+        // Net profit is revenue - expenses.
+        
+
+        // Update revenue
+        
+    }
+
 
     doDayCounter(){
         this.updateNetWorth();
@@ -247,6 +277,28 @@ class Incremental{
     doMonthCounter(){
         this.weekCounter = 0;
         this.monthCounter++;
+        // Pay employee wages.. 
+
+        let expenses = [0, 0, 0];
+        let bps = this.basicProspectors;
+        let aps = this.advancedProspectors; 
+        let sps = this.superiorProspectors;
+        expenses[0] = this.addProspectorExpenses(bps);
+        expenses[1] = this.addProspectorExpenses(aps);
+        expenses[2] = this.addProspectorExpenses(sps);
+
+        // Now update 
+        let totalProspectorExpenses = expenses[0] + expenses[1] + expenses[2];
+        this.expenses += totalProspectorExpenses;
+        this.spend(totalProspectorExpenses);
+
+        let lastProsp = this.prospectorExpenses;
+        // Think we have to make a new array so vue updates?
+        let newProsp = [lastProsp[0] + expenses[0], lastProsp[1] + expenses[1], lastProsp[2] + expenses[2]];
+        this.prospectorExpenses = newProsp;
+        console.log("Prospector Expenses: ", this.prospectorExpenses);
+
+    
     }
 
     doQuarterCounter(){
@@ -260,6 +312,8 @@ class Incremental{
 
         //Reset annual varaibles
         this.landAppreciation = 0;
+        this.expenses = 0;
+        this.prospectorExpenses = [0, 0, 0];
 
     }
 
@@ -287,7 +341,7 @@ class Incremental{
         this.updateDeveloping(this.frameTime);
 
 
-        if(this.timePass >= 1){
+        if(this.timePass >= 0.3){
             this.doDayCounter();
         }
         if(this.dayCounter >= 7){
