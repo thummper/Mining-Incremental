@@ -30,18 +30,27 @@ export default class Economy{
         this.lastIngotTargets = [50, 100, 200, 500];
         this.ingotTargets     = [50, 100, 200, 500];
 
+        this.ingotDemands = [500000, 250000, 100000, 25000];
+        this.ingotsSold   = [0, 0, 0, 1000];
 
-        this.outlook = 0.8;
+
+
+        this.previousOutlooks = [];
+        this.outlook = 0;
+        this.getOutlook();
         // Graphs
         this.landIndGraph     = new Graph("area");
         this.ironPriceGraph   = new Graph("line");
         this.copperPriceGraph = new Graph("line");
         this.silverPriceGraph = new Graph("line");
         this.goldPriceGraph   = new Graph("line");
+        this.econHealthGraph  = new Graph("line");
+        
         this.historicIronPrice   = [["00:00", 0]];
         this.historicCopperPrice = [["00:00", 0]];
         this.historicSilverPrice = [["00:00", 0]];
         this.historicGoldPrice   = [["00:00", 0]];
+        this.historicEconHealth   = [["00:00", this.outlook]];
 
 
 
@@ -50,22 +59,117 @@ export default class Economy{
         this.historicLandIndex = [];
     }
 
+    updateEconomy(){
+        // If demand outstrips supply, price targets should increase 
+        // Increase is dependent on some economy health varaible (the outlook)
+
+
+        /* 
+        Think i'd prefer increases to be generally slow over a long time, 
+        Need to avoid exponential growth without some global cap. 
+        Sharp changes in price caused by random events or sudden changes in economy health.
+        
+        
+        */
+
+
+
+        // OK
+        let soldIngots   = this.ingotsSold;
+        let ingotDemands = this.ingotDemands;
+        let baseGrowth   = [0.002, 0.0009, 0.0005, 0.00006];
+
+        let newTargets = [0, 0, 0, 0]
+
+        for(let i = 0; i < soldIngots.length; i++){
+            let sold   = soldIngots[i];
+            let demand = ingotDemands[i];
+
+            
+
+            let soldFactor =  (1 - ((sold / demand))) / 10;
+            let economyFactor = this.outlook;
+            let baseFactor    = baseGrowth[i];
+
+            let econ = economyFactor * baseFactor;
+
+            let total = soldFactor + econ;
+
+            console.log("Total: ", total / 10);
+            // this growth is too much
+            //newTargets[i] = this.ingotTargets[i] + this.ingotTargets[i] * total;
+
+        }
+
+        //this.ingotTargets = newTargets;
+    }
+
+    getOutlook(){
+        // If there are previous outlooks, average and pick in range so we dont get massive variation. 
+
+        // TODO: Prev outlooks and historics duplicated data..
+        let pastOutlooks = this.previousOutlooks;
+        if(pastOutlooks.length > 0){
+            // Not 0
+            let prevTotal = 0;
+            for(let i = 0; i < pastOutlooks.length; i++){
+                prevTotal += pastOutlooks[i];
+            }
+
+            let averageTotal = prevTotal / pastOutlooks.length;
+            // New outlook within some bounds of average
+            let lowerBound = this.outlook - (averageTotal * Helper.randomNumber(0.55, 0.85, 0));
+            let upperBound = this.outlook + (averageTotal * Helper.randomNumber(0.55, 0.85, 0));
+            if(lowerBound < -1){
+                lowerBound = -1;
+            }
+
+            if(lowerBound > 1){
+                lowerBound = 0.8;
+            }
+            if(upperBound > 1){
+                upperBound = 1;
+            }
+            if(upperBound < -1){
+                upperBound = -0.5;
+            }
+
+            this.outlook = Helper.randomNumber(lowerBound, upperBound, 0);
+            this.previousOutlooks.push(this.outlook);
+        } else {
+            let outlook = Helper.randomNumber(-1, 1, 0);
+            this.outlook = outlook;
+            this.previousOutlooks.push(outlook);
+        }
+
+        while(this.previousOutlooks.length > 8){
+            this.previousOutlooks.shift();
+        }        
+    }
+
     updateOrePrices(){
         this.lastOrePrices = this.orePrices;
         this.orePrices = [0, 0, 0, 0];
-
-
         // Simple Update Logic
         for(let i = 0; i < this.orePrices.length; i++){
             let price = this.lastOrePrices[i];
             let target = this.oreTargets[i];
             if(price < target){
-                price += Helper.randomNumber(0, target * 1.25, 0);
+                price += Helper.randomNumber(0, target * Helper.randomNumber(1, 1.45), 0);
             } else {
-                price -= Helper.randomNumber(0, target * 1.25, 0);
+                price -= Helper.randomNumber(0, target * Helper.randomNumber(1, 1.45), 0);
             }
             this.orePrices[i] = price;
         }
+    }
+
+    updateEconGraphs(time){
+        this.historicEconHealth.push([time, this.outlook]);
+        while(this.historicEconHealth.length > 100){
+            this.historicEconHealth.shift();
+        }
+        this.econHealthGraph.update(this.historicEconHealth);
+
     }
 
     updateOreData(time){
@@ -79,8 +183,8 @@ export default class Economy{
             historics[i].push([time, price]);
         }
 
-        for(let i = 0; i < historics.price; i++){
-            while(historics[i].length > 100){
+        for(let i = 0; i < historics.length; i++){
+            while(historics[i].length > 50){
                 historics[i].shift();
             }
         }

@@ -225,6 +225,7 @@ class Incremental{
         let worthDataPoint = [time, this.netWorth];
         this.economy.updateLandIndex(this.landOwned.concat(this.landSale), time);
         this.economy.updateOreData(time);
+        this.economy.updateEconGraphs(time);
      
     }
 
@@ -258,7 +259,8 @@ class Incremental{
         this.updateNetWorth();
         this.appreciateLand();
         this.prospect();
-        this.economy.updateOrePrices();
+       
+        this.updateGraphs();
         this.timePass = 0;
         this.dayCounter++;
     }
@@ -266,9 +268,12 @@ class Incremental{
     doWeekCounter(){
         // A week has passed
         console.log("Week has passed");
+        this.economy.updateOrePrices();
+        this.economy.updateEconomy();
+        this.economy.getOutlook();
 
        
-        this.updateGraphs();
+        
 
         this.weekCounter++;
         this.dayCounter = 0;

@@ -4,6 +4,17 @@
 
 
     <div class="graphWrapper">
+            <div class="graphSection">
+                <div class="graphTitle">
+                    Economy Health
+                </div>
+                <div class="graph">
+                    <div id="econHealthGraph"></div>
+                </div>
+            </div>
+
+
+
         <div class="graphSection">
             <div class="graphTitle">
                 Land Index
@@ -97,7 +108,11 @@ export default{
 
         let goldPriceGraph = this.inc.economy.goldPriceGraph;
         let goldElement    = document.getElementById("goldGraph");
-        goldPriceGraph.init(goldElement);                        
+        goldPriceGraph.init(goldElement);   
+
+        let econHealth = this.inc.economy.econHealthGraph;
+        let econHealthElm = document.getElementById("econHealthGraph");
+        econHealth.init(econHealthElm);                
 
 
 
