@@ -1,0 +1,14 @@
+.economyWrapper{
+    width: 90%;
+    margin: 12px auto;
+}
+.graph{
+    width: 100%;
+    min-height: 400px;
+    
+  
+    #landIndex, #ironGraph, #copperGraph, #silverGraph, #goldGraph, #econHealthGraph{
+        width: 100%;
+        min-height: 400px;
+    }   
+}

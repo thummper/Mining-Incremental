@@ -1,0 +1,235 @@
+// // Style for Location Card
+
+// .landContent{
+//     text-align: center;
+//     width: 95%;
+//     margin: 0 auto;
+// }
+
+// .landTable, .landContent{
+//     background: white;
+//     padding: 2px;
+//     border-radius: 4px;
+//     align-self: center;
+//     tr{
+//         display: flex;
+//         margin: 12px;
+//         .amount{
+//             padding-left: 12px;
+//         }
+//     }
+// }
+
+// .developTable{
+//     background: $slate;
+//     color: white;
+//     .circle{
+//         border: solid 2px;
+//     }
+// }
+
+
+// .landButton{
+//     margin-top: 20px;
+//     margin-bottom: 20px;
+//     border-radius: 4px;
+//     padding: 8px;
+//     text-align: center;
+//     background: $buttonBG;
+//     transition: all 0.3s;
+//     user-select: none;
+//     -moz-user-select: none;
+//     cursor: pointer;
+//     &:hover{
+//         background: $buttonHover;
+//     }
+// }
+
+
+
+// .landItem{
+//     display: flex;
+//     position: relative;
+//     cursor: pointer;
+//     border-radius: 4px;
+//     width: 260px;
+//     height: 350px;
+//     margin: 12px;
+
+    
+
+//     .default, .hover, .developmentWrapper{
+//         width: 100%;
+//         height: 100%;
+//         position: absolute;
+//         display: flex;
+//         flex-direction: column;
+//         justify-content: center;
+//         align-items: center;
+//     }
+//     .hover{
+//         opacity: 0;
+//         z-index: 2;
+//         background: $slate;
+//     }
+//     &:hover{
+//         .hover{
+//             opacity: 1;
+//         }
+//         .landFill{
+//             display: none;
+//         }
+
+//     }
+// }
+
+.landItem{
+    display: flex;
+    flex-direction: column;
+    width: 270px;
+    min-width: 270px;
+    height: 350px;
+    margin: 12px;
+    position: relative;
+    cursor: pointer;
+    border-radius: 4px;
+    background-position: center;
+    background-size: cover;
+
+}
+
+.wrapper{
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.hover, .default{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    display: grid;
+    grid-template-rows: 40px 1fr 40px;
+    grid-template-columns: 20px 1fr 20px;
+    transition: all 0.3s;
+
+}
+
+
+
+.titleWrapper{
+    grid-column: 2/3;
+    grid-row: 1/2;
+}
+
+.contentWrapper{
+    grid-column: 2/3;
+    grid-row: 2/3;
+}
+
+.buttonWrapper{
+    grid-column: 2/3;
+    grid-row: 3/4;
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.centerWrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.landTitle{
+    background: white;
+    font-weight: 500;
+    font-size: 18px;
+    padding: 0 10px;
+    border-radius: 4px;
+    align-self: center;
+}
+
+.landButton{
+    width: 100%;
+    margin-bottom: 10px;
+    font-size: 18px;
+    border-radius: 4px;
+    padding: 0 10px;
+    text-align: center;
+    background: $buttonBG;
+    transition: all 0.3s;
+    user-select: none;
+    -moz-user-select: none;
+    cursor: pointer;
+    &:hover{
+        background: $buttonHover;
+    }
+}
+
+.hover{
+    opacity: 0;
+    .landContent{
+        background: white;
+        padding: 6px;
+        text-align: center; 
+
+    }
+}
+
+.landItemHover:hover{
+    .default{
+        opacity: 0;
+    }
+    .hover{
+        opacity: 1;
+        z-index: 2;
+    }
+}
+
+.landTable{
+    background: white;
+    padding: 2px;
+    border-radius: 4px;
+    align-self: center;
+    tr{
+        display: flex;
+        margin: 12px;
+        .amount{
+            padding-left: 12px;
+        }
+    }
+}
+
+.developTable{
+    background: $slate;
+    color: white;
+    .circle{
+        border: solid 2px;
+    }
+}
+
+
+.landSelected{
+    transition: all 0.3s;
+    .landTitle{
+        background: $slate;
+        color: white;
+    }
+    .landTable{
+        background: $slate;
+        color: white;
+    }
+    .circle{
+   
+       
+    }
+}
+
+
+
+

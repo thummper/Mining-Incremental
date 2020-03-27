@@ -1,0 +1,480 @@
+//Colours
+$main-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+$iron: #4d504b;
+$copper: #b85233;
+$silver: #b5b5bd;
+$gold: #e7bd42;
+$slate: #34495e;
+$darkSlate: #2c3e50;
+
+
+$lightblue: #2980b9;
+$darkblue: darken($lightblue, 10);
+
+$buttonBG: white;
+$buttonHover: darken(white, 10);
+*{
+    margin: 0;
+    border: 0;
+    font-family: "Open Sans", sans-serif; 
+}
+html{
+    height: 100%;
+}
+body{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#mining{
+    height: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+// Ore Colors
+.block{
+
+}
+.circle{
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+}
+.iron{
+    background: rgba($iron, 0.5);
+}
+.copper{
+    background: rgba($copper, 0.6);
+}
+.silver{
+    background: $silver;
+}
+.gold{
+    background: $gold;
+}
+
+// Navbar
+.nav-wrapper{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    background: $lightblue;
+    border-bottom: solid 4px $darkblue;
+}
+.nav-bar{
+    display: flex;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+#navbar-expand{
+    padding: 10px 12px;
+    cursor: pointer;
+    display: none;
+}
+.nav-bar li{
+    display: flex;
+    justify-content: space-between;
+    margin-right: 1px;
+}
+.nav-link{
+    display: block;
+    padding: 10px 12px;
+    color: #f2f2f2;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background 0.5s;
+        &:hover{
+        background: $darkblue;
+    }
+    
+}
+.nav-item{
+    display: flex;
+    justify-content: space-between;
+}
+.router-link-active{
+    background: $darkblue;
+}
+
+//General 
+.shadow{
+    width: 90%;
+    margin: 0 auto;
+    box-shadow: $main-shadow;
+    border-radius: 4px;
+    padding: 6px;
+}
+
+.flex-row{
+    display: flex;
+}
+.wrap{
+    flex-wrap: wrap;
+    justify-content: center;
+
+}
+.flex-col{
+    display: flex;
+    flex-direction: column;
+}
+.toasted-container.top-right{
+    top: 2% !important;
+    right: 5% !important;
+}
+
+
+//Map Styles
+.locationWrapper{
+    .shadow{
+        padding: 12px;
+    }
+}
+.mapLocations{
+    margin: 24px auto;
+    display: flex;
+    margin-bottom: 100px;
+    
+}
+.locationWrapper{
+    margin: 32px auto;
+    display: flex;
+    flex-direction: column;
+}
+.map-title{
+    align-self: baseline;
+    margin: 0px auto;
+    margin-top: -28px;
+    background: $lightblue;
+    color: white;
+    padding: 12px;
+    border-radius: 4px;
+    font-weight: bold;
+    margin-bottom: 24px;
+}
+
+
+
+
+
+
+.tooltipWrapper{
+    position: absolute;
+    top: 5px;
+    left: 4px;
+    display: inline-block;
+    z-index: 20;
+    .tooltip{
+        background: white;
+        width: 20px;
+        height: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 4px;
+        transition: all 0.2s;
+        &:hover{
+            background: darken(white, 8);
+        }    
+    }
+    .tooltipText{
+        opacity: 0;
+        $width: 230px;
+        width: $width;
+        background: black;
+        color: #fff;
+        text-align: center;
+        padding: 5px 0;
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: calc(- $width / 2);
+        margin-top: 4px;
+        z-index: 1;
+        border-radius: 4px;
+        transition: opacity 1s;
+        div{
+            padding: 8px;
+            text-align: left;
+            span{
+                margin: 4px 0;
+            }
+        }
+    }
+}
+.tooltip:hover{
+    background: $slate;
+}
+.tooltip:hover + .tooltipText{
+   opacity: 1;
+}
+//Resource Container
+.moneyDisplay{
+    text-align: center;
+    padding: 12px 0;
+}
+.resourceWrapper{
+    overflow-x: auto;
+    width: 90%;
+    margin: 24px auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    .flex-row{
+        justify-content: space-around;
+        padding-bottom: 24px;
+    }
+    .col-title{
+        font-weight: bold;
+        padding: 24px 24px;
+    }
+}
+.oreDisplay{
+    min-width: 510px;
+    overflow-x: auto;
+    width: 100%;
+    min-height: 140px;
+    margin: 4px auto;
+    tr{
+        display: flex;
+        margin: 4px auto;
+    }
+    th, td{
+        flex-basis: 100%;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    td{
+        margin-left: 2px;
+        margin-right: 10px;
+        text-align: center;
+        border-radius: 4px;
+    }
+    .title{
+        align-self: center;
+        text-align: center;
+    }
+}
+
+// InfoWrapper
+
+.sectionWrapper{
+    width: 90%;
+    margin: 24px auto;
+}
+
+.infoWrapper{
+    width: 90%;
+    margin: 24px auto;
+}
+.infoTable{
+    border-collapse: separate;
+    border-spacing: 30px 8px;
+    input{
+        font-size: 16px;
+    }
+}
+// Media Queries 
+@media screen and (max-width: 900px){
+    #navbar-expand{
+        display: flex;
+    }
+    .nav-bar{
+        flex-direction: column;
+    }
+    .nav-bar li, .nav-link{
+        flex: 1;
+    }
+}
+
+.posFlash{
+    animation: posFlash 0.6s;
+}
+.negFlash{
+    animation: negFlash 0.6s;
+}
+@keyframes posFlash{
+    0%{
+        background: rgba(0, 82, 33, 0);
+    }
+    20%{
+        background: rgba(0, 82, 33, 0.45);
+    }
+    28%{
+        background: rgba(0, 82, 33, 0.65);
+    }
+    100%{
+        background: rgba(0, 82, 33, 0);
+    }
+}
+@keyframes negFlash{
+    0%{
+        background: rgba(196, 52, 45, 0);
+    }
+    20%{
+        background: rgba(196, 52, 45, .65);
+    }
+    28%{
+        background: rgba(196, 52, 45, .85);
+    }
+    100%{
+        background: rgba(196, 52, 45, 0);
+    }
+}
+
+.v-leave{
+    display: none;
+}
+.v-leave-to{
+    display: none;
+}
+
+// Sub Tabs.
+
+.vue-tabs{
+
+    .vue-tablist{
+        width: 100%;
+        display: flex;
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        li{
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            margin-right: 1px;
+            padding: 10px 12px;
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+            transition: background 0.5s;
+                &:hover{
+                background: white;
+                color: black;
+            }
+        }
+    }
+    li[aria-selected=true]{
+        background: white;
+        color: black;
+    }
+    .vue-tabpanel{
+        background: white;
+        min-height: 400px;
+    }
+}
+
+.prospInfo{
+    position: relative;
+}
+.prospPrevent{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.prospText{
+    padding: 20px;
+    background: rgba(0,0,0,0.85);
+    color: white;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+}
+.hide{
+    display: none;
+}
+
+.prospWorkers{
+    display: flex;
+    flex-direction: column;
+    
+
+    .prospTitle{
+        align-self: center;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        padding: 4px;
+        
+    }
+    .prospContent{
+        min-height: 400px;
+        background: white;
+        width: 100%;
+        margin: 0px auto;
+
+        .oreDisplay{
+            border-bottom: 3.5px solid black;
+        }
+        
+    }
+}
+
+.prospectStaffWrapper{
+    width: 100%;
+
+}
+
+.buyProspectStaff{
+    width: 90%;
+    margin: 12px auto;
+    margin-top: 24px;
+
+}
+.basicBuy{
+    display: flex;
+    flex-direction: column;
+}
+.prospBuyTitle{
+    display: block;
+    padding: 14px;
+    background: black;
+    border-radius: 3px;
+    color: white;
+    align-self: flex-start;
+    margin-bottom: 8px;
+}
+.prospBuyButton{
+    margin-top: 12px;
+    text-decoration: none;
+    color: white;
+    background: $lightblue;
+    font-size: 16px;
+    padding: 6px 18px;
+    border-radius: 2px;
+    display: inline-block;
+    text-align: center;
+    align-self: flex-start;
+    transition:  all .2s;
+    cursor: pointer;
+    &:hover{
+        background: $darkblue;
+    }
+    
+}
+.prospBuyText{
+    line-height: 24px;
+}
+.prospSep{
+    width: 100%;
+    background: black;
+    height: 2.5px;
+    border-radius: 30%;
+    margin-top: 12px;
+    margin-bottom: 40px;
+}
+
+
+@import "landCard.scss";
+@import "economy.scss";
+@import "map.scss";
