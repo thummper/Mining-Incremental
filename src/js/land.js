@@ -60,4 +60,11 @@ export default class Location {
         this.island = new Island({xl: 0, xr: 1000, yt: 0, yb: 600}, Helper.randomNumber(1, 6000));
         this.island.generate(this.ores);
     }
+    updateOres(ores){
+        let newOres = [0, 0, 0, 0];
+        for(let i in this.ores){
+            newOres[i] = this.ores[i] - ores[i];
+        }
+        this.ores = newOres;
+    }
 }

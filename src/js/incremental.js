@@ -252,9 +252,9 @@ class Incremental{
 
         let prospectedResources = [0, 0, 0, 0];
 
-
+        let nextLand = null;
         while(totalEffort > 0){
-            let nextLand = null;
+       
             for(let land of this.landOwned){
                 if(land.developed && land.island.landCells.length > 0){
                     // The first piece of developed land that has land cells remaining
@@ -295,7 +295,9 @@ class Incremental{
                 }
             }
         }
-
+        if(nextLand){
+            nextLand.updateOres(prospectedResources);
+        }
         this.updateProspected(prospectedResources);
 
     }
@@ -366,6 +368,7 @@ class Incremental{
        
         console.log("Week has passed");
         this.updateGraphs();
+        this.updateProspecting();
         this.economy.updateOrePrices();
         this.economy.getOutlook();
         let time = Helper.getTime();
