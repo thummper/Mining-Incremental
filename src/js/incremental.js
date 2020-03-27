@@ -102,6 +102,9 @@ class Incremental{
         this.basicProspectors    = [];
         this.advancedProspectors = [];
         this.superiorProspectors = [];
+        this.prospectorBaseEffort = 100;
+        this.cellEffort = 10000;
+        this.appliedEffort = 0;
 
 
         // Test Ore
@@ -180,6 +183,14 @@ class Incremental{
         this.landDeveloping = stillDeveloping;
     }
 
+    updateProspected(additional){
+        let prospectedOres = [0, 0, 0, 0];
+        for(let i in this.prospected){
+            prospectedOres[i] = this.prospected[i] + additional[i];
+        }
+        this.prospected = prospectedOres;
+    }
+
     updateProspecting(){
         // For some reason we have to make a new array each time otherwise Vue won't update the page? 
         this.prospectedAvail = [0, 0, 0, 0];
@@ -209,6 +220,84 @@ class Incremental{
 
     prospect(){
         // Given that we have some developed land in the land queue, we will prospect that land with the prospectors we have availiable.
+        // Get the first piece of developed land that has ore availiable 
+        /* 
+        Island has X cells, ore can be distributed evenly across them, each time we prospect, we prospect a portion of a land cell
+        
+        Get number of cells
+        Distribute ore across them
+        Each cell requires X effort to prospect, 
+        Get ores proportional to effort made each time 
+        
+        */
+
+        // Determine Prospector Effort.
+        let baseEffort = this.prospectorBaseEffort;
+        let allProspectors = this.basicProspectors.concat(this.advancedProspectors, this.superiorProspectors);
+        let totalEffort = 0;
+        for(let p of allProspectors){
+            totalEffort += (p.baseEfficiency + p.boostedEfficiency) * baseEffort;
+        }
+
+        // We're just going to pop cells off when they are done.
+        console.log("Current Prospecting Effort: ", totalEffort);
+
+        /* 
+        While total effort
+        Get island
+        Get next cell
+        Prospect cells until effort is dead or island is dead.
+        
+        */
+
+        let prospectedResources = [0, 0, 0, 0];
+
+
+        while(totalEffort > 0){
+            let nextLand = null;
+            for(let land of this.landOwned){
+                if(land.developed && land.island.landCells.length > 0){
+                    // The first piece of developed land that has land cells remaining
+                    nextLand = land;   
+                }
+            }
+
+            if(nextLand !== null){
+                let landCells = nextLand.island.landCells;
+                let firstCell = landCells[0];
+                let effortRemain = firstCell.baseEffort - firstCell.currentEffort;
+       
+
+                let effChange = 0;
+                if(totalEffort > effortRemain){
+                    // Prospect whatever remains of this cell and reduce total
+                    firstCell.currentEffort = firstCell.baseEffort;
+                    totalEffort -= effortRemain;
+                    effChange = effortRemain;
+                    firstCell.site.type = "landdone";
+                    nextLand.island.landCells.shift();
+                } else {
+                    // Dont have enough effort to completely prospect cell
+                    firstCell.currentEffort += totalEffort;
+                    effChange = totalEffort;
+                    totalEffort = 0;
+                }
+         
+                let percentChange = (effChange / firstCell.baseEffort);
+             
+                // We receive prospected resources based on how much the cell's effort changes
+                let orePerCell = nextLand.island.orePerCell;  
+            
+                for(let i in orePerCell){
+                    let oreGain = orePerCell[i] * percentChange;
+                  
+                    prospectedResources[i] += oreGain;
+                }
+            }
+        }
+
+        this.updateProspected(prospectedResources);
+
     }
 
     appreciateLand(){

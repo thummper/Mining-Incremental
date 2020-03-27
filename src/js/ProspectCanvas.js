@@ -149,8 +149,11 @@ export default class ProspCanvas {
         if(type == "water"){
             this.ctx.fillStyle = "blue";
             this.ctx.strokeStyle = "blue";
-        } else {
+        } else if(type == "land") {
             this.ctx.fillStyle = "orange";
+            this.ctx.strokeStyle = "black";
+        } else if(type == "landdone"){
+            this.ctx.fillStyle = "pink";
             this.ctx.strokeStyle = "black";
         }
         this.ctx.stroke();

@@ -58,6 +58,6 @@ export default class Location {
         
         this.ores = baseOres;
         this.island = new Island({xl: 0, xr: 1000, yt: 0, yb: 600}, Helper.randomNumber(1, 6000));
-        this.island.generate();
+        this.island.generate(this.ores);
     }
 }

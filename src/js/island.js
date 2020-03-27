@@ -22,10 +22,13 @@ export default class Island{
         this.vornoi = new Voronoi();
         this.diagram;
         this.idEdges;
+        this.landCells = [];
+        this.baseCellEffort = 10000;
+        this.orePerCell = [0, 0, 0, 0];
     }
 
 
-    generate(){
+    generate(baseOres){
         let randomSites = this.generateRandomPoints(500, this.boundingBox);
         let tmpDiagram = this.vornoi.compute(randomSites, this.boundingBox);
         let tmpIdEdges = this.getIDEdges(tmpDiagram.edges);
@@ -45,6 +48,15 @@ export default class Island{
 
         // Now we need to assign land types to vornoi cells.L0
         this.diagram.cells = this.giveElevation(this.diagram.cells, this.boundingBox);
+        // After this function this.landCells should be populated
+        console.log("BE: ", baseOres);
+        for(let i in baseOres){
+            let ore = baseOres[i];
+            let distOre = ore / this.landCells.length;
+            console.log("DIST ORE: ", distOre);
+            this.orePerCell[i] = distOre;
+        }
+
     }
 
 
@@ -128,6 +140,9 @@ export default class Island{
     
             if(nse < - 80){
                 site.type = "land";
+                cell.baseEffort = this.baseCellEffort;
+                cell.currentEffort = 0;
+                this.landCells.push(cell);
             } else {
                 site.type = "water";
             }   
