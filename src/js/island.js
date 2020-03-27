@@ -23,7 +23,7 @@ export default class Island{
         this.diagram;
         this.idEdges;
         this.landCells = [];
-        this.baseCellEffort = 10000;
+        this.baseCellEffort = 200;
         this.orePerCell = [0, 0, 0, 0];
     }
 
@@ -49,11 +49,11 @@ export default class Island{
         // Now we need to assign land types to vornoi cells.L0
         this.diagram.cells = this.giveElevation(this.diagram.cells, this.boundingBox);
         // After this function this.landCells should be populated
-        console.log("BE: ", baseOres);
+ 
         for(let i in baseOres){
             let ore = baseOres[i];
             let distOre = ore / this.landCells.length;
-            console.log("DIST ORE: ", distOre);
+        
             this.orePerCell[i] = distOre;
         }
 

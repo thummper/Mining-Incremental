@@ -239,43 +239,42 @@ class Incremental{
             totalEffort += (p.baseEfficiency + p.boostedEfficiency) * baseEffort;
         }
 
-        // We're just going to pop cells off when they are done.
-        console.log("Current Prospecting Effort: ", totalEffort);
 
-        /* 
-        While total effort
-        Get island
-        Get next cell
-        Prospect cells until effort is dead or island is dead.
-        
-        */
 
         let prospectedResources = [0, 0, 0, 0];
-
         let nextLand = null;
+
+
         while(totalEffort > 0){
-       
+            // The first piece of developed land that has land cells remaining
             for(let land of this.landOwned){
-                if(land.developed && land.island.landCells.length > 0){
-                    // The first piece of developed land that has land cells remaining
+                if(land.developed && land.island.landCells.length > 0){ 
                     nextLand = land;   
                 }
             }
 
+
             if(nextLand !== null){
                 let landCells = nextLand.island.landCells;
                 let firstCell = landCells[0];
-                let effortRemain = firstCell.baseEffort - firstCell.currentEffort;
-       
 
+                let effortRemain = firstCell.baseEffort - firstCell.currentEffort;
+                let lastTick = false;
                 let effChange = 0;
+
                 if(totalEffort > effortRemain){
                     // Prospect whatever remains of this cell and reduce total
                     firstCell.currentEffort = firstCell.baseEffort;
                     totalEffort -= effortRemain;
                     effChange = effortRemain;
                     firstCell.site.type = "landdone";
+
+                    if(nextLand.island.landCells.length == 1){
+                        // The cell we are currently prospecting is the last cell the island has.
+                        lastTick = true;
+                    }
                     nextLand.island.landCells.shift();
+             
                 } else {
                     // Dont have enough effort to completely prospect cell
                     firstCell.currentEffort += totalEffort;
@@ -284,17 +283,24 @@ class Incremental{
                 }
          
                 let percentChange = (effChange / firstCell.baseEffort);
-             
-                // We receive prospected resources based on how much the cell's effort changes
                 let orePerCell = nextLand.island.orePerCell;  
-            
+
                 for(let i in orePerCell){
                     let oreGain = orePerCell[i] * percentChange;
-                  
                     prospectedResources[i] += oreGain;
                 }
+
+                if(lastTick){
+                    console.log("This Islands Last Tick");
+                    totalEffort = 0;
+                    prospectedResources = nextLand.ores;
+  
+                    lastTick = false;
+                }
+
             }
         }
+
         if(nextLand){
             nextLand.updateOres(prospectedResources);
         }

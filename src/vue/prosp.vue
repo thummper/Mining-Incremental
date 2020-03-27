@@ -112,8 +112,11 @@ export default {
     },
     destroyed: function(){
         this.inc.prospCanvas = null;
-        this.activeLand.displaying = false;
-        this.activeLand = null;
+        if(this.activeLand){
+            this.activeLand.displaying = false;
+            this.activeLand = null;
+        }
+
     },
     components: {
         'land-card-small': landCardSmall,

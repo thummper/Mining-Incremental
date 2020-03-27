@@ -2,7 +2,7 @@ import * as Helper from "./Helper.js";
 import Island from './Island.js';
 
 export default class Location {
-    constructor(tier = 0, genArgs = [1.1, 1.1, 1.1, 1.1]) {
+    constructor(tier = 4, genArgs = [1.1, 1.1, 1.1, 1.1]) {
         this.previousValue = 0;
         this.value = 0;
 
