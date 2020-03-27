@@ -17,10 +17,15 @@
             <div class="splitTitle"> Land Queue </div>
         </div>
         <div class="mapBottom">
-            <draggable class="dragWrapper" v-model="inc.landOwned">
+
+
+
+
+        
+           <draggable class="dragWrapper" v-model="inc.landOwned">
                 <land-card-small class="list-group-item" v-for="land in inc.landOwned" :land="land" :key="land.name" />
             </draggable>
-            
+        
         </div>
     </section>
 
@@ -126,7 +131,7 @@ export default {
       
             this.slider.checked = land.default;
             this.activeLand.displaying = true;
-            //this.inc.prospCanvas.setIsland(land.island);
+            this.inc.prospCanvas.setIsland(land.island);
         },
     },
 

@@ -80,7 +80,7 @@ export default class ProspCanvas {
             return event.preventDefault() && false;
             }
           
-        }.bind(this), {passive: true});
+        }.bind(this));
 
         this.startX = this.canvas.width  / 2;
         this.startY = this.canvas.height / 2;

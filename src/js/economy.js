@@ -117,13 +117,23 @@ export default class Economy{
             }
 
             let averageTotal = prevTotal / pastOutlooks.length;
+       
+
+
             // New outlook within some bounds of average
-            let lowerBound = this.outlook - (averageTotal * Helper.randomNumber(0.55, 0.85, 0));
-            let upperBound = this.outlook + (averageTotal * Helper.randomNumber(0.55, 0.85, 0));
+            let lowerBound = this.outlook - (averageTotal * Helper.randomNumber(0.40, 0.99, 0));
+            let upperBound = this.outlook + (averageTotal * Helper.randomNumber(0.40, 0.99, 0));
+
+            let diff = upperBound - lowerBound;
+            console.log("DIFF: ", diff);
+            if(upperBound - lowerBound < 0.02){
+                upperBound += upperBound * Helper.randomNumber(0.5, 1.5)
+                lowerBound -= lowerBound * Helper.randomNumber(0.5, 1.5)
+            }
+
             if(lowerBound < -1){
                 lowerBound = -1;
             }
-
             if(lowerBound > 1){
                 lowerBound = 0.8;
             }
@@ -134,7 +144,10 @@ export default class Economy{
                 upperBound = -0.5;
             }
 
+            
+
             this.outlook = Helper.randomNumber(lowerBound, upperBound, 0);
+           
             this.previousOutlooks.push(this.outlook);
         } else {
             let outlook = Helper.randomNumber(-1, 1, 0);
@@ -155,9 +168,12 @@ export default class Economy{
             let price = this.lastOrePrices[i];
             let target = this.oreTargets[i];
             if(price < target){
-                price += Helper.randomNumber(0, target * Helper.randomNumber(1, 1.45), 0);
+                price += Helper.randomNumber(0, target * Helper.randomNumber(0.25, 0.65), 0) + (this.outlook *  Helper.randomNumber(0, target / 2));
             } else {
-                price -= Helper.randomNumber(0, target * Helper.randomNumber(1, 1.45), 0);
+                price -= Helper.randomNumber(0, target * Helper.randomNumber(0.25, 0.65), 0) + (this.outlook * Helper.randomNumber(0, target / 2));
+            }
+            if(price < 0){
+                price = 0 + Helper.randomNumber(0, 10)
             }
             this.orePrices[i] = price;
         }

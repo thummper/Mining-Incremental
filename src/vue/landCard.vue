@@ -42,6 +42,8 @@
       </div>
       <div class="buttonWrapper centerWrapper">
           <div class="landButton" v-if="!land.developing" v-on:click="developLand"> Develop for: {{developPrice}}</div>
+          <div v-if="!land.owned" v-on:click="buyLand" class="landButton">Purchase: {{roundedMoney}}</div>
+          <div v-if="land.owned" v-on:click="sellLand" class="landButton">Sell: {{roundedMoney}}</div>
       </div> 
     </div>
     
@@ -72,7 +74,7 @@
         </div>
       </div>
       <div class="buttonWrapper centerWrapper">
-          <div v-if="! land.owned" v-on:click="buyLand" class="landButton">Purchase: {{roundedMoney}}</div>
+          <div v-if="!land.owned" v-on:click="buyLand" class="landButton">Purchase: {{roundedMoney}}</div>
           <div v-if="land.owned" v-on:click="sellLand" class="landButton">Sell: {{roundedMoney}}</div>
       </div>      
     </div>

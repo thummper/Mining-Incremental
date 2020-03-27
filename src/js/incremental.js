@@ -27,10 +27,13 @@ import cResDisplay from '../vue/resDisplay.vue';
 
 // Import other stuff. 
 import Toasted from 'vue-toasted';
+
+
 import Prospector from "./Prospector.js";
 let options = {
     duration : 1500
 };
+
 Vue.use(Toasted, options);
 Vue.use(Router);
 
@@ -125,7 +128,7 @@ class Incremental{
         // Generate everything we need and start the gameloop 
         for(let i = 0, j = this.images.length; i < j; i++){
             let land = this.generateLand(4);
-            if(i % 2 == 0){
+            if(i % 3 == 0){
                 // Start with 1 piece of developed land.
                 land.owned = 1;
                 land.developed = 1;
@@ -139,7 +142,8 @@ class Incremental{
            
         this.updateProspecting();
         this.updateNetWorth();
-        this.loop();
+        window.requestAnimationFrame(this.loop.bind(this));
+        
     }
 
     developLand(land){
@@ -220,6 +224,8 @@ class Incremental{
         }
     }
 
+    
+
     updateGraphs(){
         let time = Helper.getTime();
         let worthDataPoint = [time, this.netWorth];
@@ -260,30 +266,32 @@ class Incremental{
         this.appreciateLand();
         this.prospect();
        
-        this.updateGraphs();
+        
         this.timePass = 0;
         this.dayCounter++;
     }
 
     doWeekCounter(){
-        // A week has passed
-        console.log("Week has passed");
-        this.economy.updateOrePrices();
-        this.economy.updateEconomy();
-        this.economy.getOutlook();
-
-       
         
-
+        // A week has passed
+       
+        console.log("Week has passed");
+        this.updateGraphs();
+        this.economy.updateOrePrices();
+        this.economy.getOutlook();
+        let time = Helper.getTime();
+        this.economy.updateEconGraphs(time);
         this.weekCounter++;
         this.dayCounter = 0;
+        
     }
 
     doMonthCounter(){
         this.weekCounter = 0;
         this.monthCounter++;
+        this.economy.updateEconomy();
+        
         // Pay employee wages.. 
-
         let expenses = [0, 0, 0];
         let bps = this.basicProspectors;
         let aps = this.advancedProspectors; 
@@ -346,7 +354,7 @@ class Incremental{
         this.updateDeveloping(this.frameTime);
 
 
-        if(this.timePass >= 0.3){
+        if(this.timePass >= 0.5){
             this.doDayCounter();
         }
         if(this.dayCounter >= 7){
@@ -366,6 +374,7 @@ class Incremental{
         this.money += moneyGain;
         // Should generate more land for sale if we fall below a certain threshold 
         window.requestAnimationFrame(this.loop.bind(this));
+       
     }
 
     updateNetWorth(){

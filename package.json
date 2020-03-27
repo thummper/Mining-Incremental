@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "awe-dnd": "^0.3.4",
     "babel-helper-vue-jsx-merge-props": "^2.0.3",
     "css-loader": "^2.1.0",
     "file-loader": "^3.0.1",
