@@ -222,22 +222,11 @@ class Incremental{
     }
 
     prospect(){
-        // Given that we have some developed land in the land queue, we will prospect that land with the prospectors we have availiable.
-        // Get the first piece of developed land that has ore availiable 
-        /* 
-        Island has X cells, ore can be distributed evenly across them, each time we prospect, we prospect a portion of a land cell
-        
-        Get number of cells
-        Distribute ore across them
-        Each cell requires X effort to prospect, 
-        Get ores proportional to effort made each time 
-        
-        */
-
         // Determine Prospector Effort.
-        let baseEffort = this.prospectorBaseEffort;
+        let baseEffort     = this.prospectorBaseEffort;
         let allProspectors = this.basicProspectors.concat(this.advancedProspectors, this.superiorProspectors);
-        let totalEffort = 0;
+        let totalEffort    = 0;
+
         for(let p of allProspectors){
             totalEffort += (p.baseEfficiency + p.boostedEfficiency) * baseEffort;
         }
@@ -245,8 +234,7 @@ class Incremental{
 
 
         let prospectedResources = [0, 0, 0, 0];
-        let nextLand = null;
-
+        let nextLand            = null;
 
         while(totalEffort > 0){
             // The first piece of developed land that has land cells remaining
@@ -255,8 +243,6 @@ class Incremental{
                     nextLand = land;   
                 }
             }
-
-
             if(nextLand !== null){
                 let landCells = nextLand.island.landCells;
                 let firstCell = landCells[0];
@@ -284,20 +270,16 @@ class Incremental{
                     effChange = totalEffort;
                     totalEffort = 0;
                 }
-         
                 let percentChange = (effChange / firstCell.baseEffort);
                 let orePerCell = nextLand.island.orePerCell;  
-
                 for(let i in orePerCell){
                     let oreGain = orePerCell[i] * percentChange;
                     prospectedResources[i] += oreGain;
                 }
 
                 if(lastTick){
-                   
                     totalEffort = 0;
                     prospectedResources = nextLand.ores;
-  
                     lastTick = false;
                 }
 
@@ -305,7 +287,7 @@ class Incremental{
         }
 
         if(nextLand){
-            nextLand.updateOres(prospectedResources);
+            nextLand.updateProspected(prospectedResources);
         }
         this.updateProspected(prospectedResources);
 
@@ -570,8 +552,9 @@ class Incremental{
                    item.generate();
                    this.economy.landPrice(item);
                    this.landSale.push(item);
+                   let lossProspecting = item.prospectedOre;
+                   this.prospected = this.prospected.map(function(v, i) {return v - this[i]; }, lossProspecting);
                    return "Successfully sold for: " + Helper.roundSuffix(price);  
-
                }
            }
         }

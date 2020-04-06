@@ -75,13 +75,16 @@ export default class Land {
     }
 
 
-    updateOres(ores){
-        // TODO: Should be internal
-        let newOres = [0, 0, 0, 0];
+    updateProspected(ores){
+        // Take ores away from ores add to prospected
+        let newOres  = [0, 0, 0, 0];
+        let newProsp = [0, 0, 0, 0];
         for(let i in this.ore){
-            newOres[i] = this.ore[i] - ores[i];
+            newOres[i]  = this.ore[i] - ores[i];
+            newProsp[i] = this.prospectedOre[i] + ores[i];
         }
-        this.ore = newOres;
+        this.ore           = newOres;
+        this.prospectedOre = newProsp;
     }
 
 }
