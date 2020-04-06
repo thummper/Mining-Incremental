@@ -1,5 +1,5 @@
 <template>
-    <div class="infoWrapper shadow">
+    <div class="sectionWrapper shadow">
         <table class="infoTable">
             <tr>
                 <td> Company Name </td>

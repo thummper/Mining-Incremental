@@ -1,6 +1,6 @@
 <template>
 
-<div class="landItem" :style="{ backgroundImage: 'url(' +  land.img + '.jpg )' }" v-bind:class="{landItemHover: !land.developed && land.owned}" v-on:click="clicked">
+<div class="landItem" :style="{ backgroundImage: 'url(' +  land.imagePath + '.jpg )' }" v-bind:class="{landItemHover: !land.developed && land.owned}" v-on:click="clicked">
   <div class="wrapper">
                   <div class="tooltipWrapper">
                 <div class="tooltip">
@@ -11,7 +11,7 @@
                     <br>
                     <div>
                         <span>Base Value: £{{roundedBase}}</span><br>
-                        <span>Ore Value: £{{roundedOre}}</span><br>
+                        <span>Ore Value:  £{{roundedOre}}</span><br>
                         <span>Developed Modifier: {{devModifier}}</span>
                     </div>
                 </div>
@@ -101,19 +101,20 @@
         },
         computed: {
             roundedMoney: function () {
+            
                 return "£" + Helper.roundSuffix(this.land.value);
             },
             roundedIron: function () {
-                return Helper.roundSuffix(this.land.ores[0] * this.land.estimate);
+                return Helper.roundSuffix(this.land.ore[0]);
             },
             roundedCopper: function () {
-                return Helper.roundSuffix(this.land.ores[1] * this.land.estimate);
+                return Helper.roundSuffix(this.land.ore[1]);
             },
             roundedSilver: function () {
-                return Helper.roundSuffix(this.land.ores[2] * this.land.estimate);
+                return Helper.roundSuffix(this.land.ore[2]);
             },
             roundedGold: function () {
-                return Helper.roundSuffix(this.land.ores[3] * this.land.estimate);
+                return Helper.roundSuffix(this.land.ore[3]);
             },
             roundedBase: function () {
                 return Helper.roundSuffix(this.land.basePrice);

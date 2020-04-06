@@ -1,5 +1,5 @@
 <template>
-<div class="economyWrapper">
+<div class="sectionWrapper">
     <metal-prices></metal-prices>
 
 

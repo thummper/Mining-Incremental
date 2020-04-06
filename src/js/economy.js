@@ -34,10 +34,14 @@ export default class Economy{
         this.ingotsSold   = [0, 0, 0, 1000];
 
 
-
+        this.currentLandIndex = 0;
+        // TODO: Replace with historic econ health
         this.previousOutlooks = [];
         this.outlook = 0;
         this.getOutlook();
+
+
+
         // Graphs
         this.landIndGraph     = new Graph("area");
         this.ironPriceGraph   = new Graph("line");
@@ -46,17 +50,20 @@ export default class Economy{
         this.goldPriceGraph   = new Graph("line");
         this.econHealthGraph  = new Graph("line");
         
+
+        // Data for graphs
         this.historicIronPrice   = [["00:00", 0]];
         this.historicCopperPrice = [["00:00", 0]];
         this.historicSilverPrice = [["00:00", 0]];
         this.historicGoldPrice   = [["00:00", 0]];
-        this.historicEconHealth   = [["00:00", this.outlook]];
+        this.historicEconHealth  = [["00:00", this.outlook]];
+        this.historicLandIndex   = [["00:00", this.currentLandIndex]];
 
 
 
 
-        this.currentLandIndex = 0;
-        this.historicLandIndex = [];
+        
+        
     }
 
     updateEconomy(){
@@ -68,11 +75,7 @@ export default class Economy{
         Think i'd prefer increases to be generally slow over a long time, 
         Need to avoid exponential growth without some global cap. 
         Sharp changes in price caused by random events or sudden changes in economy health.
-        
-        
         */
-
-
 
         // OK
         let soldIngots   = this.ingotsSold;
@@ -85,22 +88,17 @@ export default class Economy{
             let sold   = soldIngots[i];
             let demand = ingotDemands[i];
 
-            
-
+    
             let soldFactor =  (1 - ((sold / demand))) / 10;
             let economyFactor = this.outlook;
             let baseFactor    = baseGrowth[i];
-
             let econ = economyFactor * baseFactor;
-
             let total = soldFactor + econ;
-
             console.log("Total: ", total / 10);
             // this growth is too much
             //newTargets[i] = this.ingotTargets[i] + this.ingotTargets[i] * total;
 
         }
-
         //this.ingotTargets = newTargets;
     }
 
@@ -118,8 +116,6 @@ export default class Economy{
 
             let averageTotal = prevTotal / pastOutlooks.length;
        
-
-
             // New outlook within some bounds of average
             let lowerBound = this.outlook - (averageTotal * Helper.randomNumber(0.40, 0.99, 0));
             let upperBound = this.outlook + (averageTotal * Helper.randomNumber(0.40, 0.99, 0));
@@ -144,28 +140,29 @@ export default class Economy{
                 upperBound = -0.5;
             }
 
-            
-
             this.outlook = Helper.randomNumber(lowerBound, upperBound, 0);
-           
             this.previousOutlooks.push(this.outlook);
+
         } else {
+
             let outlook = Helper.randomNumber(-1, 1, 0);
             this.outlook = outlook;
             this.previousOutlooks.push(outlook);
         }
 
         while(this.previousOutlooks.length > 8){
+
             this.previousOutlooks.shift();
         }        
     }
 
     updateOrePrices(){
         this.lastOrePrices = this.orePrices;
-        this.orePrices = [0, 0, 0, 0];
+        this.orePrices     = [0, 0, 0, 0];
         // Simple Update Logic
         for(let i = 0; i < this.orePrices.length; i++){
-            let price = this.lastOrePrices[i];
+
+            let price  = this.lastOrePrices[i];
             let target = this.oreTargets[i];
             if(price < target){
                 price += Helper.randomNumber(0, target * Helper.randomNumber(0.25, 0.65), 0) + (this.outlook *  Helper.randomNumber(0, target / 2));
@@ -240,30 +237,33 @@ export default class Economy{
 
   
     landPrice(land){
-        let basePrice = Helper.randomNumber(500000, 2000000, 0);
+        let basePrice  = Helper.randomNumber(500000, 2000000, 0);
         land.basePrice = basePrice;
         land.developPrice = Math.floor(basePrice / (land.tier + 1));
+
+        console.log("BASE PRICE: ", land.basePrice);
+
         this.landUpdate(land);
-        land.previousValue = land.value;
-  
     }
 
 
 
     landUpdate(land){
-        // Given a piece of land, adjust price based on economy, and work out its value.
+        // Given a piece of land
         land.previousValue = land.value;
-        
-
+        // Land appreciation / depreciation based on economy factor
         if(this.outlook >= 0){
             let economyFactor = (land.basePrice * 0.2) * Helper.randomNumber(0.008, 0.015, 0);
             land.basePrice += economyFactor;
             // If we own the land, this value needs to be added to accounting info (appreciation    )
         }
-        //Update price of land based on ores.
-        let oreValue = 0;
-        let ores = land.ores;
+
+
+        // Update price of land based on ores.
+        let oreValue  = 0;
+        let ores      = land.ore;
         let orePrices = this.orePrices;
+        console.log("ORES: ", ores);
         
         for(let i = 0; i < ores.length; i++){
             let amount = ores[i];
@@ -273,9 +273,9 @@ export default class Economy{
         }
         land.oreWorth = oreValue;
         land.value = land.basePrice + land.oreWorth;
-
+  
         if(land.developed){
-            land.value =  land.value * land.developedModifier;
+            land.value *= land.developedModifier;
         }
     }
 

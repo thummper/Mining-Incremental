@@ -1,5 +1,5 @@
 <template>
-<main class="prospWrapper">
+<div class="sectionWrapper prospWrapper">
     <section class="mapWrapper">
         <div class="mapTop">
             <div class="map">
@@ -61,7 +61,7 @@
               </tab>
           </tabs>
     </section>
-</main>
+</div>
 </template>
 
 <script>

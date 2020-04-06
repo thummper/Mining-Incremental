@@ -90,7 +90,8 @@ class Incremental{
         this.mps = 1;
 
         // Mineral vars 
-        this.prospectedAvail = [0, 0, 0, 0];
+        this.toProspect = [0, 0, 0, 0];
+    
         this.prospected = [0, 0, 0, 0];
         this.mined      = [0, 0, 0, 0];
         this.ingots     = [0, 0, 0, 0];
@@ -193,13 +194,13 @@ class Incremental{
 
     updateProspecting(){
         // For some reason we have to make a new array each time otherwise Vue won't update the page? 
-        this.prospectedAvail = [0, 0, 0, 0];
+        this.toProspect = [0, 0, 0, 0];
         for(let i in this.landOwned){
             let land = this.landOwned[i];
             if(land.developed){
-                let ores = land.ores;
+                let ores = land.ore;
                 for(let j in ores){
-                    this.prospectedAvail[j] += ores[j];
+                    this.toProspect[j] += ores[j];
                 }
             }
         }
@@ -209,11 +210,13 @@ class Incremental{
         let land = new Land();
         //Set Price
         this.economy.landPrice(land);
+        console.log("LAND PRICE AFTER MADE: ", land.price);
+
         let randomIndex = Helper.randomFromArray(this.images, 1);
         let randomImage = this.images[randomIndex];
         this.images.splice(randomIndex, 1);
         this.usedImages.push(randomImage);
-        land.img = this.imgBase + randomImage;
+        land.imagePath   = this.imgBase + randomImage;
         land.image = this.randomImage;
         return land;
     }

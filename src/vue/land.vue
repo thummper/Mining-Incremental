@@ -1,5 +1,5 @@
 <template>
-<div class="locationWrapper">
+<div class="sectionWrapper">
     <div class="mapLocations shadow flex-col">
         <div class="shadow-title map-title">
             Active Land

@@ -27,7 +27,7 @@ body{
     flex-direction: column;
 }
 
-#mining{
+main{
     height: 100%;
     flex: 1;
     display: flex;
@@ -102,11 +102,10 @@ body{
 
 //General 
 .shadow{
-    width: 90%;
-    margin: 0 auto;
     box-shadow: $main-shadow;
     border-radius: 4px;
     padding: 6px;
+    box-sizing: border-box;
 }
 
 .flex-row{
@@ -266,10 +265,7 @@ body{
     margin: 24px auto;
 }
 
-.infoWrapper{
-    width: 90%;
-    margin: 24px auto;
-}
+
 .infoTable{
     border-collapse: separate;
     border-spacing: 30px 8px;

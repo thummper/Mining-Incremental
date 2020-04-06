@@ -62,16 +62,16 @@ export default{
         },
         getPIron: function(){
            
-            return Helper.roundSuffix(this.inc.prospectedAvail[0], 0);
+            return Helper.roundSuffix(this.inc.toProspect[0], 0);
         },
         getPCopper: function(){
-             return Helper.roundSuffix(this.inc.prospectedAvail[1], 0);   
+             return Helper.roundSuffix(this.inc.toProspect[1], 0);   
         },
         getPSilver: function(){
-             return Helper.roundSuffix(this.inc.prospectedAvail[2], 0);   
+             return Helper.roundSuffix(this.inc.toProspect[2], 0);   
         },
         getPGold: function(){
-             return Helper.roundSuffix(this.inc.prospectedAvail[3], 0);   
+             return Helper.roundSuffix(this.inc.toProspect[3], 0);   
         },
         getPRIron: function(){
             return Helper.roundSuffix(this.inc.prospected[0], 0);    

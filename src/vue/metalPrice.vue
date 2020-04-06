@@ -1,5 +1,5 @@
 <template>
-<div class="metalWrapper">
+<div class="sectionWrapper metalWrapper">
         <table class="oreDisplay">
             <tr>
                 <th></th>
