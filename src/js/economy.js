@@ -94,7 +94,7 @@ export default class Economy{
             let baseFactor    = baseGrowth[i];
             let econ = economyFactor * baseFactor;
             let total = soldFactor + econ;
-            console.log("Total: ", total / 10);
+          
             // this growth is too much
             //newTargets[i] = this.ingotTargets[i] + this.ingotTargets[i] * total;
 
@@ -121,7 +121,6 @@ export default class Economy{
             let upperBound = this.outlook + (averageTotal * Helper.randomNumber(0.40, 0.99, 0));
 
             let diff = upperBound - lowerBound;
-            console.log("DIFF: ", diff);
             if(upperBound - lowerBound < 0.02){
                 upperBound += upperBound * Helper.randomNumber(0.5, 1.5)
                 lowerBound -= lowerBound * Helper.randomNumber(0.5, 1.5)
@@ -241,8 +240,6 @@ export default class Economy{
         land.basePrice = basePrice;
         land.developPrice = Math.floor(basePrice / (land.tier + 1));
 
-        console.log("BASE PRICE: ", land.basePrice);
-
         this.landUpdate(land);
     }
 
@@ -263,7 +260,6 @@ export default class Economy{
         let oreValue  = 0;
         let ores      = land.ore;
         let orePrices = this.orePrices;
-        console.log("ORES: ", ores);
         
         for(let i = 0; i < ores.length; i++){
             let amount = ores[i];

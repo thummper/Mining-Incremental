@@ -33,9 +33,7 @@ export default{
         }
     },
     mounted: function(){
-        console.log("LAND OWNED: ", this.inc.landOwned);
-
-         
+ 
     },
     components: {
         'land-card': landCard

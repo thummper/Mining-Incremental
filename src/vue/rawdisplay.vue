@@ -19,15 +19,10 @@ export default {
   props,
   computed: {
     valueString() {
-        console.log("VAL: ", this.value);
-        let ret = "";
-        for(let item of this.value){
-            console.log("ITEM: ", item);
-            
-            ret += item.name + "\n";
-        }
-
-
+      let ret = "";
+      for(let item of this.value){
+        ret += item.name + "\n";
+      }
       return ret;
     }
   }

@@ -94,7 +94,7 @@
             }
         },
         mounted: function(){
-            console.log("ROUTE: ", this.$route);
+           
         },
         props: {
             land: Object
@@ -149,13 +149,11 @@
             },
             developLand: function (event) {
                 // Start development of land
-                console.log("Developing Land");
                 this.inc.developLand(this.land);
             },
             clicked: function(event){
                 // Should only fire if clicked on the map page. 
                 let route = this.$route;
-                console.log("Current Route Name: ", route.name);
                 if(route.name == "Prospecting" && this.land.developed){
                     // Load this land into map.
                     // When this is clicked, we need to draw this land's island in map.

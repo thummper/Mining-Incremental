@@ -11,12 +11,10 @@ export default{
     
     methods:{
         buyProspector: function(type){
-            console.log("Buying Type: ", type);
             this.inc.purchase(null, 2, type);
         },
         tallyExpenses: function(prospectors){
             let expenses = 0;
-            console.log("Prosp :", prospectors);
             for(let i = 0; i < prospectors.length; i++){
                 expenses += prospectors[i].annualPrice;
             }

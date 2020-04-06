@@ -1562,7 +1562,7 @@ Voronoi.prototype.closeCells = function(bbox) {
 
 // ---------------------------------------------------------------------------
 // Debugging helper
-/*
+
 Voronoi.prototype.dumpBeachline = function(y) {
     console.log('Voronoi.dumpBeachline(%f) > Beachsections, from left to right:', y);
     if ( !this.beachline ) {
@@ -1576,7 +1576,7 @@ Voronoi.prototype.dumpBeachline = function(y) {
             }
         }
     };
-*/
+
 
 // ---------------------------------------------------------------------------
 // Helper: Quantize sites

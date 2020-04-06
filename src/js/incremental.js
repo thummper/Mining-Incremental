@@ -210,7 +210,7 @@ class Incremental{
         let land = new Land();
         //Set Price
         this.economy.landPrice(land);
-        console.log("LAND PRICE AFTER MADE: ", land.price);
+        
 
         let randomIndex = Helper.randomFromArray(this.images, 1);
         let randomImage = this.images[randomIndex];
@@ -294,7 +294,7 @@ class Incremental{
                 }
 
                 if(lastTick){
-                    console.log("This Islands Last Tick");
+                   
                     totalEffort = 0;
                     prospectedResources = nextLand.ores;
   
@@ -375,7 +375,7 @@ class Incremental{
         
         // A week has passed
        
-        console.log("Week has passed");
+    
         this.updateGraphs();
         this.updateProspecting();
         this.economy.updateOrePrices();
@@ -410,13 +410,12 @@ class Incremental{
         // Think we have to make a new array so vue updates?
         let newProsp = [lastProsp[0] + expenses[0], lastProsp[1] + expenses[1], lastProsp[2] + expenses[2]];
         this.prospectorExpenses = newProsp;
-        console.log("Prospector Expenses: ", this.prospectorExpenses);
+  
 
     
     }
 
     doQuarterCounter(){
-        console.log("Quarter has passed");
         this.monthCounter = 0;
         this.quarterCounter++;       
     }
@@ -538,7 +537,6 @@ class Incremental{
                     "superior": 2,
                 };
                 this.totalProspectors[toNumber[subtype]]++;
-                console.log("TOTAL: ", this.totalProspectors);
             }
         }
     }

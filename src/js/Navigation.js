@@ -9,7 +9,6 @@ export default class Navigation {
     init() {
         this.checkWidth();
         window.addEventListener("resize", this.checkWidth.bind(this));
-        console.log(this.expand);
         this.expand.addEventListener("click", function () {
             if(this.collapsed){
                 this.showItems();
@@ -18,7 +17,6 @@ export default class Navigation {
                 this.hideItems();
                 this.collapsed = true;
             }
-            console.log("clicked");
         }.bind(this), false);
     }
     

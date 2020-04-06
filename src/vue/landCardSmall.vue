@@ -19,16 +19,16 @@
                 return "£" + Helper.roundSuffix(this.land.value);
             },
             roundedIron: function () {
-                return Helper.roundSuffix(this.land.ores[0] * this.land.estimate);
+                return Helper.roundSuffix(this.land.ore[0]);
             },
             roundedCopper: function () {
-                return Helper.roundSuffix(this.land.ores[1] * this.land.estimate);
+                return Helper.roundSuffix(this.land.ore[1]);
             },
             roundedSilver: function () {
-                return Helper.roundSuffix(this.land.ores[2] * this.land.estimate);
+                return Helper.roundSuffix(this.land.ore[2]);
             },
             roundedGold: function () {
-                return Helper.roundSuffix(this.land.ores[3] * this.land.estimate);
+                return Helper.roundSuffix(this.land.ore[3]);
             },
             roundedBase: function () {
                 return Helper.roundSuffix(this.land.basePrice);
