@@ -6,6 +6,7 @@
         data() {
             return {
                 inc: this.$parent.inc,
+                percent: 0,
             }
         },
         mounted: function(){
@@ -15,6 +16,7 @@
             land: Object
         },
         computed: {
+
             roundedMoney: function () {
                 return "£" + Helper.roundSuffix(this.land.value);
             },

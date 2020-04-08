@@ -23,6 +23,9 @@ import cResearh from '../vue/research.vue';
 import cStats from '../vue/stats.vue';
 import cEconomy from '../vue/economy.vue';
 import cResDisplay from '../vue/resDisplay.vue';
+// main.js
+import KProgress from 'k-progress';
+
 
 
 // Import other stuff. 
@@ -36,6 +39,7 @@ let options = {
 
 Vue.use(Toasted, options);
 Vue.use(Router);
+Vue.component('k-progress', KProgress);
 
 
 // Define Vue Components
@@ -270,6 +274,9 @@ class Incremental{
                     effChange = totalEffort;
                     totalEffort = 0;
                 }
+
+
+
                 let percentChange = (effChange / firstCell.baseEffort);
                 let orePerCell = nextLand.island.orePerCell;  
                 for(let i in orePerCell){
@@ -278,11 +285,16 @@ class Incremental{
                 }
 
                 if(lastTick){
+                   
                     totalEffort = 0;
-                    prospectedResources = nextLand.ores;
+                    prospectedResources = nextLand.ore;
                     lastTick = false;
+                   
                 }
 
+            } else if(nextLand == null){
+                console.log("No land to prospect");
+                totalEffort = 0;
             }
         }
 

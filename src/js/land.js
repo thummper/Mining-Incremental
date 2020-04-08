@@ -31,6 +31,7 @@ export default class Land {
         this.timePass     = 0;
         this.developedModifier = 2;
         this.displaying   = false;
+        this.percentProspected = 0;
 
         
         this.bases = [
@@ -85,6 +86,22 @@ export default class Land {
         }
         this.ore           = newOres;
         this.prospectedOre = newProsp;
+        this.percentProspected = 0;
+        let totalOre = 0;
+        let totalProspected = 0;
+
+        for(let ore of this.baseOre){
+            totalOre += ore;
+        }
+        for(let ore of this.prospectedOre){
+            totalProspected += ore;
+        }
+
+        this.percentProspected = totalProspected / totalOre * 100;
+
+
+
+
     }
 
 }

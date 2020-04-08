@@ -1,5 +1,10 @@
 <li class="wideLandWrapper" v-on:click="clicked" v-bind:class="{landSelected: land.displaying}">
-    <div class="left" :style="{ backgroundImage: 'url(' +  land.img + '.jpg )' }">
+
+    <k-progress :percent="land.percentProspected" :show-text="false"></k-progress>
+
+
+    <div class="flex-row">
+    <div class="left" :style="{ backgroundImage: 'url(' +  land.imagePath + '.jpg )' }">
         <div class="landTitle wide">
             {{land.name}}
         </div>
@@ -39,6 +44,7 @@
             </tr>
         </table>
     </div>
+</div>
 </li>
 
 

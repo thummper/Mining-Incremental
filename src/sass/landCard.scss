@@ -216,19 +216,30 @@
 
 .landSelected{
     transition: all 0.3s;
+    background: $slate;
+    color: white;
     .landTitle{
-        background: $slate;
-        color: white;
+        color: black;
     }
     .landTable{
         background: $slate;
         color: white;
     }
-    .circle{
-   
-       
-    }
 }
+
+.wideLandWrapper{
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.k-progress{
+    width: 96%;
+    margin: 6px auto !important;
+}
+.k-progress-outer{
+    padding-right: 0 !important;
+}
+
 
 
 
