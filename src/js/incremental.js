@@ -10,6 +10,7 @@ import Router from 'vue-router';
 import Navigation from "./Navigation.js";
 import Land from "./Land.js";
 import Economy from "./Economy.js";
+import Miner from "./miner.js";
 
 
 import cInfo from '../vue/info.vue';
@@ -114,13 +115,12 @@ class Incremental{
 
         // Test Ore
         this.orePrices = [25, 50, 100, 200];
-
         // Graphs
         this.graphs = [];
         // Graph vars 
         this.netWorthTime = [];
         this.economy = new Economy();
-        this.init();
+
 
         // Others
         this.year = 1990;
@@ -130,6 +130,9 @@ class Incremental{
 
         // Canvas 
         this.prospCanvas = null;
+
+
+        this.init();
     }
 
     init(){
