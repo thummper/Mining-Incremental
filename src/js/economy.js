@@ -44,18 +44,21 @@ export default class Economy{
 
         // Graphs
         this.landIndGraph     = new Graph("area");
-        this.ironPriceGraph   = new Graph("line");
-        this.copperPriceGraph = new Graph("line");
-        this.silverPriceGraph = new Graph("line");
-        this.goldPriceGraph   = new Graph("line");
+        this.ironPriceGraph   = new Graph("bar");
+        this.copperPriceGraph = new Graph("bar");
+        this.copperPriceGraph.color = "#b85233";
+        this.silverPriceGraph = new Graph("bar");
+        this.silverPriceGraph.color = "#b5b5bd";
+        this.goldPriceGraph   = new Graph("bar");
+        this.goldPriceGraph.color = "#e7bd42";
         this.econHealthGraph  = new Graph("line");
         
 
         // Data for graphs
-        this.historicIronPrice   = [["00:00", 0]];
-        this.historicCopperPrice = [["00:00", 0]];
-        this.historicSilverPrice = [["00:00", 0]];
-        this.historicGoldPrice   = [["00:00", 0]];
+        this.historicIronPrice   = [["00:00", this.ingotPrices[0]]];
+        this.historicCopperPrice = [["00:00", this.ingotPrices[1]]];
+        this.historicSilverPrice = [["00:00", this.ingotPrices[2]]];
+        this.historicGoldPrice   = [["00:00", this.ingotPrices[3]]];
         this.historicEconHealth  = [["00:00", this.outlook]];
         this.historicLandIndex   = [["00:00", this.currentLandIndex]];
 

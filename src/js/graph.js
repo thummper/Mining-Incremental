@@ -2,6 +2,7 @@ import * as Helper from "./Helper.js";
 export default class Graph {
     constructor(type) {
         this.type = type;
+        this.color = "#4d504b";
         this.options = {
             "area": {
                 tooltip: {
@@ -17,7 +18,6 @@ export default class Graph {
                 dataZoom: [
                     {
                         type: 'inside',
-
                     },
                     {
                         show: true,
@@ -44,6 +44,33 @@ export default class Graph {
                     type: 'value',
                 },
                 series: [],
+            },
+            "bar": {
+                tooltip: {
+                    trigger: 'item',
+                    formatter: function (params) {
+                        return Helper.roundSuffix(params.data)
+                    }
+                },
+                grid: {
+                    bottom: 90
+                },
+                xAxis: {
+                    type: 'category',
+                    splitLine:{
+                        show: false
+                    },
+                    splitArea:{
+                        show: false
+                    }
+                },
+                yAxis: {
+                    splitArea:{
+                        show: false
+                    },
+                },
+                series: [],
+
             }
         };
         this.chart = null; 
@@ -85,10 +112,42 @@ export default class Graph {
                 data: series,
             }
         ];
+
+
+
         this.option.formatter = Helper.roundSuffix;
         if(this.chart !== null){
             this.chart.setOption(this.option);
         }
+    }
+
+    updateBar(data){
+        let labels = [];
+        let series = [];
+        for(let i = 0; i < data.length; i++){
+            let item = data[i];
+            labels.push(item[0]);
+            series.push(item[1]);
+        }
+        this.option.xAxis.data = labels;
+        this.option.series = [
+            {
+
+                type: 'bar',
+                data: series,
+                color: this.color
+            }
+        ];
+
+
+
+
+
+        this.option.formatter = Helper.roundSuffix;
+        if(this.chart !== null){
+            this.chart.setOption(this.option);
+        }
+
     }
 
     updateArea(data){
@@ -134,6 +193,9 @@ export default class Graph {
         }
         if(this.type == "line"){
             this.updateLine(data);
+        }
+        if(this.type == "bar"){
+            this.updateBar(data);
         }
     }
 
