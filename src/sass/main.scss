@@ -477,19 +477,20 @@ main{
 .borderSection{
     display: flex;
     flex-direction: column;
-    border: solid 2px rgba(0, 0, 0, 1);
+    background: black;
+    padding: 8px;
+   
     .title{
         display: block;
         padding: 14px;
         color:  white;
-        background: black;
-
     }
     .title.center{
         align-self: center;
+        
     }
     .content{
-
+        background: white;
     }
 }
 
