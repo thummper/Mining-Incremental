@@ -2,7 +2,7 @@
 <div class="resourceWrapper shadow">
     <div class="moneyDisplay">Money: {{roundedMoney}}</div>
     <div class="flex-row">
-        <table class="oreDisplay">
+        <table class="displayTable">
             <tr>
                 <th></th>
                 <th> Iron </th>

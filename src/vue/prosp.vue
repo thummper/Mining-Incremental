@@ -66,12 +66,9 @@
 <script>
 
 import draggable from 'vuedraggable';
-
 import rawDist from './rawdisplay.vue';
-
 import {Tabs, Tab} from 'vue-slim-tabs';
 import prospectStaff from "../vue/prospectorsStaff.vue";
-
 import ProspCanvas from "../js/ProspectCanvas.js";
 import landCardSmall from '../vue/landCardSmall.vue';
 import * as Helper from "../js/Helper.js";

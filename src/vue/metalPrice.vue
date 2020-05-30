@@ -1,6 +1,6 @@
 <template>
 <div class="sectionWrapper metalWrapper">
-        <table class="oreDisplay">
+        <table class="displayTable">
             <tr>
                 <th></th>
                 <th> Iron </th>

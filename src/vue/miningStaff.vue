@@ -1,4 +1,4 @@
-<template src="./html/prospect-staff.html"></template>
+<template src="./html/mining-staff.html"></template>
 <script>
 
 import * as Helper from "../js/Helper.js";

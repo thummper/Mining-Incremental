@@ -1,10 +1,23 @@
 <template>
 <div class="sectionWrapper">
     <h1> Mining </h1>
+
+    <section class="borderSection">
+        <div class="title center">
+            Miners (Global)
+        </div>
+        <div class="content">
+            <mining-staff />
+        </div>
+    
+    </section>
+
+
 </div>
 </template>
 <script>
 import * as Helper from "../js/Helper.js";
+import miningStaff from "../vue/miningStaff.vue";
 
 export default {
     data () {
@@ -24,6 +37,7 @@ export default {
 
     },
     components: {
+        'mining-staff': miningStaff,
 
     },
     methods: {
