@@ -2,7 +2,7 @@ export default class Miner{
     constructor(tp){
         // Instantiated with a type.
         this.types = {
-            "child" : {
+            "basic" : {
                 basePrice: 5000,
                 annualPrice: 8000,
                 costReduction: 0,
@@ -11,7 +11,7 @@ export default class Miner{
                 salaryInflation: 0,
                 boostedEfficiency: 0,
             },
-            "professional" : {
+            "advanced" : {
                 basePrice: 20000,
                 annualPrice: 50000,
                 costReduction: 0,
@@ -20,7 +20,7 @@ export default class Miner{
                 salaryInflation: 0,
                 boostedEfficiency: 0,
             },
-            "magic" : {
+            "superior" : {
                 basePrice: 1000000,
                 annualPrice: 750000,
                 costReduction: 0,

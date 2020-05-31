@@ -6,21 +6,21 @@
             <th> Yearly Expenses </th>
         </tr>
         <tr>
-            <td class="tableTitle"> Basic </td>
-            <td>  </td>
-            <td>  </td>
+            <td class="tableTitle"> Laborers   </td>
+            <td>  {{basicMiners}}</td>
+            <td>  {{basicExpenses}}</td>
 
         </tr>
         <tr>
-            <td class="tableTitle"> Advanced </td>
-            <td>  </td>
-            <td> </td>s
+            <td class="tableTitle"> Professional Miners </td>
+            <td> {{professionalMiners}}</td>
+            <td> {{professionalExpenses}}</td>
 
         </tr>
         <tr>
-            <td class="tableTitle"> Vastly Superior </td>
-            <td> </td>
-            <td> </td>
+            <td class="tableTitle"> Ascended Entities </td>
+            <td> {{ascendedMiners}}</td>
+            <td> {{ascendedExpenses}}</td>
 
         </tr>
     </table>
@@ -40,7 +40,7 @@
                 Child laborers cost: £8.0 K per year (0% of your annual expenses).
                 <br>
             </div>
-            <button class="buyButton" v-on:click="buyProspector('basic')">
+            <button class="buyButton" v-on:click="buyMiner('basic')">
                 £ 1.02 K
             </button>
             <div class="blackSep"></div>
@@ -60,7 +60,7 @@
                 Professional miner cost: £20.0 K per year (0% of your annual expenses).
                 <br>
             </div>
-            <button class="buyButton" v-on:click="buyProspector('advanced')">
+            <button class="buyButton" v-on:click="buyMiner('advanced')">
                 £ 17 K
             </button>
             <div class="blackSep"></div>
@@ -69,20 +69,20 @@
 
         <div class="buySection">
             <div class="buyTitle">
-                Vastly Superior Prospectors
+                Ascended Mining Entity
             </div>
             <div class="buyText">
-                Vastly Superior Prospectors are 1 in a million. By employing ancient forms of magic, these prospectors will find things you never knew existed. 
+                Hire an ascended entity that has been mining metals from various planets in the galaxy for eons 
                 <br>
-                vastly superior prospectors will find ore at a rate of RATE / second. 
+                Ascended entities will find ore at a rate of RATE / second. 
                 <br>
-                vastly superior prospectors has an efficiency of RATE, this means they can find undiscovered deposits or possibly miss deposits.
+                Ascended entities have an efficiency of RATE, this means they can find undiscovered deposits or possibly miss deposits.
                 <br>
-                Vastly Superior Prospectors cost: £20.0 K per year (0% of your annual expenses).
+                Ascended entities cost: £500.0 K per year (0% of your annual expenses).
                 <br>
             </div>
-            <button class="buyButton" v-on:click="buyProspector('superior')">
-                £ 1.02 K
+            <button class="buyButton" v-on:click="buyMiner('superior')">
+                £ 3.00 M
             </button>
             <div class="blackSep"></div>
         </div>

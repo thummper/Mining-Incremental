@@ -9,37 +9,37 @@ export default{
         }
     },
     methods:{
-        buyProspector: function(type){
-            this.inc.purchase(null, 2, type);
+        buyMiner: function(type){
+            this.inc.purchase(null, 3, type);
         },
-        tallyExpenses: function(prospectors){
+        tallyExpenses: function(miners){
             let expenses = 0;
-            for(let i = 0; i < prospectors.length; i++){
-                expenses += prospectors[i].annualPrice;
+            for(let i = 0; i < miners.length; i++){
+                expenses += miners[i].annualPrice;
             }
             return expenses;
         }
     },
     computed:{
-        basicProspectors: function(){
-            return Helper.roundSuffix(this.inc.basicProspectors.length);
+        basicMiners: function(){
+            return Helper.roundSuffix(this.inc.basicMiners.length);
         },
-        advancedProspectors: function(){
-            return Helper.roundSuffix(this.inc.advancedProspectors.length);
+        professionalMiners: function(){
+            return Helper.roundSuffix(this.inc.professionalMiners.length);
         },
-        superiorProspectors: function(){
-            return Helper.roundSuffix(this.inc.superiorProspectors.length);
+        ascendedMiners: function(){
+            return Helper.roundSuffix(this.inc.ascendedMiners.length);
         },
         basicExpenses: function(){
-            let expenses = this.tallyExpenses(this.inc.basicProspectors);
+            let expenses = this.tallyExpenses(this.inc.basicMiners);
             return "£" + Helper.roundSuffix(expenses);
         },
-        advancedExpenses: function(){
-            let expenses = this.tallyExpenses(this.inc.advancedProspectors);
+        professionalExpenses: function(){
+            let expenses = this.tallyExpenses(this.inc.professionalMiners);
             return "£" + Helper.roundSuffix(expenses);
         },
-        superiorExpenses: function(){
-            let expenses = this.tallyExpenses(this.inc.superiorProspectors);
+        ascendedExpenses: function(){
+            let expenses = this.tallyExpenses(this.inc.ascendedMiners);
             return "£" + Helper.roundSuffix(expenses);
         }
 

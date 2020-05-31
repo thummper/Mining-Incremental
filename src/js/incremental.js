@@ -10,7 +10,7 @@ import Router from 'vue-router';
 import Navigation from "./Navigation.js";
 import Land from "./Land.js";
 import Economy from "./Economy.js";
-import Miner from "./miner.js";
+import Miner from "./Miner.js";
 
 
 import cInfo from '../vue/info.vue';
@@ -117,7 +117,7 @@ class Incremental{
         this.totalMiners = [0, 0, 0];
         this.basicMiners = [];
         this.professionalMiners = [];
-        this.magicMiners = [];
+        this.ascendedMiners = [];
 
 
         // Test Ore
@@ -524,16 +524,17 @@ class Incremental{
                 let price      = prospector.basePrice;
                 if(this.canAfford(price)){
                     this.spend(price);
+                    if(subtype == "basic"){
+                        this.basicProspectors.push(prospector);
+                    }
+                    if(subtype == "advanced"){
+                        this.advancedProspectors.push(prospector);
+                    }
+                    if(subtype == "superior"){
+                        this.superiorProspectors.push(prospector);
+                    }
                 }
-                if(subtype == "basic"){
-                    this.basicProspectors.push(prospector);
-                }
-                if(subtype == "advanced"){
-                    this.advancedProspectors.push(prospector);
-                }
-                if(subtype == "superior"){
-                    this.superiorProspectors.push(prospector);
-                }
+
                 
                 let toNumber = {
                     "basic" : 0,
@@ -541,6 +542,27 @@ class Incremental{
                     "superior": 2,
                 };
                 this.totalProspectors[toNumber[subtype]]++;
+            }
+        }
+        if(type == 3){
+            // Type 3 - Miners
+            if(subtype !== null){
+                console.log("Buying miner: ", subtype);
+                let miner = new Miner(subtype);
+                console.log("Miner: ", miner);
+                let price = miner.basePrice;
+
+                if(this.canAfford(price)){
+                    this.spend(price);
+                    // Toast here 
+                    if(subtype == "basic"){
+                        this.basicMiners.push(miner);
+                    } else if(subtype == "advanced"){
+                        this.professionalMiners.push(miner);
+                    }else if(subtype == "superior"){
+                        this.ascendedMiners.push(miner);
+                    }
+                }
             }
         }
     }

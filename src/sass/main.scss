@@ -427,6 +427,11 @@ main{
     }
     .displayTable{
         width: 90%;
+        tr:first-child{
+            th:first-child{
+                text-align: left;
+            }
+        }
     }
 }
 
