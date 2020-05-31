@@ -113,6 +113,13 @@ class Incremental{
         this.appliedEffort = 0;
 
 
+        // Miners
+        this.totalMiners = [0, 0, 0];
+        this.basicMiners = [];
+        this.professionalMiners = [];
+        this.magicMiners = [];
+
+
         // Test Ore
         this.orePrices = [25, 50, 100, 200];
         // Graphs
