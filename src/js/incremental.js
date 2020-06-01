@@ -77,6 +77,7 @@ class Incremental{
         // Expenses
         this.expenses = 0; //Total
         this.prospectorExpenses = [0, 0, 0]; // Basic, Adv, Sup expenses.
+        this.miningExpenses = [0, 0, 0];
 
   
         this.netProfit = 0;
@@ -391,11 +392,7 @@ class Incremental{
         
     }
 
-    doMonthCounter(){
-        this.weekCounter = 0;
-        this.monthCounter++;
-        this.economy.updateEconomy();
-        
+    payEmployees(){        
         // Pay employee wages.. 
         let expenses = [0, 0, 0];
         let bps = this.basicProspectors;
@@ -409,14 +406,41 @@ class Incremental{
         let totalProspectorExpenses = expenses[0] + expenses[1] + expenses[2];
         this.expenses += totalProspectorExpenses;
         this.spend(totalProspectorExpenses);
-
         let lastProsp = this.prospectorExpenses;
         // Think we have to make a new array so vue updates?
         let newProsp = [lastProsp[0] + expenses[0], lastProsp[1] + expenses[1], lastProsp[2] + expenses[2]];
         this.prospectorExpenses = newProsp;
-  
 
-    
+
+
+
+        let miningExpenses = [0, 0, 0];
+        miningExpenses[0] = this.addProspectorExpenses(this.basicMiners);
+        miningExpenses[1] = this.addProspectorExpenses(this.professionalMiners);
+        miningExpenses[2] = this.addProspectorExpenses(this.ascendedMiners);
+
+
+
+        let totalMiningExpenses = miningExpenses.reduce(function(a, b){
+            return a + b;
+        }, 0);
+
+
+
+        this.expenses += totalMiningExpenses;
+        this.spend(totalMiningExpenses);
+        let lastMining = this.miningExpenses;
+        let newMining  = [lastMining[0] + miningExpenses[0], lastMining[1] + miningExpenses[1], lastMining[2] + miningExpenses[2]];
+
+        this.miningExpenses = newMining;
+
+    }
+
+    doMonthCounter(){
+        this.weekCounter = 0;
+        this.monthCounter++;
+        this.economy.updateEconomy();
+        this.payEmployees();
     }
 
     doQuarterCounter(){
@@ -431,6 +455,7 @@ class Incremental{
         this.landAppreciation = 0;
         this.expenses = 0;
         this.prospectorExpenses = [0, 0, 0];
+        this.miningExpenses = [0, 0, 0];
 
     }
 

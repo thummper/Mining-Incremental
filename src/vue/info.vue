@@ -61,6 +61,22 @@
                 <td> {{superiorProspectorExpenses}} </td>
             </tr>
             <tr>
+                <td> Mining Expenses  </td>
+                <td> {{totalMiningExpenses}} </td>
+            </tr>
+            <tr>
+                <td> Labourers </td>
+                <td> {{basicMiningExpenses}} </td>
+            </tr>
+            <tr>
+                <td> Professional </td>
+                <td> {{professionalMiningExpenses}} </td>
+            </tr>
+            <tr>
+                <td> Ascended </td>
+                <td> {{ascendedMiningExpenses}} </td>
+            </tr>
+            <tr>
                 <td> Net Profit </td>
                 <td> {{netProfit}} </td>
             </tr>
@@ -85,7 +101,6 @@
             },
             cash: function () {
                 return "£ " + Helper.roundSuffix(this.inc.money);
-
             },
             landValue: function () {
                 return "£ " + Helper.roundSuffix(this.inc.landValue);
@@ -110,7 +125,21 @@
             },
             netProfit: function(){
                 return "£ " + Helper.roundSuffix(this.inc.netProfit);
-            }
+            },
+            totalMiningExpenses: function(){
+                return "£ " + Helper.roundSuffix(this.inc.miningExpenses.reduce(function(a, b){
+                    return a + b;
+                }, 0));
+            },
+            basicMiningExpenses: function(){
+                return "£ " + Helper.roundSuffix(this.inc.miningExpenses[0]);
+            },
+            professionalMiningExpenses: function(){
+                return "£ " + Helper.roundSuffix(this.inc.miningExpenses[1]);
+            },
+            ascendedMiningExpenses: function(){
+                return "£ " + Helper.roundSuffix(this.inc.miningExpenses[2]);
+            },
         }
     }
 </script>

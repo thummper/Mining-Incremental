@@ -13,7 +13,7 @@ export default class Miner{
             },
             "advanced" : {
                 basePrice: 20000,
-                annualPrice: 50000,
+                annualPrice: 150000,
                 costReduction: 0,
                 baseEfficiency: 0.7,
                 salaryReduction: 0,
@@ -21,8 +21,8 @@ export default class Miner{
                 boostedEfficiency: 0,
             },
             "superior" : {
-                basePrice: 1000000,
-                annualPrice: 750000,
+                basePrice: 3000000,
+                annualPrice: 1000000,
                 costReduction: 0,
                 baseEfficiency: 1.2,
                 salaryReduction: 0,
