@@ -110,6 +110,7 @@ class Incremental{
         this.advancedProspectors = [];
         this.superiorProspectors = [];
         this.prospectorBaseEffort = 100;
+        
         this.cellEffort = 10000;
         this.appliedEffort = 0;
 
@@ -119,6 +120,7 @@ class Incremental{
         this.basicMiners = [];
         this.professionalMiners = [];
         this.ascendedMiners = [];
+        this.minerBaseEffort = 100;
 
 
         // Test Ore
@@ -179,13 +181,14 @@ class Incremental{
         // Runs every quarter. 
         let developing  = this.landDeveloping;
         let stillDeveloping = [];
+
         for(let i = 0; i < developing.length; i++){
             let land = developing[i];
             land.timePass += timePassed;
             if(land.timePass >= this.quarterTime){
                 land.developTime--;
                 land.timePass = 0;
-                if(land.developTime <= 0){
+                if(land.developTime == 0){
                     land.developing = false;
                     land.developed  = true;
                     this.updateProspecting();
@@ -199,13 +202,7 @@ class Incremental{
         this.landDeveloping = stillDeveloping;
     }
 
-    updateProspected(additional){
-        let prospectedOres = [0, 0, 0, 0];
-        for(let i in this.prospected){
-            prospectedOres[i] = this.prospected[i] + additional[i];
-        }
-        this.prospected = prospectedOres;
-    }
+
 
     updateProspecting(){
         // For some reason we have to make a new array each time otherwise Vue won't update the page? 
@@ -234,6 +231,57 @@ class Incremental{
         land.imagePath   = this.imgBase + randomImage;
         land.image = this.randomImage;
         return land;
+    }
+
+
+    updateMined(toMine){
+        // We have to remake arrays i think because of Vue.
+        let minedOres = [0, 0, 0, 0];
+        let prospected = [0, 0, 0, 0];
+  
+        for(let i = 0; i < toMine.length; i++){
+            minedOres[i] = this.mined[i] + toMine[i];
+            prospected[i]   = this.prospected[i] - toMine[i];
+        }
+        
+        this.mined = minedOres;
+        this.prospected = prospected;
+    }
+
+
+    mine(){
+        let baseEffort = this.minerBaseEffort;
+        let allMiners = this.basicMiners.concat(this.professionalMiners, this.ascendedMiners);
+        let miningEffort = 0;
+        for(let m of allMiners){
+            miningEffort += (m.baseEfficiency + m.boostedEfficiency) * baseEffort;
+        }
+     
+        let minedResources = [0, 0, 0, 0];
+        // For simplicity sake, will apply effort to each prospected ore equally.
+
+        for(let i = 0; i < this.prospected.length; i++){
+            let ore = this.prospected[i];
+            let minedOre = 0;
+            if(miningEffort > 0 && miningEffort >= ore){
+               
+                // More effort than ore - mine whatever is left
+                minedOre = ore;
+            } else if(miningEffort > 0 && miningEffort < ore){
+                // Effort is less than ore.
+                minedOre = miningEffort;
+            }
+            minedResources[i] += minedOre;
+        }
+        this.updateMined(minedResources);
+    }
+
+    updateProspected(additional){
+        let prospectedOres = [0, 0, 0, 0];
+        for(let i in this.prospected){
+            prospectedOres[i] = this.prospected[i] + additional[i];
+        }
+        this.prospected = prospectedOres;
     }
 
     prospect(){
@@ -370,6 +418,7 @@ class Incremental{
         this.updateNetWorth();
         this.appreciateLand();
         this.prospect();
+        this.mine();
        
         
         this.timePass = 0;
@@ -379,8 +428,6 @@ class Incremental{
     doWeekCounter(){
         
         // A week has passed
-       
-    
         this.updateGraphs();
         this.updateProspecting();
         this.economy.updateOrePrices();

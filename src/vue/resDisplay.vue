@@ -26,10 +26,10 @@
             </tr>
             <tr id="minedOre">
                  <td class="tableTitle">Raw</td>
-                <td class="block iron"> 0t </td>
-                <td class="block copper"> 0t </td>
-                <td class="block silver"> 0t </td>
-                <td class="block gold"> 0t </td>
+                <td class="block iron"> {{getMIron}}t </td>
+                <td class="block copper"> {{getMCopper}}t </td>
+                <td class="block silver"> {{getMSilver}}t </td>
+                <td class="block gold"> {{getMGold}}t </td>
             </tr>
             <tr id="processedOre">
                  <td class="tableTitle">Ingots</td>
@@ -84,7 +84,19 @@ export default{
         },
         getPRGold: function(){
             return Helper.roundSuffix(this.inc.prospected[3], 0);    
-        }
+        },
+        getMIron: function(){
+            return Helper.roundSuffix(this.inc.mined[0], 0);
+        },
+        getMCopper: function(){
+            return Helper.roundSuffix(this.inc.mined[1], 0);
+        },
+        getMSilver: function(){
+            return Helper.roundSuffix(this.inc.mined[2], 0);
+        },
+        getMGold: function(){
+            return Helper.roundSuffix(this.inc.mined[3], 0);
+        },
    
 
 
