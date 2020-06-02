@@ -17,27 +17,26 @@
             <div class="splitTitle"> Land Queue </div>
         </div>
         <div class="mapBottom">
-
-
-
-
-        
            <draggable class="dragWrapper" v-model="inc.landOwned">
                 <land-card-small class="list-group-item" v-for="land in inc.landOwned" :land="land" :key="land.name" />
             </draggable>
-        
         </div>
     </section>
 
 
-    <section class="prospWorkers">
-        <div class="prospTitle">
+    <section class="borderSection">
+        <div class="title center">
             Prospectors (Global)
         </div>
-        <div class="prospContent">
+        <div class="content">
             <prospecting-staff />
         </div>
+    
     </section>
+
+
+
+
 
 
     <section class="prospInfo">
@@ -67,12 +66,9 @@
 <script>
 
 import draggable from 'vuedraggable';
-
 import rawDist from './rawdisplay.vue';
-
 import {Tabs, Tab} from 'vue-slim-tabs';
 import prospectStaff from "../vue/prospectorsStaff.vue";
-
 import ProspCanvas from "../js/ProspectCanvas.js";
 import landCardSmall from '../vue/landCardSmall.vue';
 import * as Helper from "../js/Helper.js";

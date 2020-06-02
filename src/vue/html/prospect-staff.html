@@ -1,5 +1,5 @@
-<section class="prospectStaffWrapper">
-    <table class="oreDisplay">
+<section>
+    <table class="displayTable">
         <tr>
             <th> Type </th>
             <th> Quantity </th>
@@ -24,13 +24,15 @@
 
         </tr>
     </table>
+    
 
-    <div class="buyProspectStaff">
-        <div class="basicBuy">
-            <div class="prospBuyTitle">
+    <div class="buyWrapper">
+        <div class="blackSep"></div>
+        <div class="buySection">
+            <div class="buyTitle">
                 Basic Prospectors
             </div>
-            <div class="prospBuyText">
+            <div class="buyText">
                 Hire a basic prospector to look for ore veins at a slow pace. 
                 <br>
                 A basic prospector will find ore at a rate of RATE / second. 
@@ -40,17 +42,17 @@
                 Basic Prospectors cost: £20.0 K per year (0% of your annual expenses).
                 <br>
             </div>
-            <button class="prospBuyButton" v-on:click="buyProspector('basic')">
+            <button class="buyButton" v-on:click="buyProspector('basic')">
                 £ 1.02 K
             </button>
-            <div class="prospSep"></div>
+            <div class="blackSep"></div>
         </div>
 
-        <div class="basicBuy">
-            <div class="prospBuyTitle">
+        <div class="buySection">
+            <div class="buyTitle">
                 Advanced Prospectors
             </div>
-            <div class="prospBuyText">
+            <div class="buyText">
                 Hire prospectors trained exclusively with divination rods, guaranteed to discover 100% of all minerals (with a 100% margin of error). 
                 <br>
                 An advanced prospector will find ore at a rate of RATE / second. 
@@ -60,18 +62,18 @@
                 Advanced Prospectors cost: £20.0 K per year (0% of your annual expenses).
                 <br>
             </div>
-            <button class="prospBuyButton" v-on:click="buyProspector('advanced')">
+            <button class="buyButton" v-on:click="buyProspector('advanced')">
                 £ 17 K
             </button>
-            <div class="prospSep"></div>
+            <div class="blackSep"></div>
         </div>
 
 
-        <div class="basicBuy">
-            <div class="prospBuyTitle">
+        <div class="buySection">
+            <div class="buyTitle">
                 Vastly Superior Prospectors
             </div>
-            <div class="prospBuyText">
+            <div class="buyText">
                 Vastly Superior Prospectors are 1 in a million. By employing ancient forms of magic, these prospectors will find things you never knew existed. 
                 <br>
                 vastly superior prospectors will find ore at a rate of RATE / second. 
@@ -81,16 +83,10 @@
                 Vastly Superior Prospectors cost: £20.0 K per year (0% of your annual expenses).
                 <br>
             </div>
-            <button class="prospBuyButton" v-on:click="buyProspector('superior')">
+            <button class="buyButton" v-on:click="buyProspector('superior')">
                 £ 1.02 K
             </button>
-            <div class="prospSep"></div>
+            <div class="blackSep"></div>
         </div>
     </div>
-
-
-
-
-
-
 </section>

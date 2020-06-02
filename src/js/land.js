@@ -18,7 +18,7 @@ export default class Land {
         this.baseOre       = [0, 0, 0, 0];
         this.prospectedOre = [0, 0, 0, 0];
 
-        this.developmentTime = 0;
+        this.developTime = 0;
         this.developed  = false;
         this.developing = false;
         this.imagePath;
@@ -50,7 +50,7 @@ export default class Land {
         this.name = Helper.generateName();
         this.name = this.name.charAt(0).toUpperCase() + this.name.slice(1) + " " + Helper.randomFromArray(this.suffixs);
 
-        this.developmentTime = Math.floor(Helper.randomNumber(2, 8, 0) / (this.tier + 1));
+        this.developTime = Math.floor(Helper.randomNumber(2, 8, 0) / (this.tier + 1));
 
 
         this.developed  = false;

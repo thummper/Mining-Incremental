@@ -1,0 +1,96 @@
+<section>
+    <table class="displayTable">
+        <tr>
+            <th> Type </th>
+            <th> Quantity </th>
+            <th> Yearly Expenses </th>
+        </tr>
+        <tr>
+            <td class="tableTitle"> Laborers   </td>
+            <td>  {{basicMiners}}</td>
+            <td>  {{basicExpenses}}</td>
+
+        </tr>
+        <tr>
+            <td class="tableTitle"> Professional Miners </td>
+            <td> {{professionalMiners}}</td>
+            <td> {{professionalExpenses}}</td>
+
+        </tr>
+        <tr>
+            <td class="tableTitle"> Ascended Entities </td>
+            <td> {{ascendedMiners}}</td>
+            <td> {{ascendedExpenses}}</td>
+
+        </tr>
+    </table>
+    <div class="buyWrapper">
+        <div class="blackSep"></div>
+        <div class="buySection">
+            <div class="buyTitle">
+                Child Laborer
+            </div>
+            <div class="buyText">
+                Child laborers will mine prospected ore at a slow pace with terrible efficiency.
+                <br>
+                A child laborers will find ore at a rate of RATE / second. 
+                <br>
+                A child laborers has an efficiency of RATE.
+                <br>
+                Child laborers cost: £8.0 K per year (0% of your annual expenses).
+                <br>
+            </div>
+            <button class="buyButton" v-on:click="buyMiner('basic')">
+                £ 1.02 K
+            </button>
+            <div class="blackSep"></div>
+        </div>
+
+        <div class="buySection">
+            <div class="buyTitle">
+                Professional Miner
+            </div>
+            <div class="buyText">
+                Hire a professional miner, trained in the art of slapping rocks with pickaxes. 
+                <br>
+                A professional miner will find ore at a rate of RATE / second. 
+                <br>
+                A professional miner has an efficiency of RATE.
+                <br>
+                Professional miner cost: £20.0 K per year (0% of your annual expenses).
+                <br>
+            </div>
+            <button class="buyButton" v-on:click="buyMiner('advanced')">
+                £ 17 K
+            </button>
+            <div class="blackSep"></div>
+        </div>
+
+
+        <div class="buySection">
+            <div class="buyTitle">
+                Ascended Mining Entity
+            </div>
+            <div class="buyText">
+                Hire an ascended entity that has been mining metals from various planets in the galaxy for eons 
+                <br>
+                Ascended entities will find ore at a rate of RATE / second. 
+                <br>
+                Ascended entities have an efficiency of RATE, this means they can find undiscovered deposits or possibly miss deposits.
+                <br>
+                Ascended entities cost: £500.0 K per year (0% of your annual expenses).
+                <br>
+            </div>
+            <button class="buyButton" v-on:click="buyMiner('superior')">
+                £ 3.00 M
+            </button>
+            <div class="blackSep"></div>
+        </div>
+
+
+    </div>
+
+
+</section>
+
+

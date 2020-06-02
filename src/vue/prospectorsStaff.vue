@@ -8,7 +8,6 @@ export default{
             inc: this.$parent.inc,
         }
     },
-    
     methods:{
         buyProspector: function(type){
             this.inc.purchase(null, 2, type);

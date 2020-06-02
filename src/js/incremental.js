@@ -10,7 +10,7 @@ import Router from 'vue-router';
 import Navigation from "./Navigation.js";
 import Land from "./Land.js";
 import Economy from "./Economy.js";
-import Miner from "./miner.js";
+import Miner from "./Miner.js";
 
 
 import cInfo from '../vue/info.vue';
@@ -77,6 +77,7 @@ class Incremental{
         // Expenses
         this.expenses = 0; //Total
         this.prospectorExpenses = [0, 0, 0]; // Basic, Adv, Sup expenses.
+        this.miningExpenses = [0, 0, 0];
 
   
         this.netProfit = 0;
@@ -109,8 +110,17 @@ class Incremental{
         this.advancedProspectors = [];
         this.superiorProspectors = [];
         this.prospectorBaseEffort = 100;
+        
         this.cellEffort = 10000;
         this.appliedEffort = 0;
+
+
+        // Miners
+        this.totalMiners = [0, 0, 0];
+        this.basicMiners = [];
+        this.professionalMiners = [];
+        this.ascendedMiners = [];
+        this.minerBaseEffort = 100;
 
 
         // Test Ore
@@ -171,13 +181,14 @@ class Incremental{
         // Runs every quarter. 
         let developing  = this.landDeveloping;
         let stillDeveloping = [];
+
         for(let i = 0; i < developing.length; i++){
             let land = developing[i];
             land.timePass += timePassed;
             if(land.timePass >= this.quarterTime){
                 land.developTime--;
                 land.timePass = 0;
-                if(land.developTime <= 0){
+                if(land.developTime == 0){
                     land.developing = false;
                     land.developed  = true;
                     this.updateProspecting();
@@ -191,13 +202,7 @@ class Incremental{
         this.landDeveloping = stillDeveloping;
     }
 
-    updateProspected(additional){
-        let prospectedOres = [0, 0, 0, 0];
-        for(let i in this.prospected){
-            prospectedOres[i] = this.prospected[i] + additional[i];
-        }
-        this.prospected = prospectedOres;
-    }
+
 
     updateProspecting(){
         // For some reason we have to make a new array each time otherwise Vue won't update the page? 
@@ -226,6 +231,57 @@ class Incremental{
         land.imagePath   = this.imgBase + randomImage;
         land.image = this.randomImage;
         return land;
+    }
+
+
+    updateMined(toMine){
+        // We have to remake arrays i think because of Vue.
+        let minedOres = [0, 0, 0, 0];
+        let prospected = [0, 0, 0, 0];
+  
+        for(let i = 0; i < toMine.length; i++){
+            minedOres[i] = this.mined[i] + toMine[i];
+            prospected[i]   = this.prospected[i] - toMine[i];
+        }
+        
+        this.mined = minedOres;
+        this.prospected = prospected;
+    }
+
+
+    mine(){
+        let baseEffort = this.minerBaseEffort;
+        let allMiners = this.basicMiners.concat(this.professionalMiners, this.ascendedMiners);
+        let miningEffort = 0;
+        for(let m of allMiners){
+            miningEffort += (m.baseEfficiency + m.boostedEfficiency) * baseEffort;
+        }
+     
+        let minedResources = [0, 0, 0, 0];
+        // For simplicity sake, will apply effort to each prospected ore equally.
+
+        for(let i = 0; i < this.prospected.length; i++){
+            let ore = this.prospected[i];
+            let minedOre = 0;
+            if(miningEffort > 0 && miningEffort >= ore){
+               
+                // More effort than ore - mine whatever is left
+                minedOre = ore;
+            } else if(miningEffort > 0 && miningEffort < ore){
+                // Effort is less than ore.
+                minedOre = miningEffort;
+            }
+            minedResources[i] += minedOre;
+        }
+        this.updateMined(minedResources);
+    }
+
+    updateProspected(additional){
+        let prospectedOres = [0, 0, 0, 0];
+        for(let i in this.prospected){
+            prospectedOres[i] = this.prospected[i] + additional[i];
+        }
+        this.prospected = prospectedOres;
     }
 
     prospect(){
@@ -362,6 +418,7 @@ class Incremental{
         this.updateNetWorth();
         this.appreciateLand();
         this.prospect();
+        this.mine();
        
         
         this.timePass = 0;
@@ -371,8 +428,6 @@ class Incremental{
     doWeekCounter(){
         
         // A week has passed
-       
-    
         this.updateGraphs();
         this.updateProspecting();
         this.economy.updateOrePrices();
@@ -384,11 +439,7 @@ class Incremental{
         
     }
 
-    doMonthCounter(){
-        this.weekCounter = 0;
-        this.monthCounter++;
-        this.economy.updateEconomy();
-        
+    payEmployees(){        
         // Pay employee wages.. 
         let expenses = [0, 0, 0];
         let bps = this.basicProspectors;
@@ -402,14 +453,41 @@ class Incremental{
         let totalProspectorExpenses = expenses[0] + expenses[1] + expenses[2];
         this.expenses += totalProspectorExpenses;
         this.spend(totalProspectorExpenses);
-
         let lastProsp = this.prospectorExpenses;
         // Think we have to make a new array so vue updates?
         let newProsp = [lastProsp[0] + expenses[0], lastProsp[1] + expenses[1], lastProsp[2] + expenses[2]];
         this.prospectorExpenses = newProsp;
-  
 
-    
+
+
+
+        let miningExpenses = [0, 0, 0];
+        miningExpenses[0] = this.addProspectorExpenses(this.basicMiners);
+        miningExpenses[1] = this.addProspectorExpenses(this.professionalMiners);
+        miningExpenses[2] = this.addProspectorExpenses(this.ascendedMiners);
+
+
+
+        let totalMiningExpenses = miningExpenses.reduce(function(a, b){
+            return a + b;
+        }, 0);
+
+
+
+        this.expenses += totalMiningExpenses;
+        this.spend(totalMiningExpenses);
+        let lastMining = this.miningExpenses;
+        let newMining  = [lastMining[0] + miningExpenses[0], lastMining[1] + miningExpenses[1], lastMining[2] + miningExpenses[2]];
+
+        this.miningExpenses = newMining;
+
+    }
+
+    doMonthCounter(){
+        this.weekCounter = 0;
+        this.monthCounter++;
+        this.economy.updateEconomy();
+        this.payEmployees();
     }
 
     doQuarterCounter(){
@@ -424,6 +502,7 @@ class Incremental{
         this.landAppreciation = 0;
         this.expenses = 0;
         this.prospectorExpenses = [0, 0, 0];
+        this.miningExpenses = [0, 0, 0];
 
     }
 
@@ -517,16 +596,17 @@ class Incremental{
                 let price      = prospector.basePrice;
                 if(this.canAfford(price)){
                     this.spend(price);
+                    if(subtype == "basic"){
+                        this.basicProspectors.push(prospector);
+                    }
+                    if(subtype == "advanced"){
+                        this.advancedProspectors.push(prospector);
+                    }
+                    if(subtype == "superior"){
+                        this.superiorProspectors.push(prospector);
+                    }
                 }
-                if(subtype == "basic"){
-                    this.basicProspectors.push(prospector);
-                }
-                if(subtype == "advanced"){
-                    this.advancedProspectors.push(prospector);
-                }
-                if(subtype == "superior"){
-                    this.superiorProspectors.push(prospector);
-                }
+
                 
                 let toNumber = {
                     "basic" : 0,
@@ -534,6 +614,27 @@ class Incremental{
                     "superior": 2,
                 };
                 this.totalProspectors[toNumber[subtype]]++;
+            }
+        }
+        if(type == 3){
+            // Type 3 - Miners
+            if(subtype !== null){
+                console.log("Buying miner: ", subtype);
+                let miner = new Miner(subtype);
+                console.log("Miner: ", miner);
+                let price = miner.basePrice;
+
+                if(this.canAfford(price)){
+                    this.spend(price);
+                    // Toast here 
+                    if(subtype == "basic"){
+                        this.basicMiners.push(miner);
+                    } else if(subtype == "advanced"){
+                        this.professionalMiners.push(miner);
+                    }else if(subtype == "superior"){
+                        this.ascendedMiners.push(miner);
+                    }
+                }
             }
         }
     }

@@ -231,7 +231,7 @@ main{
         padding: 24px 24px;
     }
 }
-.oreDisplay{
+.displayTable{
     min-width: 510px;
     overflow-x: auto;
     width: 100%;
@@ -393,78 +393,49 @@ main{
     display: none;
 }
 
-.prospWorkers{
+
+
+
+
+
+
+
+
+
+
+
+.borderSection{
     display: flex;
     flex-direction: column;
-    
-
-    .prospTitle{
-        align-self: center;
-        color: white;
-        font-size: 16px;
+    margin: 24px auto;
+    background: black;
+    padding: 6px;
+    border-radius: 4px;
+   
+    .title{
+        display: block;
         font-weight: bold;
         padding: 4px;
+        color:  white;
+    }
+    .title.center{
+        align-self: center;
         
     }
-    .prospContent{
-        min-height: 400px;
+    .content{
         background: white;
-        width: 100%;
-        margin: 0px auto;
-
-        .oreDisplay{
-            border-bottom: 3.5px solid black;
+    }
+    .displayTable{
+        width: 90%;
+        tr:first-child{
+            th:first-child{
+                text-align: left;
+            }
         }
-        
     }
 }
 
-.prospectStaffWrapper{
-    width: 100%;
-
-}
-
-.buyProspectStaff{
-    width: 90%;
-    margin: 12px auto;
-    margin-top: 24px;
-
-}
-.basicBuy{
-    display: flex;
-    flex-direction: column;
-}
-.prospBuyTitle{
-    display: block;
-    padding: 14px;
-    background: black;
-    border-radius: 3px;
-    color: white;
-    align-self: flex-start;
-    margin-bottom: 8px;
-}
-.prospBuyButton{
-    margin-top: 12px;
-    text-decoration: none;
-    color: white;
-    background: $lightblue;
-    font-size: 16px;
-    padding: 6px 18px;
-    border-radius: 2px;
-    display: inline-block;
-    text-align: center;
-    align-self: flex-start;
-    transition:  all .2s;
-    cursor: pointer;
-    &:hover{
-        background: $darkblue;
-    }
-    
-}
-.prospBuyText{
-    line-height: 24px;
-}
-.prospSep{
+.blackSep{
     width: 100%;
     background: black;
     height: 2.5px;
@@ -472,6 +443,50 @@ main{
     margin-top: 12px;
     margin-bottom: 40px;
 }
+
+.buyWrapper{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    margin: 0 auto;
+    .buySection{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .buyTitle{
+        display: block;
+        padding: 14px;
+        background: black;
+        border-radius: 3px;
+        color: white;
+        align-self: flex-start;
+        margin-bottom: 8px;
+    }
+    .buyText{
+        line-height: 24px;
+    }
+    .buyButton{
+        margin-top: 12px;
+        text-decoration: none;
+        color: white;
+        background: $lightblue;
+        font-size: 16px;
+        padding: 6px 18px;
+        border-radius: 2px;
+        display: inline-block;
+        text-align: center;
+        align-self: flex-start;
+        transition:  all .2s;
+        cursor: pointer;
+        &:hover{
+            background: $darkblue;
+        }
+        
+    }
+}
+
+
 
 
 @import "landCard.scss";
