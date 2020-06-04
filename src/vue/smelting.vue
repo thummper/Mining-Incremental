@@ -1,19 +1,26 @@
 <template>
 <div class="sectionWrapper">
     <h1> Smelting </h1>
+
+
+    <section class="borderSection">
+        <div class="title center">
+            Smelting Operators (Global)
+        </div>
+        <div class="content">
+            <smelting-staff />
+        </div>
+    </section>
+
     <div class="smeltingWrapper">
         <canvas id="smeltingCanvas"></canvas>
-    
-    
-    
-    
     </div>
 </div>
 
 </template>
 <script>
 import Plinko from "../js/Plinko.js";
-
+import smeltingStaff from "../vue/smeltingStaff.vue";
 
 
 
@@ -35,7 +42,7 @@ export default {
 
     },
     components: {
-
+        'smelting-staff': smeltingStaff,
     },
     methods: {
 

@@ -121,6 +121,11 @@ class Incremental{
         this.professionalMiners = [];
         this.ascendedMiners = [];
         this.minerBaseEffort = 100;
+        
+
+        // Smelting
+        // Need staff - just generic for smelting, focus on machine
+        this.smeltingOperators = 0;
 
 
         // Test Ore
@@ -293,8 +298,6 @@ class Incremental{
         for(let p of allProspectors){
             totalEffort += (p.baseEfficiency + p.boostedEfficiency) * baseEffort;
         }
-
-
 
         let prospectedResources = [0, 0, 0, 0];
         let nextLand            = null;
