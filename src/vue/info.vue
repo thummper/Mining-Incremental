@@ -76,6 +76,16 @@
                 <td> Ascended </td>
                 <td> {{ascendedMiningExpenses}} </td>
             </tr>
+
+            <tr>
+                <td> Smelting Expenses  </td>
+                <td> {{totalSmeltingExpenses}} </td>
+            </tr>
+            <tr>
+                <td> Smelting Staff Expenses  </td>
+                <td> {{smeltingStaffExpenses}} </td>
+            </tr>
+
             <tr>
                 <td> Net Profit </td>
                 <td> {{netProfit}} </td>
@@ -140,6 +150,12 @@
             ascendedMiningExpenses: function(){
                 return "£ " + Helper.roundSuffix(this.inc.miningExpenses[2]);
             },
+            totalSmeltingExpenses: function(){
+                return "£ " + Helper.roundSuffix(this.inc.smelterStaffExpenses);
+            },
+            smeltingStaffExpenses: function(){
+                return "£ " + Helper.roundSuffix(this.inc.smelterStaffExpenses);
+            }
         }
     }
 </script>

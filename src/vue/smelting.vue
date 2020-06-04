@@ -27,7 +27,7 @@ import smeltingStaff from "../vue/smeltingStaff.vue";
 export default {
     data () {
         return {
-
+            inc: this.$parent.inc,
         }
     },
     mounted: function(){

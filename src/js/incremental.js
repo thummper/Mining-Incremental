@@ -34,6 +34,7 @@ import Toasted from 'vue-toasted';
 
 
 import Prospector from "./Prospector.js";
+import SmeltingOp from "./smeltingop.js";
 let options = {
     duration : 1500
 };
@@ -125,7 +126,8 @@ class Incremental{
 
         // Smelting
         // Need staff - just generic for smelting, focus on machine
-        this.smeltingOperators = 0;
+        this.smeltingOperators = [];
+        this.smelterStaffExpenses = 0;
 
 
         // Test Ore
@@ -484,6 +486,16 @@ class Incremental{
 
         this.miningExpenses = newMining;
 
+
+
+        let smeltingStaffExpenses = 0;
+        smeltingStaffExpenses = this.addProspectorExpenses(this.smeltingOperators);
+        this.expenses += smeltingStaffExpenses;
+        this.spend(smeltingStaffExpenses);
+        let newSmelting = this.smelterStaffExpenses + smeltingStaffExpenses;
+        this.smelterStaffExpenses = newSmelting;
+
+
     }
 
     doMonthCounter(){
@@ -505,7 +517,8 @@ class Incremental{
         this.landAppreciation = 0;
         this.expenses = 0;
         this.prospectorExpenses = [0, 0, 0];
-        this.miningExpenses = [0, 0, 0];
+        this.miningExpenses     = [0, 0, 0];
+        this.smelterStaffExpenses = 0;
 
     }
 
@@ -567,7 +580,7 @@ class Incremental{
         this.netWorth = landValue + net;
     }
 
-    purchase(item, type, subtype = null){
+    purchase(item = null, type, subtype = null){
         if(type == 1){ 
             // Type 1 - Land 
             // Trying to buy land. 
@@ -640,6 +653,18 @@ class Incremental{
                 }
             }
         }
+        if(type == 4){
+            // Type 4 - Smelting Operators
+            console.log("Buying smelting operator");
+            let smelter = new SmeltingOp();
+            let price = smelter.basePrice;
+
+            if(this.canAfford(price)){
+                this.spend(price);
+                this.smeltingOperators.push(smelter);
+            }
+        }
+
     }
 
     canAfford(price){
