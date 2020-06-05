@@ -128,6 +128,7 @@ class Incremental{
         // Need staff - just generic for smelting, focus on machine
         this.smeltingOperators = [];
         this.smelterStaffExpenses = 0;
+        this.smeltingActive = false;
 
 
         // Test Ore
@@ -662,6 +663,12 @@ class Incremental{
             if(this.canAfford(price)){
                 this.spend(price);
                 this.smeltingOperators.push(smelter);
+
+                if(this.smeltingOperators.length > 0 && this.smeltingActive == false){
+                    this.smeltingActive = true;
+                    console.log("SMELTING: ", this.smeltingActive);
+                }
+
             }
         }
 

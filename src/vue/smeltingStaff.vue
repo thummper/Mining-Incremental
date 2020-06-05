@@ -9,7 +9,6 @@ export default{
     },
     methods:{
         buySmeltOp: function(){
-           console.log("Benis");
            this.inc.purchase(null, 4, null);
         },
         tallyExpenses: function(prospectors){
