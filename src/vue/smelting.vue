@@ -11,10 +11,10 @@
     </section>
 
     <div class="smeltingWrapper">
+        <div class="smeltingStatus">
+            <div class="alphaTitle" v-if="!machineShowing"> Smelting is disabled until operators are hired. </div>
+        </div>
         <canvas id="smeltingCanvas"></canvas>
-
-
-      
     </div>
 </div>
 
@@ -44,6 +44,12 @@ export default {
         
         
         */
+        if(this.inc.smeltingActive){
+            this.machineShowing = true;
+            // Init plinko board and tell main class it should start updating
+
+        }
+
 
 
 
@@ -58,11 +64,14 @@ export default {
             if(this.inc.smeltingActive && this.machineShowing == false){
                 console.log("Should show smelting machine");
                 // Init machine
+                this.machineShowing = true;
+                // Init plinko board and tell main class it should start updating
             }
         }
 
     },
     destroyed: function(){
+        // Stop plinko board from operating
 
 
     },

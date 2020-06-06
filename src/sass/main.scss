@@ -487,9 +487,44 @@ main{
 }
 
 
-#smeltingCanvas{
+
+
+.smeltingWrapper{
+    position: relative;
     width: 100%;
     height: 500px;
+    background: $slate;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 30px;
+}
+
+.smeltingStatus{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.alphaTitle{
+    padding: 12px 6px;
+    background: rgba(0, 0, 0, 0.4);
+    color: white;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+#smeltingCanvas{
+    width: 100%;
+    height: 100%;
+    background: white;
 }
 
 
