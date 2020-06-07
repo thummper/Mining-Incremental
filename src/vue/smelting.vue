@@ -31,7 +31,8 @@ export default {
             inc: this.$parent.inc,
             canvas: null,
             smeltOps: this.$parent.inc.smeltingOperators,
-            machineShowing: false
+            machineShowing: false,
+            plinko: null
         }
     },
     mounted: function(){
@@ -41,30 +42,23 @@ export default {
 
         /* 
         Ok, so if we mount, or hire more than 1 operator while on this tab, the mining machine should activate.
-        
-        
         */
+        
         if(this.inc.smeltingActive){
             this.machineShowing = true;
             // Init plinko board and tell main class it should start updating
-
+            this.initPlinko();
         }
 
 
-
-
-
-        // let plink = new Plinko(canvas);
-        // plink.reset();
-        // plink.loop();
 
     },
     watch: {
         smeltOps: function(){
             if(this.inc.smeltingActive && this.machineShowing == false){
-                console.log("Should show smelting machine");
                 // Init machine
                 this.machineShowing = true;
+                this.initPlinko();
                 // Init plinko board and tell main class it should start updating
             }
         }
@@ -72,13 +66,20 @@ export default {
     },
     destroyed: function(){
         // Stop plinko board from operating
-
-
+        window.cancelAnimationFrame(this.plinko.animFrame);
     },
     components: {
         'smelting-staff': smeltingStaff,
     },
     methods: {
+        initPlinko: function(){
+            this.plinko = new Plinko(this.canvas);
+            this.plinko.reset();
+            this.plinko.loop();
+
+            // We need to tell the main class to start mining
+
+        }
 
     },
 

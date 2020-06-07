@@ -87,17 +87,21 @@ export default class Plinko{
         this.balls = [];
         this.mx = 0;
         this.my = 0;
+        this.animFrame = null;
         this.canvasListener();
 
     }
     canvasListener(){
+        console.log("CANVAS LISTENERs");
         window.addEventListener("resize", function(){
+            
             this.reset();
         }.bind(this));
         this.canvas.addEventListener("click", function(evt){
             let rect = this.canvas.getBoundingClientRect();
             this.mx = evt.clientX - rect.left;
             this.my = evt.clientY - rect.top;
+            console.log("Making ball");
             this.makeBall(this.mx, this.my);
         }.bind(this));
     }
@@ -159,13 +163,13 @@ export default class Plinko{
         let y = sh;
         for(let i = 0; i < rows; i++){
             if((i + 1) % 2 == 0){
-                console.log("OFF: ");
+               
                 let x = (this.wallWidth / 2) + (remainingWidth / 2) + pegDist / 2;
                 for(let j = 0; j < cols - 1; j++){
                     let peg = new Peg(x + pegDist / 2, y, this.pegD / 2);
                     this.pegs.push(peg);
                     x += pegDist;
-                    console.log("X: ", x);
+                
                 }
             } else {
                 let x = this.wallWidth / 2 + remainingWidth / 2;
@@ -173,7 +177,7 @@ export default class Plinko{
                     let peg = new Peg(x + pegDist / 2, y, this.pegD / 2);
                     this.pegs.push(peg);
                     x += pegDist;
-                    console.log("X: ", x);
+                    
                 }
             }
             y += yPadding;
@@ -187,11 +191,12 @@ export default class Plinko{
     }
 
     loop(){
+     
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.drawWalls();
         this.drawPegs();
         this.drawBalls();
         Engine.update(engine);
-        window.requestAnimationFrame(this.loop.bind(this));
+        this.animFrame = window.requestAnimationFrame(this.loop.bind(this));
     }
 }
