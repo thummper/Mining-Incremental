@@ -1,8 +1,6 @@
 const Matter = require("matter-js");
-let Engine = Matter.Engine;
-let World  = Matter.World;
 let Bodies = Matter.Bodies;
-let engine = Engine.create();
+
 
 
 
@@ -74,9 +72,13 @@ class Ball {
 
 
 
-
+let Engine, World, engine;
 export default class Plinko{
     constructor(canvas){
+        Engine = Matter.Engine;
+        World  = Matter.World;
+        engine = Engine.create();
+
         this.wallWidth = 20;
         this.pegD      = 20;
         this.pegPad    = 20;
@@ -92,9 +94,8 @@ export default class Plinko{
 
     }
     canvasListener(){
-        console.log("CANVAS LISTENERs");
+      
         window.addEventListener("resize", function(){
-            
             this.reset();
         }.bind(this));
         this.canvas.addEventListener("click", function(evt){
@@ -113,9 +114,18 @@ export default class Plinko{
         this.canvas = canvas;
         this.ctx    = canvas.getContext('2d');
     }
+    removeBodies(){
+        // Remove all pegs 
+        for(let peg of this.pegs){
+            Matter.Composite.remove(engine.world, peg.body)
+        }
+
+    }
     reset(){
         // Should be called when canvas resizes (reset the board)
         this.resizeCanvas();
+        this.removeBodies();
+
         this.makeWalls();
         this.makePegs();
         this.drawWalls();
@@ -123,6 +133,7 @@ export default class Plinko{
     }
     makeWalls(){
         // Make world boundaries
+        this.walls = [];
         let top    = new Wall(0, -this.wallWidth / 2, this.canvas.width, this.wallWidth);
         let left   = new Wall(-this.wallWidth / 2, 0, this.wallWidth, this.canvas.height);
         let right  = new Wall(this.canvas.width - this.wallWidth / 2, 0, this.wallWidth, this.canvas.height);
@@ -145,6 +156,7 @@ export default class Plinko{
         }
     }
     makePegs(){
+        this.pegs = [];
         // Make all pegs
         // So lets say like every even row is offset by pegwidth? 
         let sh = this.canvas.height * 0.3;

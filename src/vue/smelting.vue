@@ -11,8 +11,8 @@
     </section>
 
     <div class="smeltingWrapper">
-        <div class="smeltingStatus">
-            <div class="alphaTitle" v-if="!machineShowing"> Smelting is disabled until operators are hired. </div>
+        <div class="smeltingStatus" v-if="!machineShowing">
+            <div class="alphaTitle"> Smelting is disabled until operators are hired. </div>
         </div>
         <canvas id="smeltingCanvas"></canvas>
     </div>
