@@ -10,6 +10,7 @@ export default class SmeltingOp{
                 salaryReduction: 0,
                 salaryInflation: 0,
                 boostedEfficiency: 0,
+                smeltingEff: [15, 4, 3, 1], // Per second
             },
 
         };
@@ -22,6 +23,7 @@ export default class SmeltingOp{
         this.salaryReduction = type.salaryReduction;
         this.salaryInflation = type.salaryInflation;
         this.boostedEfficiency = type.boostedEfficiency;
+        this.smeltingEff = type.smeltingEff;
 
     }
 }

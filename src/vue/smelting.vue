@@ -67,6 +67,8 @@ export default {
     destroyed: function(){
         // Stop plinko board from operating
         window.cancelAnimationFrame(this.plinko.animFrame);
+        this.inc.plinkoMining = false;
+        this.inc.plinko = null;
     },
     components: {
         'smelting-staff': smeltingStaff,
@@ -76,6 +78,8 @@ export default {
             this.plinko = new Plinko(this.canvas);
             this.plinko.reset();
             this.plinko.loop();
+            this.inc.plinkoMining = true;
+            this.inc.plinko = this.plinko;
 
             // We need to tell the main class to start mining
 

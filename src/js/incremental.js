@@ -129,6 +129,10 @@ class Incremental{
         this.smeltingOperators = [];
         this.smelterStaffExpenses = 0;
         this.smeltingActive = false;
+        this.plinkoMining = false;
+        this.plinko = null;
+        this.ballThreshold = [100, 50, 25, 10];
+        this.ballTracker   = [0, 0, 0, 0];
 
 
         // Test Ore
@@ -539,13 +543,60 @@ class Incremental{
     }
 
 
+    doSmelting(frameTime){
+        // Ok so each smelting operator smelts x ore per second.
+        // Tally all operators to get total ore per second.
+        // We smelt frame time * ore per second? (if not plinko mining)
+
+        // if we are plinko mining, we wait until smelted ore = value, then throw it to random location on plino board?
+        // Then we get the ore when it hits the bottom of the board.
+        
+
+        // 1 - Work out total ore per second
+
+        let orePerSecond = [0, 0, 0, 0];
+        for(let operator of this.smeltingOperators){
+            orePerSecond = orePerSecond.map(function(val, ind){
+                return val + operator.smeltingEff[ind];
+            });
+        }
+
+
+        let totalOre = orePerSecond.reduce((a, b) => a + b);
+        if(totalOre > 0){
+
+
+            let actualSmelted = orePerSecond.map((val) => val * frameTime);
+            let newTracker = actualSmelted.map((val, ind) => val + this.ballTracker[ind]);
+            this.ballTracker = newTracker;
+            // If any balls are over threshold, add them to plinko.
+
+            for(let i = 0; i < this.ballTracker.length; i++){
+                let trackedVal = this.ballTracker[i];
+                let threshold  = this.ballThreshold[i];
+                
+                if(trackedVal >= threshold){
+                    // We should make a plinko ball.
+                    
+                    // If we have the ore to make a ball, make one, else wait.
+                    this.ballTracker[i] = 0;
+                    console.log("Should make ball of type: ", i);
+                }
+            }
+
+          
+        }
+
+
+    }
+
     loop(){
         // Frame time is time in seconds since last frame.
         this.getFrameTime();
         // Update Development Progress on Land
         // TODO: this needs to use new counter.
         this.updateDeveloping(this.frameTime);
-
+        this.doSmelting(this.frameTime);
 
         if(this.timePass >= 0.5){
             this.doDayCounter();
