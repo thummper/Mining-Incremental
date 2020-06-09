@@ -131,7 +131,7 @@ class Incremental{
         this.smeltingActive = false;
         this.plinkoMining = false;
         this.plinko = null;
-        this.ballThreshold = [100, 50, 25, 10];
+        this.ballThreshold = [150, 75, 50, 20];
         this.ballTracker   = [0, 0, 0, 0];
 
 
@@ -581,6 +581,9 @@ class Incremental{
                     // If we have the ore to make a ball, make one, else wait.
                     this.ballTracker[i] = 0;
                     console.log("Should make ball of type: ", i);
+                    if(this.plinko != null){
+                        this.plinko.makeOreBall(i, threshold);
+                    }
                 }
             }
 

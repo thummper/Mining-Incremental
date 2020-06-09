@@ -6,9 +6,10 @@ let Bodies = Matter.Bodies;
 
 
 class Peg{
-    constructor(x, y, r){
+    constructor(x, y, r, type = null, quantity = null){
         this.r = r;
-
+        this.type = type;
+        this.quantity = quantity;
         this.body = Bodies.circle(x, y, r, {
             frictionAir: 0,
             friction: 0,
@@ -49,7 +50,14 @@ class Wall {
 
 
 class Ball {
-    constructor(x, y, r){
+    constructor(x, y, r, type = null, quantity = null){
+        this.cols = ['#4d504b', '#b85233', '#b5b5bd', '#e7bd42'];
+        this.type = type;
+        this.quantity = quantity;
+        this.colour = this.cols[3];
+        if(this.type != null){
+            this.colour = this.cols[this.type];
+        }
         this.r = r;
         this.body = Bodies.circle(x, y, r, {
             frictionAir: 0,
@@ -63,7 +71,7 @@ class Ball {
         // Given context, draw wall.
         ctx.beginPath();
         ctx.arc(this.body.position.x, this.body.position.y, this.r, 0, 2 * Math.PI);
-        ctx.fillStyle = "orange";
+        ctx.fillStyle = this.colour;
         ctx.fill();
         ctx.closePath();    
     }
@@ -87,6 +95,7 @@ export default class Plinko{
         this.walls = [];
         this.pegs  = [];
         this.balls = [];
+        this.ballThreshold = 50;
         this.mx = 0;
         this.my = 0;
         this.animFrame = null;
@@ -134,11 +143,11 @@ export default class Plinko{
     makeWalls(){
         // Make world boundaries
         this.walls = [];
-        let top    = new Wall(0, -this.wallWidth / 2, this.canvas.width, this.wallWidth);
+        //let top    = new Wall(0, -this.wallWidth / 2, this.canvas.width, this.wallWidth);
         let left   = new Wall(-this.wallWidth / 2, 0, this.wallWidth, this.canvas.height);
         let right  = new Wall(this.canvas.width - this.wallWidth / 2, 0, this.wallWidth, this.canvas.height);
         let bottom = new Wall(0, this.canvas.height - this.wallWidth / 2, this.canvas.width, this.wallWidth);
-        this.walls = [top, left, right, bottom];
+        this.walls = [left, right, bottom];
     }
     drawWalls(){
         for(let wall of this.walls){
@@ -202,9 +211,30 @@ export default class Plinko{
         this.balls.push(ball);
     }
 
+    makeOreBall(type, quantity){
+        // Pick random x, y in top range.
+        let x = Math.random() * this.canvas.width;
+        let y = -10;
+        let ball = new Ball(x, y, 15, type, quantity);
+        this.balls.push(ball);
+    }
+
+    checkBalls(){
+        // Check if balls in threshold to bottom
+        for(let ball of this.balls){
+         
+            let y = ball.body.position.y;
+            let bdist = this.canvas.height - y;
+            if(bdist < this.ballThreshold){
+                ball.colour = "red";
+            }
+        }
+    }
+
     loop(){
      
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.checkBalls();
         this.drawWalls();
         this.drawPegs();
         this.drawBalls();
