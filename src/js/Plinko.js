@@ -58,6 +58,7 @@ class Ball {
         if(this.type != null){
             this.colour = this.cols[this.type];
         }
+        this.harvestable = false;
         this.r = r;
         this.body = Bodies.circle(x, y, r, {
             frictionAir: 0,
@@ -95,7 +96,7 @@ export default class Plinko{
         this.walls = [];
         this.pegs  = [];
         this.balls = [];
-        this.ballThreshold = 50;
+        this.ballThreshold = 30;
         this.mx = 0;
         this.my = 0;
         this.animFrame = null;
@@ -167,9 +168,8 @@ export default class Plinko{
         this.pegs = [];
         // Make all pegs
         // So lets say like every even row is offset by pegwidth? 
-        let sh = this.canvas.height * 0.3;
+        let sh = this.canvas.height * 0.2;
         
-
         let totalWidth  = this.canvas.width - this.wallWidth;
         let totalHeight = this.canvas.height - sh;
         let pegDist  = this.pegD + this.pegPad * 2;
@@ -179,25 +179,21 @@ export default class Plinko{
         let remainingWidth = totalWidth - (cols * pegDist);
         let rows = Math.floor(totalHeight / yPadding);
 
-
         let y = sh;
         for(let i = 0; i < rows; i++){
             if((i + 1) % 2 == 0){
-               
                 let x = (this.wallWidth / 2) + (remainingWidth / 2) + pegDist / 2;
                 for(let j = 0; j < cols - 1; j++){
                     let peg = new Peg(x + pegDist / 2, y, this.pegD / 2);
                     this.pegs.push(peg);
                     x += pegDist;
-                
                 }
             } else {
                 let x = this.wallWidth / 2 + remainingWidth / 2;
                 for(let j = 0; j < cols; j++){
                     let peg = new Peg(x + pegDist / 2, y, this.pegD / 2);
                     this.pegs.push(peg);
-                    x += pegDist;
-                    
+                    x += pegDist; 
                 }
             }
             y += yPadding;
@@ -219,23 +215,38 @@ export default class Plinko{
     }
 
     checkHarvest(){
-        
+        let smeltedOre = [0, 0, 0, 0];
+        for(let i = this.balls.length - 1; i >= 0; i--){
+            let ball = this.balls[i];
+            if(ball.harvestable){
+                // harvest ball
+                smeltedOre[ball.type] += ball.quantity;
+
+                // Remove body
+                World.remove(engine.world, ball.body); 
+                this.balls.splice(i, 1);
+            }
+        }
+
+
+
+        return smeltedOre;
+
     }
 
     checkBalls(){
         // Check if balls in threshold to bottom
         for(let ball of this.balls){
-         
             let y = ball.body.position.y;
             let bdist = this.canvas.height - y;
             if(bdist < this.ballThreshold){
-                ball.colour = "red";
+                //ball.colour = "red";
+                ball.harvestable = true;
             }
         }
     }
 
     loop(){
-     
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.checkBalls();
         this.drawWalls();

@@ -587,7 +587,16 @@ class Incremental{
 
         // Check if we can harvest plinko balls.
         if(this.plinko != null){
-            let harvest = this.plinko.checkHarvest;
+            let harvest = this.plinko.checkHarvest();
+            let sumSmelt = harvest.reduce((a,b) =>a+b);
+            if(sumSmelt > 0){
+                // We actually smelted something.
+                let newSmelted = [0, 0, 0, 0];
+                for(let i = 0; i < newSmelted.length; i++){
+                    newSmelted[i] = this.ingots[i] += harvest[i];
+                }
+                this.ingots = newSmelted;
+            }
         }
 
         // Check if we can harvest any plinko balls?
