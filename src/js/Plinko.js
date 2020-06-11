@@ -111,7 +111,6 @@ export default class Plinko{
             let rect = this.canvas.getBoundingClientRect();
             this.mx = evt.clientX - rect.left;
             this.my = evt.clientY - rect.top;
-            console.log("Making ball");
             this.makeBall(this.mx, this.my);
         }.bind(this));
     }
@@ -217,6 +216,10 @@ export default class Plinko{
         let y = -10;
         let ball = new Ball(x, y, 15, type, quantity);
         this.balls.push(ball);
+    }
+
+    checkHarvest(){
+        
     }
 
     checkBalls(){

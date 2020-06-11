@@ -564,8 +564,6 @@ class Incremental{
 
         let totalOre = orePerSecond.reduce((a, b) => a + b);
         if(totalOre > 0){
-
-
             let actualSmelted = orePerSecond.map((val) => val * frameTime);
             let newTracker = actualSmelted.map((val, ind) => val + this.ballTracker[ind]);
             this.ballTracker = newTracker;
@@ -580,15 +578,21 @@ class Incremental{
                     
                     // If we have the ore to make a ball, make one, else wait.
                     this.ballTracker[i] = 0;
-                    console.log("Should make ball of type: ", i);
                     if(this.plinko != null){
                         this.plinko.makeOreBall(i, threshold);
                     }
                 }
             }
-
-          
         }
+
+        // Check if we can harvest plinko balls.
+        if(this.plinko != null){
+            let harvest = this.plinko.checkHarvest;
+        }
+
+        // Check if we can harvest any plinko balls?
+
+
 
 
     }
