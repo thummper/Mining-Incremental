@@ -564,17 +564,21 @@ class Incremental{
 
         let totalOre = orePerSecond.reduce((a, b) => a + b);
 
-        if(totalOre > 0 && this.plinko != null){
+        if(totalOre > 0){
+
             let actualSmelted = orePerSecond.map((val) => val * frameTime);
-            let newTracker = actualSmelted.map((val, ind) => val + this.ballTracker[ind]);
-            this.ballTracker = newTracker;
+            let newTracker    = actualSmelted.map((val, ind) => val + this.ballTracker[ind]);
+            this.ballTracker  = newTracker;
+
             // If any balls are over threshold, add them to plinko.
 
             for(let i = 0; i < this.ballTracker.length; i++){
+
                 let trackedVal = this.ballTracker[i];
                 let threshold  = this.ballThreshold[i];
                 
                 if(trackedVal >= threshold){
+
                     if(this.plinko != null){
                         // Check if we need more mined ore
                         if(this.mined[i] > threshold){
@@ -585,9 +589,27 @@ class Incremental{
                             // Not enough 
                             this.ballTracker[i] = threshold;
                         }
+                    } else {
+                        // Mining in background
+                        if(this.mined[i] > (threshold * 0.8)){
+                            this.ballTracker[i] = 0;
+                            this.mined[i]  -= (threshold * 0.8);
+                            let newIngots = [0, 0, 0, 0];
+                            for(let j = 0; j < this.ingots.length; j++){
+                                if(j == i){
+                                    newIngots[j] = this.ingots[j] + (threshold* 0.8);
+                                } else {
+                                    newIngots[j] = this.ingots[j];
+                                }  
+                            }
+                            this.ingots = newIngots;   
+                        }
                     }
                 }
             }
+        } 
+
+        if(this.plinko != null){
             let harvest = this.plinko.checkHarvest();
             let sumSmelt = harvest.reduce((a,b) =>a+b);
             if(sumSmelt > 0){
@@ -598,8 +620,9 @@ class Incremental{
                 }
                 this.ingots = newSmelted;
             }
-        } else {
-            // We have total ore but plinko board is not on.
+
+
+
         }
 
      
