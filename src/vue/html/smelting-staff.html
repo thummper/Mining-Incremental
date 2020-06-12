@@ -1,0 +1,34 @@
+<section>
+    <table class="displayTable">
+        <tr>
+            <th> Type </th>
+            <th> Quantity </th>
+            <th> Yearly Expenses </th>
+        </tr>
+        <tr>
+            <td class="tableTitle"> Smelting Operators </td>
+            <td> {{smeltingOperators}}</td>
+            <td> {{smeltingOpExpenses}}</td>
+
+        </tr>
+    </table>
+    <div class="buyWrapper">
+        <div class="blackSep"></div>
+        <div class="buySection">
+            <div class="buyTitle">
+                Smelting Operator
+            </div>
+            <div class="buyText">
+                Your smelting machine requires skilled operators in order for it to work properly. 
+                <br>
+                Smelting operators cost £20.0K per year (0% of your annual expenses)
+            </div>
+            <button class="buyButton" v-on:click="buySmeltOp()">
+                £ 10.0 K
+            </button>
+            <div class="blackSep"></div>
+        </div>
+    </div>
+</section>
+
+

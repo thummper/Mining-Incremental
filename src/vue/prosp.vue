@@ -31,14 +31,8 @@
         <div class="content">
             <prospecting-staff />
         </div>
-    
     </section>
-
-
-
-
-
-
+    
     <section class="prospInfo">
         <div class="prospPrevent" v-bind:class="{hide: this.activeLand !== null}">
             <div class="prospText">
@@ -62,7 +56,6 @@
     </section>
 </div>
 </template>
-
 <script>
 
 import draggable from 'vuedraggable';

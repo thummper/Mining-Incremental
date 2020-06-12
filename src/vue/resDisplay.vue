@@ -33,10 +33,10 @@
             </tr>
             <tr id="processedOre">
                  <td class="tableTitle">Ingots</td>
-                <td class="block iron"> 0t </td>
-                <td class="block copper"> 0t </td>
-                <td class="block silver"> 0t </td>
-                <td class="block gold"> 0t </td>
+                <td class="block iron"> {{getSIron}}t </td>
+                <td class="block copper"> {{getSCopper}}t </td>
+                <td class="block silver"> {{getSSilver}}t </td>
+                <td class="block gold"> {{getSGold}}t </td>
             </tr>
         </table>
 
@@ -96,6 +96,18 @@ export default{
         },
         getMGold: function(){
             return Helper.roundSuffix(this.inc.mined[3], 0);
+        },
+        getSIron: function(){
+            return Helper.roundSuffix(this.inc.ingots[0], 0);   
+        },
+        getSCopper: function(){
+            return Helper.roundSuffix(this.inc.ingots[1], 0);   
+        },
+        getSSilver: function(){
+            return Helper.roundSuffix(this.inc.ingots[2], 0);   
+        },
+        getSGold: function(){
+            return Helper.roundSuffix(this.inc.ingots[3], 0);   
         },
    
 
