@@ -8,8 +8,6 @@ export default class Land {
         this.genArgs = genArgs;
         this.tier    = tier;
         
-
-
         this.basePrice = 0;
         this.oreWorth  = 0;
         this.previousValue = 0;
@@ -18,15 +16,14 @@ export default class Land {
         this.baseOre       = [0, 0, 0, 0];
         this.prospectedOre = [0, 0, 0, 0];
 
+        this.developed    = false;
         this.developTime = 0;
-        this.developed  = false;
         this.developing = false;
         this.imagePath;
         this.image;
         this.owned = 0;
 
-        this.developed    = false;
-        this.developing   = false;
+        
         this.developPrice = 0;
         this.timePass     = 0;
         this.developedModifier = 2;
@@ -50,7 +47,10 @@ export default class Land {
         this.name = Helper.generateName();
         this.name = this.name.charAt(0).toUpperCase() + this.name.slice(1) + " " + Helper.randomFromArray(this.suffixs);
 
-        this.developTime = Math.floor(Helper.randomNumber(2, 8, 0) / (this.tier + 1));
+
+        this.developTime = Math.floor( Helper.randomNumber(2, 20 / this.tier, 0));
+      
+        console.log("develop time: ", this.developTime);
 
 
         this.developed  = false;

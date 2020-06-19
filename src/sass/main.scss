@@ -532,6 +532,20 @@ main{
 }
 
 
+.horizCardWrapper{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    .horizScroll{
+        padding: 10px;
+        box-sizing: border-box;
+        width: 100%;
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+    }
+}
+
 
 
 @import "landCard.scss";

@@ -17,6 +17,7 @@
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
     "vue": "^2.6.10",
+    "vue-card-carousel": "^1.0.0",
     "vue-loader": "^15.7.0",
     "vue-nav-tabs": "^0.5.7",
     "vue-router": "^3.0.6",

@@ -33,6 +33,7 @@ import KProgress from 'k-progress';
 import Toasted from 'vue-toasted';
 
 
+
 import Prospector from "./Prospector.js";
 import SmeltingOp from "./smeltingop.js";
 let options = {
@@ -42,6 +43,7 @@ let options = {
 Vue.use(Toasted, options);
 Vue.use(Router);
 Vue.component('k-progress', KProgress);
+
 
 
 // Define Vue Components
@@ -200,7 +202,7 @@ class Incremental{
             if(land.timePass >= this.quarterTime){
                 land.developTime--;
                 land.timePass = 0;
-                if(land.developTime == 0){
+                if(land.developTime <= 0){
                     land.developing = false;
                     land.developed  = true;
                     this.updateProspecting();

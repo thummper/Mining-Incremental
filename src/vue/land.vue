@@ -2,11 +2,31 @@
 <div class="sectionWrapper">
     <div class="mapLocations shadow flex-col">
         <div class="shadow-title map-title">
-            Active Land
+            Owned Land
         </div>
         <div class="flex-row wrap">
 
-            <land-card v-for="land in inc.landOwned" v-bind:key="land.name"  :land="land" />
+            <div class="horizCardWrapper">
+                <div class="landTitle"> Developed Land ({{developedLand}}) </div>
+                <div class="horizScroll">
+                    <land-card v-for="land in inc.landOwned" v-if="land.developed" v-bind:key="land.name"  :land="land" />
+                </div>
+            </div>
+
+            <div class="horizCardWrapper">
+                <div class="landTitle">Undeveloped Land ({{undevelopedLand}})</div>
+                <div class="horizScroll">
+                    <land-card v-for="land in inc.landOwned" v-if="!land.developed" v-bind:key="land.name"  :land="land" />
+                </div>
+            </div>
+
+ 
+
+            
+
+
+        
+            
         </div>
     </div>
 
@@ -17,6 +37,9 @@
         <div class="flex-row wrap">
        
             <land-card v-for="land in inc.landSale" v-bind:key="land.name" :land="land" />
+
+
+            
         </div>
     </div>
 
@@ -26,6 +49,7 @@
 <script>
 import landCard from '../vue/landCard.vue';
 import * as Helper from "../js/Helper.js";
+
 export default{
     data () {
         return {
@@ -36,15 +60,28 @@ export default{
  
     },
     components: {
-        'land-card': landCard
+        'land-card': landCard,
+    
     },
     computed:{
-        ownedLand(){
-            let ownedLand = [];
-            for(let land in this.inc.landOwned){
-                ownedLand.push(this.inc.landOwned[land]);
+
+        developedLand(){
+            let dev = 0;
+            for(let land of this.inc.landOwned){
+                if(land.developed == true){
+                    dev++;
+                }  
             }
-            return ownedLand;
+            return dev;
+        },
+        undevelopedLand(){
+            let und = 0;
+            for(let land of this.inc.landOwned){
+                if(land.developed == false){
+                    und++;
+                }  
+            }
+            return und;
         }
     },
 }
