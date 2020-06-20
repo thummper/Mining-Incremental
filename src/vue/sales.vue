@@ -18,6 +18,10 @@
         </div>
         <div class="content">
             <!-- Offered contracts -->
+            <contract></contract>
+            <contract></contract>
+            <contract></contract>
+
         </div>
     </section>
 
@@ -25,6 +29,7 @@
 </template>
 <script>
 import metalPrice from "../vue/metalPrice.vue";
+import contract from "../vue/contract.vue";
 export default{
     data () {
         return {
@@ -33,7 +38,8 @@ export default{
         }
     },
     components: {
-        'metal-prices': metalPrice
+        'metal-prices': metalPrice,
+        contract
     },
 
     mounted: function(){

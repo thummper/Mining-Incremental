@@ -35,7 +35,15 @@
             Land For Sale
         </div>
         <div class="flex-row wrap">
-            <land-card v-for="land in inc.landSale" v-bind:key="land.name" :land="land" />
+
+            <div class="horizCardWrapper">
+                <div class="landTitle bold"> Land on the Market: ({{inc.landSale.length}}) </div>
+                <div class="horizScroll">
+                    <land-card v-for="land in inc.landSale" v-bind:key="land.name" :land="land" />
+                </div>
+            </div>
+
+            
         </div>
     </div>
 

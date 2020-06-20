@@ -560,3 +560,42 @@ main{
 
 
 
+// Style for contracts
+.contractWrapper{
+    display: flex;
+    flex-direction: column;
+    border-bottom: solid 3px $slate;
+    margin-bottom: 12px;
+    &:last-child{
+        border-bottom: none;
+    }
+    .contractHeader{
+        display: flex;
+        padding: 8px 16px;
+        box-sizing: border-box;
+    }
+    .contractBody{
+        padding: 16px;
+        box-sizing: border-box;
+    }
+    .contractButtons{
+        margin: 12px 0;
+    }
+    .ingotDisplay{
+        padding: 20px;
+        margin: 5px;
+        box-sizing: border-box;
+        border-radius: 4px;
+        display: inline-block;
+        background: #f2f2f2;
+        span{
+            display: flex;
+            .circle{
+                margin-right: 4px;
+            }
+        }
+    }
+}
+
+
+
