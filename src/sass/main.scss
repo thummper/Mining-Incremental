@@ -13,6 +13,16 @@ $darkblue: darken($lightblue, 10);
 
 $buttonBG: white;
 $buttonHover: darken(white, 10);
+
+
+@import "landCard.scss";
+@import "economy.scss";
+@import "map.scss";
+
+
+
+
+
 *{
     margin: 0;
     border: 0;
@@ -34,9 +44,7 @@ main{
     flex-direction: column;
 }
 // Ore Colors
-.block{
 
-}
 .circle{
     border-radius: 50%;
     width: 20px;
@@ -123,6 +131,9 @@ main{
 .toasted-container.top-right{
     top: 2% !important;
     right: 5% !important;
+}
+.bold{
+    font-weight: bold;
 }
 
 
@@ -533,6 +544,7 @@ main{
 
 
 .horizCardWrapper{
+    margin: 24px 0;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -548,6 +560,3 @@ main{
 
 
 
-@import "landCard.scss";
-@import "economy.scss";
-@import "map.scss";

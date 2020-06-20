@@ -7,16 +7,16 @@
         <div class="flex-row wrap">
 
             <div class="horizCardWrapper">
-                <div class="landTitle"> Developed Land ({{developedLand}}) </div>
+                <div class="landTitle bold"> Developed Land ({{developedLand}}) </div>
                 <div class="horizScroll">
-                    <land-card v-for="land in inc.landOwned" v-if="land.developed" v-bind:key="land.name"  :land="land" />
+                    <land-card v-for="land in devLandArray" v-bind:key="land.name"  :land="land" />
                 </div>
             </div>
 
             <div class="horizCardWrapper">
-                <div class="landTitle">Undeveloped Land ({{undevelopedLand}})</div>
-                <div class="horizScroll">
-                    <land-card v-for="land in inc.landOwned" v-if="!land.developed" v-bind:key="land.name"  :land="land" />
+                <div class="landTitle bold">Undeveloped Land ({{undevelopedLand}})</div>
+                <div class="horizScroll" data-simplebar data-simplebar-auto-hide="false"> 
+                    <land-card v-for="land in landArray" v-bind:key="land.name"  :land="land" />
                 </div>
             </div>
 
@@ -35,11 +35,7 @@
             Land For Sale
         </div>
         <div class="flex-row wrap">
-       
             <land-card v-for="land in inc.landSale" v-bind:key="land.name" :land="land" />
-
-
-            
         </div>
     </div>
 
@@ -47,6 +43,9 @@
 </div>
 </template>
 <script>
+
+
+
 import landCard from '../vue/landCard.vue';
 import * as Helper from "../js/Helper.js";
 
@@ -61,9 +60,30 @@ export default{
     },
     components: {
         'land-card': landCard,
+   
     
     },
     computed:{
+        devLandArray(){
+            let devLand = [];
+            for(let land of this.inc.landOwned){
+                if(land.developed){
+                    devLand.push(land);
+                }
+            }
+            return devLand;
+        },
+        landArray(){
+            let undev = [];
+            for(let land of this.inc.landOwned){
+                if(!land.developed){
+                    undev.push(land);
+                }
+            }
+            return undev;
+            
+        },
+
 
         developedLand(){
             let dev = 0;

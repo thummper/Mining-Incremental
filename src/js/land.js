@@ -50,7 +50,7 @@ export default class Land {
 
         this.developTime = Math.floor( Helper.randomNumber(2, 20 / this.tier, 0));
       
-        console.log("develop time: ", this.developTime);
+       
 
 
         this.developed  = false;
