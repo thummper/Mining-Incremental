@@ -9,7 +9,6 @@ export default{
             contractID: 1,
             contractName: "BOBS ORES",
             contractTime: 0,
-
         }
     },
     methods:{
