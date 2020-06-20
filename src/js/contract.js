@@ -1,10 +1,10 @@
 // Contract
 export default class Contract{
-    constructor(){
-        this.id;
-        this.companyName;
-        this.ingots;
-        this.timeframe;
-        this.breakcost;
+    constructor(id, name, timeframe, ingots){
+        this.id = id;
+        this.companyName = name;
+        this.ingots = ingots;
+        this.timeframe = timeframe;
+        this.breakcost = 0;
     }
 }

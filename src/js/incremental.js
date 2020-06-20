@@ -11,6 +11,8 @@ import Navigation from "./Navigation.js";
 import Land from "./Land.js";
 import Economy from "./Economy.js";
 import Miner from "./Miner.js";
+import contractGenerator from "./contractGenerator.js";
+
 
 
 import cInfo from '../vue/info.vue';
@@ -36,6 +38,7 @@ import Toasted from 'vue-toasted';
 
 import Prospector from "./Prospector.js";
 import SmeltingOp from "./smeltingop.js";
+import Contract from "./contract.js";
 let options = {
     duration : 1500
 };
@@ -104,6 +107,7 @@ class Incremental{
         this.prospected = [0, 0, 0, 0];
         this.mined      = [0, 0, 0, 0];
         this.ingots     = [0, 0, 0, 0];
+        this.ingotDifference = [0, 0, 0, 0];
 
         // Prospectors
         // [1, 2, 10] - Array value tallys how many we own?
@@ -145,6 +149,10 @@ class Incremental{
         this.netWorthTime = [];
         this.economy = new Economy();
 
+        // Contracts
+        this.contracts = [];
+
+
 
         // Others
         this.year = 1990;
@@ -174,12 +182,20 @@ class Incremental{
                 this.landSale.push(land);
             }
         }
+        // Generate base contracts
+        this.contractGenerator = new contractGenerator();
+        for(let i = 0; i < 5; i++){
+            let contract = this.contractGenerator.generateContract(this.ingotDifference);
+            this.contracts.push(contract);
+        }
            
         this.updateProspecting();
         this.updateNetWorth();
         window.requestAnimationFrame(this.loop.bind(this));
         
     }
+
+
 
     developLand(land){
         let developCost = land.developPrice;
@@ -417,6 +433,11 @@ class Incremental{
 
     }
 
+
+    checkContracts(){
+        // TODO: check contracts
+    }
+
     getNetProfit(){
         // Net profit is revenue - expenses.
         
@@ -426,7 +447,11 @@ class Incremental{
     }
 
 
+
     doDayCounter(){
+
+
+        this.checkContracts();
         this.updateNetWorth();
         this.appreciateLand();
         this.prospect();
@@ -446,8 +471,11 @@ class Incremental{
         this.economy.getOutlook();
         let time = Helper.getTime();
         this.economy.updateEconGraphs(time);
+
         this.weekCounter++;
         this.dayCounter = 0;
+
+
         
     }
 
@@ -510,6 +538,8 @@ class Incremental{
         this.monthCounter++;
         this.economy.updateEconomy();
         this.payEmployees();
+        console.log("difference in ingots: ", this.ingotDifference);
+        this.ingotDifference = [0, 0, 0, 0];
     }
 
     doQuarterCounter(){
@@ -546,16 +576,10 @@ class Incremental{
 
 
     doSmelting(frameTime){
-        // Ok so each smelting operator smelts x ore per second.
-        // Tally all operators to get total ore per second.
-        // We smelt frame time * ore per second? (if not plinko mining)
 
-        // if we are plinko mining, we wait until smelted ore = value, then throw it to random location on plino board?
-        // Then we get the ore when it hits the bottom of the board.
-        
 
-        // 1 - Work out total ore per second
 
+        let oldIngots = this.ingots;
         let orePerSecond = [0, 0, 0, 0];
         for(let operator of this.smeltingOperators){
             orePerSecond = orePerSecond.map(function(val, ind){
@@ -567,11 +591,9 @@ class Incremental{
         let totalOre = orePerSecond.reduce((a, b) => a + b);
 
         if(totalOre > 0){
-
             let actualSmelted = orePerSecond.map((val) => val * frameTime);
             let newTracker    = actualSmelted.map((val, ind) => val + this.ballTracker[ind]);
             this.ballTracker  = newTracker;
-
             // If any balls are over threshold, add them to plinko.
 
             for(let i = 0; i < this.ballTracker.length; i++){
@@ -618,14 +640,28 @@ class Incremental{
                 // We actually smelted something.
                 let newSmelted = [0, 0, 0, 0];
                 for(let i = 0; i < newSmelted.length; i++){
-                    newSmelted[i] = this.ingots[i] += harvest[i];
+                    newSmelted[i] = this.ingots[i] + harvest[i];
                 }
                 this.ingots = newSmelted;
             }
-
-
-
         }
+
+        
+
+
+
+        let ingD = [0, 0, 0, 0];
+        for(let index in ingD){
+            ingD[index] = this.ingots[index] - oldIngots[index];
+        }
+
+        for(let index in this.ingotDifference){
+            this.ingotDifference[index] += ingD[index];
+        }
+
+
+     
+
 
      
 

@@ -12,19 +12,38 @@ export default class contractGenerator{
             "Valuable Platings"
         ];
         // Time frame in weeks?
+        this.timeIndex = 0;
         this.defaultTimes = [
             1,
             16,
             32
         ];
+        this.baseAmounts = [
+            [20, 10, 5 , 3],
+            [320, 160, 80, 48],
+            [640, 320, 160, 96]
+
+
+        ]
     }
 
-    getIngots(){
+    getIngots(ingotDifference){
         // How should we generate ingots?
         // Perhaps some percentage of overall income?
+        let totalDifference = ingotDifference.reduce((a, b) => {
+            return a + b;
+        });
+        console.log("Total: ", totalDifference);
+
+        let ingots = this.baseAmounts[this.timeIndex];
+        
+        for(let i in ingots){
+            ingots[i] += 0.8 * ingotDifference[i] / (this.defaultTimes[this.timeIndex]);
+        }
+        return ingots;
     }
 
-    generateContract(){
+    generateContract(ingotDifference){
         // Generate a new contract.
 
         // Get ID
@@ -32,10 +51,13 @@ export default class contractGenerator{
         // Get Name
         let name = Helper.randomFromArray(this.companyNames);
         // Work out timeframe
-        let timeframe = Helper.randomFromArray(this.defaultTimes);
+        this.timeIndex = Helper.randomint(this.defaultTimes.length);
+        console.log("index: ", this.timeIndex);
+        let timeframe = this.defaultTimes[this.timeIndex];
         // Work out ore (probably based on company production)
-        let ingots = this.getIngots();
-        let contract = new Contract();
+        let ingots = this.getIngots(ingotDifference);
+        let contract = new Contract(id, name, timeframe, ingots);
+        
         return contract;
     }
 }

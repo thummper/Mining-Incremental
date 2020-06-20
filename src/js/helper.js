@@ -55,6 +55,10 @@ export function randomNumber(min, max, signed) {
     return randomNumber;
 }
 
+export function randomint(max){
+    return Math.floor(Math.random() * Math.floor(max));
+}
+
 export function getTime() {
     let date = new Date();
     let h = date.getHours();

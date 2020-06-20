@@ -18,9 +18,9 @@
         </div>
         <div class="content">
             <!-- Offered contracts -->
-            <contract></contract>
-            <contract></contract>
-            <contract></contract>
+            <contract-item v-for="contract in inc.contracts" v-bind:key="contract.id"  :contract="contract" />
+
+
 
         </div>
     </section>
@@ -34,12 +34,11 @@ export default{
     data () {
         return {
             inc: this.$parent.inc,
-          
         }
     },
     components: {
         'metal-prices': metalPrice,
-        contract
+        'contract-item': contract
     },
 
     mounted: function(){

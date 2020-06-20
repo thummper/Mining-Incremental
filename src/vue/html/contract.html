@@ -2,34 +2,34 @@
 <div class="contractWrapper">
     <div class="contractHeader">
         <div class="contractNumber">
-            Contract {{contractID}} 
+            Contract {{contract.id}} 
         </div>
         <div class="contractCompany">
-            &nbsp;- Offered by {{contractName}}
+            &nbsp;- Offered by {{contract.companyName}}
         </div>
     </div>
     <div class="contractBody">
         <div class="contractOffering">
             <p>
-                {{contractName}} is offering to purchase the following ingots per (day / week / month), this contract will last for {{contractTime}}.
+                {{contract.companyName}} is offering to purchase the following ingots per {{contract.timeframe}}, this contract will last for (LAST TIME).
             </p>
             <div class="contractIngots">
                 <div class="ingotDisplay">
                     <span>
                         <div class="circle iron"></div>
-                        <div class="amount"> 0t</div>
+                        <div class="amount"> {{iron}}t</div>
                     </span>
                     <span>
                         <div class="circle copper"></div>
-                        <div class="amount"> 0t</div>
+                        <div class="amount"> {{copper}}t</div>
                     </span>
                     <span>
                         <div class="circle silver"></div>
-                        <div class="amount"> 0t</div>
+                        <div class="amount"> {{silver}}t</div>
                     </span>
                     <span>
                         <div class="circle gold"></div>
-                        <div class="amount"> 0t</div>
+                        <div class="amount"> {{gold}}t</div>
                     </span>
                 </div>
             </div>
