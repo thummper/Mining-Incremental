@@ -56,7 +56,11 @@ export default class contractGenerator{
         let timeframe = this.defaultTimes[this.timeIndex];
         // Work out ore (probably based on company production)
         let ingots = this.getIngots(ingotDifference);
-        let contract = new Contract(id, name, timeframe, ingots);
+        let duration = Helper.randomint(36) + 1;
+
+
+
+        let contract = new Contract(id, name, timeframe, ingots, duration);
         
         return contract;
     }

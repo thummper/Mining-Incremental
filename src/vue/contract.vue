@@ -5,11 +5,25 @@ import * as Helper from "../js/Helper.js";
 export default{
     data () {
         return {
+            inc: this.$parent.inc
        
 
         }
     },
     methods:{
+        acceptContract: function (event) {
+            this.inc.acceptContract(this.contract);
+            this.$toasted.show("Successfully accepted contract");
+        },
+
+        declineContract: function(event){
+            this.inc.declineContract(this.contract);
+            this.$toasted.show("Successfully declined contract");
+
+        },
+        breakContract: function(event){
+
+        },
     },
     props:{
         contract: Object

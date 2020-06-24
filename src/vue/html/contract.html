@@ -33,9 +33,12 @@
                     </span>
                 </div>
             </div>
-            <div class="contractButtons">
-                <button> Accept Contract </button>
-                <button> Decline Contract</button>
+            <div class="contractButtons" v-if="!contract.accepted">
+                <button v-on:click="acceptContract"> Accept Contract </button>
+                <button v-on:click="declineContract"> Decline Contract</button>
+            </div>
+            <div class="contractButtons" v-if="contract.accepted">
+                <button v-on:click="breakContract"> Break Contract</button>
             </div>
         </div>
     </div>

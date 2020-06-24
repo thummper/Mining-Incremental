@@ -151,6 +151,7 @@ class Incremental{
 
         // Contracts
         this.contracts = [];
+        this.acceptedContracts = [];
 
 
 
@@ -431,6 +432,29 @@ class Incremental{
         }
         return expenses;
 
+    }
+
+    acceptContract(contract){
+        this.acceptedContracts.push(contract);
+        contract.accepted = true;
+
+        for(let i = this.contracts.length - 1; i >= 0; i--){
+            let ct = this.contracts[i];
+            if(ct == contract){
+                this.contracts.splice(i, 1);
+            }
+        }
+        
+
+    }
+    declineContract(contract){
+        for(let i = this.contracts.length - 1; i >= 0; i--){
+            let ct = this.contracts[i];
+            if(ct == contract){
+                this.contracts.splice(i, 1);
+            }
+        }
+     
     }
 
 

@@ -9,6 +9,7 @@
         </div>
         <div class="content">
             <!-- Active contract section -->
+            <contract-item v-for="contract in inc.acceptedContracts" v-bind:key="contract.id"  :contract="contract" />
         </div>
     </section>
 
